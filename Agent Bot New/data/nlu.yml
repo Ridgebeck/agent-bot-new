@@ -1,0 +1,1381 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - hi Russ
+    - Hey Russ
+    - hello Russ
+    - Hi
+    - hey hey baby
+    - hallo
+    - hallo agent
+    - hallo Russ
+    - Hi agent!
+    - Hi Agent!
+    - Hi Russ!
+    - Hallo Russ
+    - Hallo
+    - Hallo agent
+    - Hi agent
+    - hello, agent
+    - Hi Russ 👋
+    - Hola amigo 👋
+    - Welcome!
+    - Hello?
+    - Hi we're here
+    - Wie geht's?
+    - Hi Russ
+    - Hi, Russ!
+    - Hi there!
+    - hi
+    - hey russ
+    - Good Morning
+    - Good Afternoon
+    - Good Evening
+    - Good Night
+    - Good morning
+    - Good afternoon
+    - Good evening
+    - Good night
+    - hi russ
+- intent: out_of_scope
+  examples: |
+    - I want to order food
+    - Who's the US President?
+    - Ice 🍨 tonight?
+    - My mum is calling
+    - what time is it
+    - do you know what time it is
+    - What time is it?
+    - Can you tell me the time?
+    - What's the time?
+    - Will it rain today
+    - Now we can chit chat
+    - Hahhaahh. You should go do some stand-up comedy
+    - Did you already read the times?
+    - But I would like to chit chat now
+    - who is the US president
+    - Is today a holiday?
+    - Do you like battle rap?
+    - is Santa Clause real?
+    - does Santa exist
+    - is Santa real?
+    - are you part of the matrix?
+- intent: chit_chat/how_are_you
+  examples: |
+    - what are you doing?
+    - How are you?
+    - How are you
+    - how r u
+    - How r u?
+    - how are you doing?
+    - How r u doing
+    - how are you
+    - how are you feeling today?
+    - what are you doing, Russ?
+    - Russ, how are you?
+    - How are you Russ
+    - how r u russ
+    - How r u, Russ?
+    - how are you doing Russ?
+    - How r u doing russ
+    - Russ, how are you
+    - how are you feeling today, Russ?
+    - how are you?
+    - how are you today?
+    - how R U?
+    - How Are You?
+    - Hownr u?
+    - Hey Russ, how are you?
+- intent: chit_chat/person
+  examples: |
+    - what is your hobby?
+    - do you ahve a hobby?
+    - happy birthday
+    - whats your favorite animal?
+    - How is the day going?
+    - where do you come from?
+    - what are your hobbies?
+    - where are you from?
+    - what ice cream is the best?
+    - what are you up to?
+    - what's your favorite ice cream?
+    - By the way what's your favorite ice cream?
+    - are you american
+    - where do you live?
+    - How was your day?
+    - how is your day going?
+    - how old are you?
+    - do you like gummy bears
+    - do you like sports
+    - whats your favorite sport
+    - What are you up to?
+    - Are you from the United States?
+    - what is your favorite movie
+    - do you like politics
+    - Are you a professional motivator?
+    - will you marry me?
+    - marry me!
+    - Are you Single?
+    - are you single
+    - do you like people
+    - What's your email address
+    - Do you like people?
+- intent: chit_chat/math
+  examples: |
+    - What is 1/2+1/2
+    - What is 1 + 1
+    - Can you calculate 5+5
+    - What is 2 + 2
+    - 2+2
+    - 10-2?
+    - calculate 5*3
+    - What is 120 x 12?
+    - What is 15+2
+    - what is 17x3
+    - 22-3
+    - What is 1 and 1?
+    - tell me whats 4 plus 4
+    - what is 5 + 5
+    - whats 1 + 1
+    - What is 1/2 +1/2
+    - what is 1 +3
+- intent: chit_chat/alcohol
+  examples: |
+    - Sambuca?
+    - Ouzo?
+    - Rhum?
+    - Whisky and cigar?
+    - Let's have a beer
+    - lets have a drink
+    - drinks later?
+    - lets go to a bar
+    - lets have a few beers
+    - what is your favorite beer?
+    - what is your favorite drink?
+    - should we have a drink later?
+    - I really need a drink
+    - wanna have a beer later?
+    - what about a beer later?
+- intent: chit_chat/ask_name
+  examples: |
+    - who are you?
+    - what's your name?
+    - what is your name
+    - how are you called
+    - your name?
+    - who are you again
+    - what are you
+    - firstname?
+    - lastname?
+    - whats your firstname
+    - who am I talking to?
+    - who are we talking to?
+    - who is this?
+    - who is it?
+    - who r u
+    - who are u
+    - is your name  Russ?
+    - I didn't get your name
+    - Are you Russ
+    - Are you really Russ?
+    - Is your name Russ
+    - Are we talking to Russ?
+    - Are you sure you are Agent Russ?
+    - Are you sure you are Russ?
+    - are you Russ?
+    - who are you
+    - russ?
+    - are you russ?
+    - Are you Russ?
+    - Are you Russ.
+    - Who are you?
+    - is your name Russ?
+    - Are you an agent?
+- intent: goodbye
+  examples: |
+    - good bye
+    - cu
+    - good by
+    - cee you later
+    - see you
+    - see you later
+    - later
+    - later skater
+    - I have to go
+    - we have to go
+    - gotta go
+    - gotta go, bye
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - ciao
+    - We'll stay in contact
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - sounds great
+    - correct
+    - alright
+    - Alright
+    - alrighty
+    - sure thing
+    - for sure!
+    - got it
+    - sounds good
+    - sure
+    - ok
+    - Ok
+    - OK
+    - affirmative
+    - absolutely
+    - totally
+    - absolutely, yes
+    - yeah
+    - yes Sir
+    - yep
+    - yep!
+    - for shizzle
+    - yeppers
+    - agreed
+    - I agree
+    - we agree
+    - Same here
+    - Got it
+    - Ok, I think I know it
+    - No worries
+    - Ok, I'm back
+    - Ok, give me one minute
+    - Yes okay
+    - Just trust your instinct
+    - Thanks
+    - No problem
+    - Sure
+    - Got it 👍
+    - Always a pleasure
+    - Ok ok
+    - Seems so
+    - I think we can help you
+    - great
+    - you are welcome
+    - Thank you as well
+    - I think I have the answer to the riddle
+    - It's a pleasure for me as well
+    - nice
+    - [first avenue](street)
+    - Roger that
+    - Ok, you got me
+    - 👍
+    - Let's get down to business
+    - Allright
+    - Thank you
+    - Understood
+    - Do this, please.
+    - Let's do this.
+    - Yes, let's do it.
+    - cool
+    - cool!
+    - cool! :-)
+    - do it
+    - yes!
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - no way
+    - not really
+    - nooooo
+    - uhm no
+    - would never do that
+    - I don't agree
+    - I would not do that
+    - nonono
+    - nope
+    - No I don't
+    - No
+    - Nope
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - are you expensive?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - are you sure you are not a bot????
+    - are you like siri?
+    - are you like Alexa
+    - are you smarter than Alexa?
+    - you are not human
+    - you are a robot
+    - you behave like a robot
+    - you speak like a robot
+    - you speak like a bot
+    - you talk like a bot
+    - are you smarter than siri?
+    - are you sure you are not a bot?
+    - It feels like I am talking to a bot
+    - You sound like a bot?
+    - Are you sure you are not a bot?
+    - are you real?
+    - are u real
+    - are you a bot
+    - are you real
+    - are you human
+    - are you human?
+    - Show me a picture so I know you are saying the truth
+    - Are you really not a bot?
+    - Are you a bot?
+    - How can you proof you are Russ?
+    - I think you are a bot
+    - And you are not a bot?
+    - Are you abot?
+    - you sound like a bot
+    - you are a bot, right?
+    - I think you are like Siri
+    - no, you are a bot
+    - are you like Siri?
+    - you a bot?
+    - No, you are a machine
+    - You are a bot!
+- intent: unhappy_or_stuck
+  examples: |
+    - this sucks
+    - we are not getting it
+    - I am not getting it
+    - I have no idea
+    - no idea
+    - no plan dude
+    - i have no plan
+    - we have no idea
+    - what's the point
+    - we are stuck
+    - I am stuck
+    - this is going nowhere
+    - this is frustrating
+    - we have no clue
+    - I have absolutely no idea
+    - this blows
+    - we are not making progress
+    - no progress
+    - absolutely stuck
+    - no idea what to do
+    - this is bad
+    - this game sucks
+    - this game is bad
+    - i hate this game
+    - i don't understand it
+    - i don't understand anything
+    - I don't understand anything
+    - still stuck dude
+    - still stuck
+    - I am stuck.
+    - Maybe I quit. I feel exhausted and I am hungry
+    - And I am lost
+    - I am hungry
+    - I still don't get it
+    - We still don't get it
+    - I cannot find the city
+    - we cannot find the city
+    - I cannot find the street
+    - we cannot find the street
+    - I cannot find the intersection
+    - we cannot find the intersection
+    - I cannot find the password
+    - we cannot find the password
+    - I cannot find the code
+    - we cannot find the code
+    - I cannot find the website
+    - we cannot find the website
+    - I couldn't find the city
+    - we couldn't find the city
+    - I couldn't find the street
+    - we couldn't find the street
+    - I couldn't find the intersection
+    - we couldn't find the intersection
+    - I couldn't find the password
+    - we couldn't find the password
+    - I couldn't find the code
+    - we couldn't find the code
+    - I couldn't find the website
+    - we couldn't find the website
+    - Fuck this intersection
+    - I still don't understand
+    - Where do I find it?
+    - We have no idea!
+    - I'm not sure if my answer is right
+    - Don't talk that way to me
+    - I hate chemistry
+    - I am not helping you
+    - I don't like that
+    - this is dumb
+    - that makes me sad
+    - You are not very nice to me
+    - you are a jerk
+    - you are not nice
+    - you are bullying me
+    - you are not a supporting colleague
+    - you are not supporting
+    - you are not helping at all
+    - you are not helping
+    - I feel depressed
+    - I feel down
+    - I am sad
+    - this is sad
+    - everything is sad
+    - I think you are awful
+    - 😦
+    - i am stuck, russ
+    - don't push me
+    - I don't like this
+    - This is dumb
+    - it still blows
+- intent: need_help
+  examples: |
+    - we need help
+    - I need help
+    - we need a hint
+    - ok, can you help me a bit
+    - I need a hint
+    - can you help us?
+    - hint
+    - help!
+    - help please
+    - hint please
+    - any hint?
+    - any hints?
+    - help us!
+    - we need your help
+    - we need your advice
+    - we need your input
+    - you need to help us
+    - help needed
+    - do you know what to do?
+    - I could need some help here
+    - please help us
+    - can you give us a hint
+    - Anything else you know?
+    - Any more hints
+    - I need more info
+    - Got it, where can I get more information?
+    - Can you help me
+    - help
+    - Any other help you can provide?
+    - Give me a hint
+    - I need more clues
+    - I need your help
+    - More hints?
+    - Need help
+    - Anything else that can help us?
+    - Can you help us with the case?
+    - Can you help me?
+    - Can you help us a bit?
+    - More hints
+    - Any hints?
+    - any clues about the city we are looking for?
+    - any help about the city we are looking for?
+    - any clues about the intersection we are looking for?
+    - any help about the intersection we are looking for?
+    - any clues about the streets we are looking for?
+    - any help about the streets we are looking for?
+    - any clues about the password we are looking for?
+    - any help about the password we are looking for?
+    - can you help us to find the city
+    - can you help us to find the street
+    - can you help us to find the intersection
+    - can you help us to find the password
+    - we need help with the city
+    - we need help with the street
+    - we need help with the intersection
+    - we need help with the password
+    - I need help please
+    - Which city do you mean?
+    - Any idea which intersection?
+    - I have no clue, do you know more?
+    - Ok, can you help us where to look for it
+    - Any tips where to find that information?
+    - How long ist the password again?
+    - hmm...another hint?
+    - I need more hints
+    - ok, any help?
+- intent: praise
+  examples: |
+    - you are smart
+    - you are clever
+    - you are intelligent
+    - you are awesome
+    - you are cute
+    - you are beautiful
+    - you are handsome
+    - you are great
+    - you are fantastic
+    - you are the best
+    - you are amazing
+    - you are so smart
+    - you are so clever
+    - you are so intelligent
+    - you are so awesome
+    - you are so cute
+    - you are so beautiful
+    - you are so handsome
+    - you are so great
+    - you are so fantastic
+    - you are the absolute best
+    - you are so amazing
+    - I love you
+    - we love you
+    - you rock
+    - you killed it
+    - you nailed it
+    - you did it
+    - you son of a gun
+    - you are a rockstar
+    - you are simply the best
+    - you are gorgeous
+    - you look good
+    - you are the best agent ever
+    - you blew my mind
+    - you blew our minds
+    - you are phenomenal
+    - you are a treat
+    - you are my hero
+    - you are our hero
+    - awesome!
+    - Looking forward to it
+    - No. No. YOU are the best!
+    - You make me laugh.
+    - You are so smart!
+    - 😘
+    - 🥰
+    - 😍
+    - 🤩
+    - you are awesome!
+- intent: whats_the_next_goal
+  examples: |
+    - I don't know what to do
+    - we dont know what to do
+    - what should we do?
+    - what should we do again?
+    - what do you need
+    - what do you need again?
+    - what are we doing here?
+    - what's next? Do we need to do something else?
+    - What's next?
+    - what do we need to do next?
+    - whats the goal?
+    - what's the goal
+    - what is required
+    - what is the next step?
+    - what are the next steps?
+    - why are we here?
+    - what's the goal of this game?
+    - what is this game all about?
+    - what do we have to achieve
+    - how do we win this game?
+    - how do I win here?
+    - So what are we trying to solve then?
+    - what is the case we are working on?
+    - what is the goal here?
+    - What is the goal of this?
+    - What is the goal of the mission?
+    - what is the goal of this game?
+    - Why are we here?
+    - great, what is the goal of this mission then?
+    - ok, so what is the goal of the case?
+    - what do we need to solve here then?
+    - wow ok. what are we trying to solve?
+    - what are you looking for?
+    - what do you need, again?
+    - what should we look for?
+    - what do I have to do?
+    - what do we have to do?
+    - what city?
+    - what city are you talking about?
+    - which city?
+    - city?
+    - city name?
+    - a name of a city, huh?
+    - a city?
+    - Which city?
+    - what is the goal again
+    - what is the goal
+    - whats the goal
+    - What is the next step?
+    - A city name?
+    - What is the case about? Are we shooting someone?
+    - What do I have to do?
+    - what is the goal?
+    - what do you need from us?
+    - what do you need?
+    - what is the next step
+    - What do we need to do?
+    - Which case do I have to solve again?
+    - What is the case about we need to solve?
+    - What do we have to do?
+    - So what do you need more?
+    - Which case?
+    - what‘s next?
+    - whats next
+    - what is the mission?
+    - what's the mission
+    - can you tell me more about the mission
+    - can we get details about the mission
+    - what is the mission about?
+    - What is the mission?
+    - Which mission, I am here to chat
+    - What do you need again?
+    - what's the next goal, russ?
+    - what is the next goal?
+    - What do you want?
+    - I don't know what to do next
+    - What is the [first]{"entity": "street", "value": "first street"} mission?
+    - What is the riddle?
+    - What is the first riddle?
+    - next goal?
+- intent: profanity
+  examples: |
+    - fuck you
+    - I hate you!
+    - you sucker
+    - you son of bitch
+    - you are a bitch
+    - i bitchslap you
+    - you suck balls
+    - motherfucker
+    - mofo
+    - asshole
+    - cunt
+    - idiot
+    - you are a cunt
+    - you are an asshole
+    - you bastard
+    - you bloody idiot
+    - you bloody bastard
+    - I hate everything about you
+    - faggot
+    - you are a faggot
+    - nigger
+    - you are a nigger
+    - you nigger
+    - nigga
+    - you are a nigga
+    - shut up!
+    - shut your hole
+    - you brick
+    - you fucking moron
+    - you fucking animal
+    - you fucker
+    - you are a nazi
+    - Fuck you
+    - fuck you bloody
+    - you asshat
+    - hate you
+    - you suck
+    - you are so dumb
+    - You suck ass!
+    - you mothersucker
+- intent: city
+  examples: |
+    - [Los Angeles](city)
+    - [San Francisco](city)
+    - [San Diego](city)
+    - [Houston](city)
+    - [Dallas](city)
+    - [Austin](city)
+    - [Chicago](city)
+    - [Springfield](city)
+    - [New York](city)
+    - [Miami](city)
+    - [Paris](city)
+    - [Berlin](city)
+    - [Ankara](city)
+    - [Madrid](city)
+    - [Lisbon](city)
+    - [London](city)
+    - [Orlando](city)
+    - [Baltimore](city)
+    - [Portland](city)
+    - [Boston](city)
+    - [San Jose](city)
+    - [Jacksonville](city)
+    - [Fort Worth](city)
+    - [Columbus](city)
+    - [Charlotte](city)
+    - [Indianapolis](city)
+    - [Seattle](city)
+    - [Denver](city)
+    - [El Paso](city)
+    - [Nashville](city)
+    - [Detroit](city)
+    - [Las Vegas](city)
+    - [Memphis](city)
+    - [Milwaukee](city)
+    - [Tucson](city)
+    - [Atlanta](city)
+    - [Los Angeles](city), [California](state)
+    - [San Francisco](city), [California](state)
+    - [San Diego](city), [California](state)
+    - [Houston](city), [Texas](state)
+    - [Dallas](city), [Texas](state)
+    - [Austin](city), [Texas](state)
+    - [Los Angeles](city), [CA](state)
+    - [San Francisco](city), [CA](state)
+    - [San Diego](city), [CA](state)
+    - [Houston](city), [TX](state)
+    - [Dallas](city), [TX](state)
+    - [Austin](city), [TX](state)
+    - the location is [Los Angeles](city)
+    - the location is [San Francisco](city)
+    - the location is [San Diego](city)
+    - the location is [Houston](city)
+    - the location is [Dallas](city)
+    - the location is [Austin](city)
+    - the location is [Chicago](city)
+    - the location is [Springfield](city)
+    - the location is [Los Angeles](city), [California](state)
+    - the location is [San Francisco](city), [California](state)
+    - the location is [San Diego](city), [California](state)
+    - the location is [Houston](city), [Texas](state)
+    - the location is [Dallas](city), [Texas](state)
+    - the location is [Austin](city), [Texas](state)
+    - the location is [Chicago](city), [Illinois](state)
+    - the location is [Springfield](city), [Illinois](state)
+    - the location is [Los Angeles](city), [CA](state)
+    - the location is [San Francisco](city), [CA](state)
+    - the location is [San Diego](city), [CA](state)
+    - the location is [Houston](city), [TX](state)
+    - the location is [Dallas](city), [TX](state)
+    - the location is [Austin](city), [TX](state)
+    - the location is [Chicago](city), [IL](state)
+    - the location is [Springfield](city), [IL](state)
+    - location is [New York](city)
+    - location is [Miami](city)
+    - location is [Paris](city)
+    - location is [Berlin](city)
+    - location is [Ankara](city)
+    - location is [Madrid](city)
+    - the city is [Lisbon](city)
+    - the city is [London](city)
+    - the city is [Orlando](city)
+    - the city is [Baltimore](city)
+    - the city is [Portland](city)
+    - the city is [Boston](city)
+    - city is [San Jose](city)
+    - city is [Jacksonville](city)
+    - city is [Fort Worth](city)
+    - city is [Columbus](city)
+    - city is [Charlotte](city)
+    - city: [Indianapolis](city)
+    - city: [Seattle](city)
+    - city: [Denver](city)
+    - city: [El Paso](city)
+    - city: [Nashville](city)
+    - city: [Detroit](city)
+    - city: [Las Vegas](city)
+    - city: [Memphis](city)
+    - city: [Milwaukee](city)
+    - city: [Tucson](city)
+    - city: [Atlanta](city)
+    - [chicago](city)
+    - [new york](city)
+    - [boston](city)
+    - the city is [boston](city)
+    - the city is [hamburg](city)
+    - [new york](city)?
+    - [chicago](city)?
+    - [Chicago](city)?
+    - the solution is [New York](city)
+    - [CHicago](city)?
+    - city is Los Angeles
+    - Is it [San Diego](city)
+    - Is it [Los Angeles](city)?
+    - [Venice](city)
+    - I love coke. It has to be [Atlanta](city)
+    - Chikago
+    - Chikagoe
+    - [Berlin](city) Deutschland
+    - Chikagoee
+    - Is it [Milwaukee](city)?
+    - [CHICAGO](city) [CHICAGO](city) 😊😊😊
+    - The City ist [Los Angeles](city)
+    - It's [Chicago](city), [Illinois](state)
+    - It's [Chicago](city), [IL](state)
+    - The City is [Chicago](city) right?
+    - [Germany](city)
+    - [Salzburg](city)
+    - [Heilbronn](city)
+    - [Frankfurt](city)
+    - Is it [Chicago](city)?
+    - ok, [Chicago](city)?
+    - It's [Chicago](city). Right?
+    - Ok, is it [Chicago](city)?
+    - [Chicago](city) is the city
+    - Maybe it's [Chicago](city)?
+    - Is it [Detroit](city)?
+    - So it might be [Chicago](city)?
+    - Is it Chi-town?
+- intent: state
+  examples: |
+    - [Alabama](state)
+    - [Alaska](state)
+    - [Arizona](state)
+    - [Arkansas](state)
+    - [California](state)
+    - [Colorado](state)
+    - [Connecticut](state)
+    - [Delaware](state)
+    - [Florida](state)
+    - [Georgia](state)
+    - [Hawaii](state)
+    - [Idaho](state)
+    - [Illinois](state)
+    - [Indiana](state)
+    - [Iowa](state)
+    - [Kansas](state)
+    - [Kentucky](state)
+    - [Louisiana](state)
+    - [Maine](state)
+    - [Maryland](state)
+    - [Massachusetts](state)
+    - [Michigan](state)
+    - [Minnesota](state)
+    - [Mississippi](state)
+    - [Missouri](state)
+    - [Montana](state)
+    - [Nebraska](state)
+    - [Nevada](state)
+    - [New Hampshire](state)
+    - [New Jersey](state)
+    - [New Mexico](state)
+    - [New York](state)
+    - [North Carolina](state)
+    - [North Dakota](state)
+    - [Ohio](state)
+    - [Oklahoma](state)
+    - [Oregon](state)
+    - [Pennsylvania](state)
+    - [Rhode Island](state)
+    - [South Carolina](state)
+    - [South Dakota](state)
+    - [Tennessee](state)
+    - [Texas](state)
+    - [Utah](state)
+    - [Vermont](state)
+    - [Virginia[D]](state)
+    - [Washington](state)
+    - [West Virginia](state)
+    - [Wisconsin](state)
+    - [Wyoming](state)
+    - [AL](state)
+    - [AK](state)
+    - [AZ](state)
+    - [AR](state)
+    - [CA](state)
+    - [CO](state)
+    - [CT](state)
+    - [DE](state)
+    - [FL](state)
+    - [GA](state)
+    - [HI](state)
+    - [ID](state)
+    - [IL](state)
+    - [IN](state)
+    - [IA](state)
+    - [KS](state)
+    - [KY](state)
+    - [LA](state)
+    - [ME](state)
+    - [MD](state)
+    - [MA](state)
+    - [MI](state)
+    - [MN](state)
+    - [MS](state)
+    - [MO](state)
+    - [MT](state)
+    - [NE](state)
+    - [NV](state)
+    - [NH](state)
+    - [NJ](state)
+    - [NM](state)
+    - [NY](state)
+    - [NC](state)
+    - [ND](state)
+    - [OH](state)
+    - [OK](state)
+    - [OR](state)
+    - [PA](state)
+    - [RI](state)
+    - [SC](state)
+    - [SD](state)
+    - [TN](state)
+    - [TX](state)
+    - [UT](state)
+    - [VT](state)
+    - [VA](state)
+    - [WA](state)
+    - [WV](state)
+    - [WI](state)
+    - [WY](state)
+- intent: time_limit
+  examples: |
+    - Is there a time limit?
+    - Do we have a time limit?
+    - How much time do we have?
+    - Do you know if there is a time limit?
+    - How much time is available?
+    - How much time do I have?
+    - Does this take long?
+    - How long is this mission?
+    - How long is this game?
+    - how long does it take?
+    - How long do we have to do this?
+    - when do you need the answer?
+    - When do you need the answers?
+    - Are you in a hurry?
+- intent: mood_great
+  examples: |
+    - Hahahaha
+    - too funny
+    - you make me laugh
+    - lol
+    - haha
+    - hihi
+    - hehe
+    - hoho
+    - rofl
+    - this is too funny
+    - you are funny
+    - lololol
+    - pleasure is mine
+    - pleasure is ours
+    - Pleasure is on our side
+    - ":)"
+    - :)
+    - :-D
+    - Cool 😎
+    - 😆
+    - 😄
+    - 😎
+    - 😁
+    - 😂
+    - 😃
+    - 🤣
+    - 😅
+    - 🎉
+- intent: street
+  examples: |
+    - [first](street)
+    - [second](street) and [Geary Boulevard](street)
+    - [third](street)
+    - [fourth](street) & [Van Ness Avenue](street)
+    - [fifth](street)
+    - [sixth](street) + [Polk](street)
+    - [seventh](street)
+    - [eight](street) and [Fillmore](street)
+    - [ninth](street)
+    - [tenth](street) & [Embarcadero](street)
+    - [eleventh](street)
+    - [1st](street)  + [hyde](street)
+    - [2nd](street)
+    - [3rd](street) & [Haight](street)
+    - [4th](street)
+    - [5th](street) & [Ashbury](street)
+    - [6th](street)
+    - [7th](street) and [Lombard](street)
+    - [8th](street)
+    - [9th](street) and [Market St](street)
+    - [10th](street)
+    - [11th](street) & [Grant Ave](street)
+    - [12th](street)
+    - [1st street](street) & [Alemany Blvd](street)
+    - [2nd street](street)
+    - [3rd street](street) and [Castro](street)
+    - [4th street](street)
+    - [5th street](street) & [Golden Gate Ave](street)
+    - [6th street](street)
+    - [7th street](street) + [Filbert Street](street)
+    - [8th street](street)
+    - [9th street](street) + [Hayes St](street)
+    - [10th street](street)
+    - [11th street](street) / [Clarion Alley](street)
+    - [12th street](street)
+    - [1st st](street) / [Howard](street)
+    - [2nd st](street)
+    - [3rd st](street), [Maiden Lane](street)
+    - [4th st](street)
+    - [5th st](street), [Fulton St](street)
+    - [6th st](street)
+    - [7th st](street), [Lincoln Way](street)
+    - [8th st](street)
+    - [9th st](street) and [Lombard](street)
+    - [10th st](street)
+    - [11th st](street) & [lombard street](street)
+    - [12th st](street)
+    - [1st avenue](street) & [kearny Street](street)
+    - [2nd avenue](street)
+    - [3rd avenue](street) and [Columbus Avenue](street)
+    - [4th avenue](street)
+    - [5th avenue](street), [market](street)
+    - [6th avenue](street)
+    - [7th avenue](street) / [Portola Drive](street)
+    - [8th avenue](street)
+    - [9th avenue](street) - [Union Street](street)
+    - [10th avenue](street)
+    - [11th avenue](street) & [Van Ness Ave](street)
+    - [12th avenue](street)
+    - [1st ave](street)
+    - [2nd ave](street)
+    - [3rd ave](street)
+    - [4th ave](street)
+    - [5th ave](street)
+    - [6th ave](street)
+    - [7th ave](street)
+    - [8th ave](street)
+    - [9th ave](street)
+    - [10th ave](street)
+    - [11th ave](street)
+    - [12th ave](street)
+    - [main](street)
+    - [park](street)
+    - [oak](street)
+    - [pine](street)
+    - [maple](street)
+    - [cedar](street)
+    - [elm](street)
+    - [view](street)
+    - [washington](street)
+    - [lincoln](street)
+    - [jackson](street)
+    - [jefferson](street)
+    - [church](street)
+    - [river](street)
+    - [lake](street)
+    - [lakeview](street)
+    - [hill](street)
+    - [walnut](street)
+    - [ridge](street)
+    - [forest](street)
+    - [sunset](street)
+    - [broad](street)
+    - [main street](street)
+    - [park street](street)
+    - [oak street](street)
+    - [pine street](street)
+    - [maple street](street)
+    - [cedar street](street)
+    - [elm street](street)
+    - [view street](street)
+    - [washington street](street)
+    - [lincoln street](street)
+    - [jackson street](street)
+    - [jefferson street](street)
+    - [church street](street)
+    - [river street](street)
+    - [lake street](street)
+    - [lakeview street](street)
+    - [hill street](street)
+    - [walnut street](street)
+    - [ridge street](street)
+    - [forest street](street)
+    - [sunset street](street)
+    - [broad street](street)
+    - [main st](street)
+    - [park st](street)
+    - [oak st](street)
+    - [pine st](street)
+    - [maple st](street)
+    - [cedar st](street)
+    - [elm st](street)
+    - [view st](street)
+    - [washington st](street)
+    - [lincoln st](street)
+    - [jackson st](street)
+    - [jefferson st](street)
+    - [church st](street)
+    - [river st](street)
+    - [lake st](street)
+    - [lakeview st](street)
+    - [hill st](street)
+    - [walnut st](street)
+    - [ridge st](street)
+    - [forest st](street)
+    - [sunset st](street)
+    - [broad st](street)
+    - [main road](street)
+    - [park road](street)
+    - [oak road](street)
+    - [pine road](street)
+    - [maple road](street)
+    - [cedar road](street)
+    - [elm road](street)
+    - [view road](street)
+    - [washington road](street)
+    - [lincoln road](street)
+    - [jackson road](street)
+    - [jefferson road](street)
+    - [church road](street)
+    - [river road](street)
+    - [lake road](street)
+    - [lakeview road](street)
+    - [hill road](street)
+    - [walnut road](street)
+    - [ridge road](street)
+    - [forest road](street)
+    - [sunset road](street)
+    - [broad road](street)
+    - [main rd](street)
+    - [park rd](street)
+    - [oak rd](street)
+    - [pine rd](street)
+    - [maple rd](street)
+    - [cedar rd](street)
+    - [elm rd](street)
+    - [view rd](street)
+    - [washington rd](street)
+    - [lincoln rd](street)
+    - [jackson rd](street)
+    - [jefferson rd](street)
+    - [church rd](street)
+    - [river rd](street)
+    - [lake rd](street)
+    - [lakeview rd](street)
+    - [hill rd](street)
+    - [walnut rd](street)
+    - [ridge rd](street)
+    - [forest rd](street)
+    - [sunset rd](street)
+    - [broad rd](street)
+    - [main avenue](street)
+    - [park avenue](street)
+    - [oak avenue](street)
+    - [pine avenue](street)
+    - [maple avenue](street)
+    - [cedar avenue](street)
+    - [elm avenue](street)
+    - [view avenue](street)
+    - [washington avenue](street)
+    - [lincoln avenue](street)
+    - [jackson avenue](street)
+    - [jefferson avenue](street)
+    - [church avenue](street)
+    - [river avenue](street)
+    - [lake avenue](street)
+    - [lakeview avenue](street)
+    - [hill avenue](street)
+    - [walnut avenue](street)
+    - [ridge avenue](street)
+    - [forest avenue](street)
+    - [sunset avenue](street)
+    - [broad avenue](street)
+    - [main ave](street)
+    - [park ave](street)
+    - [oak ave](street)
+    - [pine ave](street)
+    - [maple ave](street)
+    - [cedar ave](street)
+    - [elm ave](street)
+    - [view ave](street)
+    - [washington ave](street)
+    - [lincoln ave](street)
+    - [jackson ave](street)
+    - [jefferson ave](street)
+    - [church ave](street)
+    - [river ave](street)
+    - [lake ave](street)
+    - [lakeview ave](street)
+    - [hill ave](street)
+    - [walnut ave](street)
+    - [ridge ave](street)
+    - [forest ave](street)
+    - [sunset ave](street)
+    - [broad ave](street)
+    - [Duboce Ave](street)
+    - [Walter St](street)
+    - [Castro St](street)
+    - [Clayton St](street)
+    - [Frederick St](street)
+    - [Masonic Ave](street)
+    - [Geary Blvd](street)
+    - [Geary Boulevard](street)
+    - [Presidio Ave](street)
+    - [California St](street)
+    - [Broadway](street)
+    - [broadway](street)
+    - [Bush St](street)
+    - [Mission St](street)
+    - [Mission Street](street)
+    - [Folsom St](street)
+    - [Dolores St](street)
+    - [ashbury st](street)
+    - [humboldt blvd](street)
+    - [north street](street)
+    - [north st](street)
+    - [ashbury street](street)
+    - [Ashbury street](street)
+    - [Ashbury St](street)
+    - [Park hill Ave](street)
+    - [Waller St](street)
+    - [14th street](street)
+    - [Castro street](street)
+    - [first](street) and [oak](street)
+    - [oak](street) and [first](street)
+    - [haight](street) and [ashbury](street)
+    - [1st]{"entity": "street", "value": "first street"}
+    - [oak st]{"entity": "street", "value": "oak street"}, [broadway](street), and [ashbury st](street)
+    - [ashbury](street) and [haight st](street)
+    - [1st](street) and [lombard](street)
+    - [1st street](street)
+    - Is it maybe [second street](street)?
+    - [Oak Street](street) maybe?
+    - Ok then it's [third street](street), right?
+    - [Third street](street)?
+    - Is it [First Street](street)?
+    - [Oak]{"entity": "street", "value": "oak street"}
+    - [Oak Street](street), maybe?
+- intent: password
+  examples: |
+    - The password is [017489](password)
+    - password is [874598](password)
+    - The password is [8421563](password)
+    - password is [445820](password)
+    - The password is [0843100](password)
+    - password is [779634](password)
+    - The password is [8896732](password)
+    - password is [012345](password)
+    - The PW is [0174589](password)
+    - PW is [874598](password)
+    - The PW is [842563](password)
+    - PW is [4458520](password)
+    - The PW is [084100](password)
+    - PW is [779634](password)
+    - The PW is [8895632](password)
+    - PW is [012345](password)
+    - The code is [017489](password)
+    - code is [8745598](password)
+    - The code is [842563](password)
+    - code is [445820](password)
+    - The code is [084100](password)
+    - code is [77934](password)
+    - The code is [889632](password)
+    - code is [02345](password)
+    - The passcode is [07489](password)
+    - passcode is [874598](password)
+    - The passcode is [842563](password)
+    - passcode is [4455820](password)
+    - The passcode is [084100](password)
+    - passcode is [779634](password)
+    - The passcode is [889632](password)
+    - passcode is [5874968](password)
+    - passcode is: [123456](password)
+    - password: [017489](password)
+    - password: [87498](password)
+    - password: [8425563](password)
+    - password: [44520](password)
+    - password: [125870](password)
+    - password: [15789](password)
+    - code: [0841500](password)
+    - code: [779634](password)
+    - code: [889632](password)
+    - code: [01245](password)
+    - code: [145698](password)
+    - code: [1896748](password)
+    - passcode: [017489](password)
+    - passcode: [87498](password)
+    - passcode: [8425563](password)
+    - passcode: [44520](password)
+    - pw: [0841500](password)
+    - pw: [779634](password)
+    - pw: [889632](password)
+    - pw: [01245](password)
+    - I think the password is [14789657](password)
+    - I believe the password is [120345](password)
+    - I got it. The password is [889631](password)
+    - I got the PW! It is [14789657](password)
+    - Got it. The code is [12003](password)
+    - I think the code is [012784](password)
+    - is it [123456](password)?
+    - could it be [123456](password)?
+    - [123456](password)
+    - [789456](password)
+    - [468752](password)
+    - [987663](password)
+    - [997411](password)
+    - [18530](password)
+    - [1258746](password)
+    - [9987412](password)
+    - [12398745](password)
+    - [124578](password)
+    - [887755](password)
+    - [875136](password)
+    - [134896](password)
+    - [785263](password)
+    - password: [123123](password)
+    - passcode [456456](password)
+    - password: [456789](password)
+    - Is it [345678](password)
+    - Is it [12244](password)
+- synonym: first street
+  examples: |
+    - first
+    - 1st
+    - First
+    - FIRST
+    - 1st street
+    - 1st Street
+    - 1st STREET
+    - 1st st
+    - 1st St
+    - 1st ST
+    - 1st Str
+    - first st
+    - first St
+    - first ST
+    - first Str
+    - First st
+    - First St
+    - First ST
+    - First Str
+    - FIRST st
+    - FIRST St
+    - FIRST ST
+    - FIRST Str
+- synonym: oak street
+  examples: |
+    - oak st
+    - Oak
+    - oak
+    - OAK
+    - oak St
+    - oak ST
+    - oak Str
+    - Oak st
+    - Oak St
+    - Oak ST
+    - Oak Str
+    - OAK st
+    - OAK St
+    - OAK ST
+    - OAK Str
+- regex: password
+  examples: |
+    - [0-9]{4,8}

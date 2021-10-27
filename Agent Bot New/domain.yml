@@ -1,0 +1,365 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- city:
+    use_entities: true
+- state:
+    use_entities: true
+- street:
+    use_entities: true
+- password:
+    use_entities: true
+- greet:
+    use_entities: []
+- goodbye:
+    use_entities: []
+- bot_challenge:
+    use_entities: []
+- chit_chat:
+    use_entities: []
+- need_help:
+    use_entities: []
+- unhappy_or_stuck:
+    use_entities: []
+- praise:
+    use_entities: []
+- whats_the_next_goal:
+    use_entities: []
+- profanity:
+    use_entities: []
+- where_are_you:
+    use_entities: []
+- strix:
+    use_entities: []
+- deny:
+    use_entities: []
+- affirm:
+    use_entities: []
+- mood_great:
+    use_entities: []
+- time_limit:
+    use_entities: []
+- are_you_sure:
+    use_entities: []
+- working_on_it:
+    use_entities: []
+- nlu_fallback:
+    use_entities: []
+- out_of_scope:
+    use_entities: []
+- who_are_you:
+    use_entities: true
+- chit_chat_person:
+    use_entities: true
+- should_i_give_answer:
+    use_entities: true
+entities:
+- city
+- state
+- street
+- password
+- strix
+slots:
+  city:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  state:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  last_street_guess:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: false
+  password:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  solution_city:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: true
+  solution_street:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: true
+  solution_password:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: true
+  help_city:
+    type: rasa.shared.core.slots.FloatSlot
+    initial_value: 0
+    auto_fill: false
+    influence_conversation: false
+    max_value: 3.0
+    min_value: 0.0
+  hint_city:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: false
+    auto_fill: false
+    influence_conversation: true
+  help_street:
+    type: rasa.shared.core.slots.FloatSlot
+    initial_value: 0
+    auto_fill: false
+    influence_conversation: false
+    max_value: 3.0
+    min_value: 0.0
+  hint_street:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: false
+    auto_fill: false
+    influence_conversation: true
+  help_password:
+    type: rasa.shared.core.slots.FloatSlot
+    initial_value: 0
+    auto_fill: false
+    influence_conversation: false
+    max_value: 3.0
+    min_value: 0.0
+  hint_password:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: false
+    auto_fill: false
+    influence_conversation: true
+responses:
+  utter_first_greet:
+  - text: Hello agents. Great to have you on board! I need you to help me find out which city the hacker group is targeting for their attack. Just text me the city name in this chat.
+  utter_out_of_scope:
+  - text: Can we focus on the case right now and chit chat later?
+  - text: Concentrate on the mission!
+  - text: Come on guys, I need you to focus.
+  - text: Let's solve this case first.
+  - text: We can chit chat later.
+  - text: Lets discuss that later. Lets catch some bad guys first, ok?
+  utter_chit_chat/ask_name:
+  - text: Russ, Field Agent.
+  - text: I am Russ, remember?
+  - text: You know my name, guys. I am Russ. Come on now.
+  - text: You know who I am.
+  - text: We just talked. Don't you remember?
+  - text: Do you have Alzheimers? We just talked a minute ago.
+  utter_chit_chat/alcohol:
+  - text: I don't drink...anymore.
+  - text: No alcohol while on duty, guys.
+  - text: No alcohol for me, thanks.
+  utter_chit_chat/person:
+  - text: No private stuff right now. Focus on the mission, please.
+  utter_chit_chat/how_are_you:
+  - text: I am doing just fine. But lets chit chat later. Focus on the mission, agents.
+  utter_chit_chat/math:
+  - text: I am not a calculator, guys. Focus up.
+  - text: Ugh, I hate math.
+  - text: Math - are you serious? Focus on the mission, please.
+  - text: I am not a numebrs person. You are supposed to be the brains.
+  utter_greet:
+  - text: Hey guys.
+  - text: Hi.
+  - text: Hey everybody.
+  - text: Hi, agents.
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_stayhere:
+  - text: You are not done yet. I need your help!
+  - text: This mission is not over yet.
+  - text: We haven't finished this mission.
+  - text: Don't leave me hanging.
+  - text: This is not over yet.
+  utter_goodbye:
+  - text: Bye
+  - text: 👋
+  - text: Later, guys!
+  utter_affirm:
+  - text: great
+  - text: ok
+  - text: 👍
+  - text: 😎
+  - text: 😉
+  utter_iamnotabot:
+  - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
+    text: Of course I am real...Could a bot do THIS?
+  - text: We just talked. Looked pretty real to me.
+  - text: What is even real nowadays, right?! Well, I am.
+  - text: Really funny, guys. Ofc I am real.
+  - text: We will all get replaced some day I guess.
+  utter_submit:
+  - text: Form has been filled!
+  utter_strix:
+  - text: STRIX is a global organization fighting cyber crime.
+  - text: STRIX is the agency that hired you and me. Remember?
+  - text: Didn't you pay attention during the introduction? We fight cyber crime. You are now part of it.
+  - text: Well, they are paying me. That's all I need to know.
+  utter_password:
+  - text: This is what I need from you geniuses.
+  utter_no_city:
+  - text: I don't think that is a city. Did you spell correctly?
+  - text: I don't get it. Is this a city?
+  - text: Can you check your spelling? I don't get it.
+  utter_correct_city:
+  - text: '{city} is correct. Fantastic job! Next, I need to know the intersection where the hackers have planted the transmission device. Just text me the two street names and we will send a team to check it out.'
+  utter_incorrect_city:
+  - text: I don't think {city} is correct.
+  - text: I don't think this city is correct.
+  - text: We already check with the authorities there. That's not the city.
+  - text: I was in contact with the city of {city}. They were not targeted.
+  - text: It's not {city}. We checked.
+  utter_one_street:
+  - text: Ok, that's one of the streets. What's the other?
+  - text: Got it. What's the other street name?
+  - text: Alright, {street} and ...?
+  - text: Ok, so you think {street}, but which cross street?
+  utter_correct_intersection:
+  - text: We sent a team to {intersection}. They found the device - awesome job! Next, you need to look for a 6 digit password to open the door at the hideout. Please hurry up!
+  utter_incorrect_intersection:
+  - text: That doesn't sound correct. I think it must be a different intersection.
+  - text: No, we checked this intersection. That's not it.
+  utter_no_two_streets:
+  - text: I don't get it. Can you please specify an intersection of two streets?
+  - text: Which intersection? I didn't get the two street names.
+  utter_correct_password:
+  - text: |-
+      {password} worked! The door is open!
+       -- THE MISSION ENDS HERE. THANKS FOR TESTING! YOU CAN START A NEW CONVERSATION BY CLICKING ON 'RESTART' (RELOAD ICON ON MOBILE) --
+  utter_incorrect_password:
+  - text: '{password} did not work. Must be a different combination.'
+  - text: Hhm, that did not work.
+  - text: No, {password} did not work.
+  - text: That didn't work. Do you have another one to try?
+  - text: I tried {password}...didn't work.
+  utter_wrong_length_password:
+  - text: '{password} is not the right length.'
+  - text: Hhm, that combination doesn't have the right length.
+  - text: No, that's not even the right number of digits.
+  - text: "{password} is not correct. It's not the right length even."
+  utter_city_old:
+  - text: I know the city already.
+  - text: You told me the city already.
+  - text: No need to spam city names.
+  - text: Stop sending me cities.
+  - text: Paris? London? What are you doing? I know the city already!
+  utter_street_old:
+  - text: I know the street already.
+  - text: You told me the intersection already.
+  utter_password_old:
+  - text: I know the password already.
+  - text: You told me the code already.
+  - text: You told me the password already.
+  - text: I got it already.
+  utter_no_password_needed:
+  - text: I don't know how that should help me.
+  - text: Is this a code or something? I don't need that right now.
+  - text: I don't think you are focusing on what I need right now.
+  utter_city_not_street:
+  - text: I am looking for a city, not a street name.
+  - text: You need to look for a city, not a street.
+  utter_name_old:
+  - text: I already know the name.
+  utter_passcode_old:
+  - text: I already know the passcode.
+  utter_goal_city:
+  - text: You need to figure out which city we need to go to prevent a possible cyber crime.
+  - text: I need to know the name of the city they are targeting. You need to hurry!
+  - text: Can you figure out the city they are targeting for a cyber crime. We need to send our guys there.
+  - text: You need to use the information and figure out which city they are targeting so that we can send somebody there.
+  utter_help_city:
+  - text: I believe the city must be somewhere in the Midwest...if I can trust my sources.
+  - text: I heard them talking about the windy city.
+  - text: I would look for a large city with lots of bridges...shutting them down creates a huge chaos.
+  utter_need_hint:
+  - text: I can check my sources for more detailed information. Do you want me to do that?
+  - text: I thought you are the brains here. Do you want me to go through the data as well?
+  utter_no_hint:
+  - text: Ok, then continue searching. I will wait.
+  - text: Ok, then continue your search.
+  - text: Alright. I will wait.
+  - text: Ok, but please hurry up.
+  - text: Alright, but please hurry.
+  utter_hint_city:
+  - text: Have you checked Illinois? Should be a very large city there.
+  - text: We know it must be one of the largest cities in the US and we are pretty sure that it is not New York or LA.
+  utter_goal_street:
+  - text: We need to find the intersection were the transmission device was installed.
+  - text: We need to find the hacking device. It should be at an intersection.
+  - text: You need to find the intersection with the hacking device. Just tell me the two street names.
+  - text: I need to know the street names of the intersection.
+  utter_help_street:
+  - text: I think it should be a fairly large intersection. You should check the traffic density.
+  - text: The maintenance schedule map should tell you which intersections were officially shut down by the city.
+  - text: Check the maintenance schedule, video recordings and traffic maps.
+  utter_hint_street:
+  - text: I am pretty sure it must be on Oak Street. There is lots of traffic there.
+  - text: Close to the library are a lot of outdated traffic lights. You should check the area around it.
+  utter_goal_password:
+  - text: I need a number code for the lock on the door.
+  - text: You need to find a 6 digit code so that I can open the door.
+  - text: The lock on the door...I need a six digit pass code from you.
+  - text: I need the pass code from you.
+  utter_help_password:
+  - text: You should check the company website from the van picture I sent you.
+  - text: They are using a specific symbol to identify themselves. Maybe you can find it on the website.
+  - text: There must be a secret section on that website somewhere. You have to find it.
+  - text: The front page article on that website talks alot about animals. That might be important.
+  utter_hint_password:
+  - text: I just checked the website myself. The secret section is protected by a password. I think the password is hidden in the front page article.
+  - text: The front page article on that website and the blue triangle are somewhat connected. Maybe a secret access?
+  utter_offer_help:
+  - text: Yous sound frustrated...need some help?
+  - text: Hmm...keep your chin up! Need help?
+  - text: Come on guys, you are getting close! Want me to help?
+  - text: Seems like you are stuck...need some help?
+  utter_return_praise:
+  - text: You guys are the best!
+  - text: Awww, thanks!
+  - text: What a team we are!
+  - text: That's what I call chemistry.
+  utter_profanity_response:
+  - text: Really classy, guys...
+  - text: '...'
+  - text: That would be a case for HR, if we had one.
+  - text: No comment.
+  - text: whatever
+  - text: not gonna respond to that
+  utter_city_russ:
+  - text: I am at the Strix headquarters waiting for your city.
+  utter_happy:
+  - text: 😂
+  - text: Oh you. 😄
+  - text: 😁
+  utter_default:
+  - text: Sorry, I am not getting it. Can we focus on the mission, please?
+  - text: Please focus on the mission, agents.
+  - text: I don't get it. Can we focus on the next goal please.
+  - text: Focus up, agents!
+  - text: Concentrate on the mission, please.
+  - text: This is not helping me right now. Focus on the mission.
+  utter_will_wait:
+  - text: Ok, I will wait for you.
+  - text: Alright, you just let me know when you need help.
+  - text: Got it. You keep working on it.
+  - text: Sure thing. I will wait.
+  - text: Ok, I will wait, but please hurry.
+  utter_no_time_limit:
+  - text: I am kind of in a hurry here. So please send me the answers as quickly as you can. I wanna be done in 60 minutes.
+  - text: Well, the sooner you can get me the answers the better. I am not planning on staying longer than an hour.
+actions:
+- action_verify_city
+- action_verify_street
+- action_verify_password
+- action_help_user
+- action_offer_hint
+- action_next_goal
+forms: {}
+e2e_actions: []
