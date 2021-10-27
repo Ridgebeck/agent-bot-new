@@ -1,13 +1,143 @@
 version: "2.0"
-
 rules:
 
-- rule: Say goodbye anytime the user says goodbye
+# --------------------------------------------------
+# GREETINGS, CHIT CHAT, BOT CHALLENGE, FALLBACK
+
+- rule: Handle greetings at the beginning
+  conversation_start: true
+  steps:
+  - intent: greet
+  - action: utter_first_greet
+
+- rule: Handle greetings afterwards
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Don't let user abort mission
   steps:
   - intent: goodbye
-  - action: utter_goodbye
+  - action: utter_stayhere
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: Affirm back by default
+  steps:
+  - intent: affirm
+  - action: utter_affirm
+
+- rule: Return praise
+  steps:
+  - intent: praise
+  - action: utter_return_praise
+
+- rule: Respond to good mood 
+  steps:
+  - intent: mood_great
+  - action: utter_affirm 
+
+- rule: Don't admit to being a bot
   steps:
   - intent: bot_challenge
-  - action: utter_iamabot
+  - action: utter_iamnotabot
+
+- rule: Respond to profanity
+  steps:
+  - intent: profanity
+  - action: utter_profanity_response
+
+- rule: Respond to time limit
+  steps:
+  - intent: time_limit
+  - action: utter_no_time_limit  
+
+- rule: Respond to chit chat
+  steps:
+  - intent: chit_chat
+  - action: utter_chit_chat
+
+- rule: Respond to out of scope messages
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- rule: Handle fallback gracefully
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_fallback
+
+# --------------------------------------------------
+# ASKING FOR NEXT GOAL
+
+- rule: Verify the next goal if user asks for it
+  steps:
+  - intent: whats_the_next_goal
+  - action: action_next_goal
+
+# --------------------------------------------------
+# HELP AND HINTS
+
+- rule: Offer help when stuck
+  steps:
+  - intent: unhappy_or_stuck
+  - action: utter_offer_help
+
+- rule: Help user if he accepts
+  steps:
+  - action: utter_offer_help
+  - intent: affirm
+  - action: action_help_user
+
+- rule: Do not give help if user is stuck and denies
+  steps:
+  - action: utter_offer_help
+  - intent: deny
+  - action: utter_will_wait  
+
+- rule: Offer customized help when help is requested
+  steps:
+  - intent: need_help
+  - action: action_help_user
+
+- rule: Give hint if user confirms
+  steps:
+  - action: action_help_user
+  - intent: affirm
+  - action: action_offer_hint
+
+- rule: Don't give hint if user denies
+  steps:
+  - action: action_help_user
+  - intent: deny
+  - action: utter_will_wait
+
+# --------------------------------------------------
+# VERIFYING SOLUTION GUESSES
+
+- rule: Verify the input if intent is city
+  steps:
+  - intent: city
+  - action: action_verify_city
+
+- rule: Verify the input if intent is street
+  steps:
+  - intent: street
+  - action: action_verify_street
+
+- rule: Verify the input if intent is password
+  steps:
+  - intent: password
+  - action: action_verify_password
+
+
+# --------------------------------------------------
+# OTHER INTENTS
+
+# should_i_give_answer
+# are_you_sure
+# strix
+# working_on_it
+# where_are_you
+
+# to add:
+# state to city guess
+# country?
