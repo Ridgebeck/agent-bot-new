@@ -1,0 +1,44 @@
+# IMPORTANT: ALWAYS UPDATE FILE ON CLUSTER /SERVER!
+
+# rasax specific settings
+rasax:
+    # initialUser is the user which is created upon the initial start of Rasa X
+    initialUser:
+        # password for the Rasa X user
+        password: "megasharksuperhighway"
+    # passwordSalt Rasa X uses to salt the user passwords
+    passwordSalt: "cS9q2fYr2KR203gWfLoV"
+    # token Rasa X accepts as authentication token from other Rasa services
+    token: "7i5ozbST2aH59Ks3ppjM"
+    # jwtSecret which is used to sign the jwtTokens of the users
+    jwtSecret: "TiQ5OX0dj828LiQ0MJKg"
+    # rasa x version
+    tag: "0.39.3"       
+# rasa: Settings common for all Rasa containers
+rasa:
+    # token Rasa accepts as authentication token from other Rasa services
+    token: "HN3D7HW6S369pNbFL7Uc"
+    # tag refers to the Rasa image tag
+    tag: "2.8.1-full"
+# RabbitMQ specific settings
+rabbitmq:
+    # rabbitmq settings of the subchart
+    rabbitmq:
+        # password which is used for the authentication
+        password: "33K7I9ZvrQC4ZoSYkopT"
+# global settings of the used subcharts
+global:
+    # postgresql: global settings of the postgresql subchart
+    postgresql:
+        # postgresqlPassword is the password which is used when the postgresqlUsername equals "postgres"
+        postgresqlPassword: "5ojD9uUvo4t3ZoDaajay"
+    # redis: global settings of the redis subchart
+    redis:
+        # password to use in case there no external secret was provided
+        password: "o8D29blYgQE75vyhXIYI"
+# app (custom action server) specific settings
+app:
+    # name of the custom action server image to use
+    name: "rsniklas/agent_bot_actions"
+    # tag refers to the custom action server image tag
+    tag: "v2_0"

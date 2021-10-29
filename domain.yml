@@ -152,7 +152,7 @@ slots:
     influence_conversation: true
 responses:
   utter_first_greet:
-  - text: Hello agents. Great to have you on board! I need you to help me find out which city the hacker group is targeting for their attack. Just text me the city name in this chat.
+  - text: Hello agents. Great to have you on board! I need you to help me find the pin code for the tablet.
   
   utter_correct_password:
   - text: |-
@@ -165,10 +165,10 @@ responses:
   - text: That didn't work. Do you have another one to try?
   - text: "I tried {password}...didn't work."
   utter_wrong_length_password:
-  - text: '{password} is not the right length.'
-  - text: Hhm, that combination doesn't have the right length.
-  - text: No, that's not even the right number of digits.
-  - text: "{password} is not correct. It's not the right length even."
+  - text: '{password} is not the right length. It is 6 digits.'
+  - text: Hhm, that combination doesn't have the right length. I am looking for 6 digits.
+  - text: No, that's not even the right number of digits...should be 6.
+  - text: "{password} is not correct. It's not the right length even. I need a six digit pin."
   utter_no_password_needed:
   - text: I don't know how that should help me.
   - text: Is this a code or something? I don't need that right now.
