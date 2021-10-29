@@ -2,8 +2,8 @@ version: '2.0'
 config:
   store_entities_as_slots: true
 session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  session_expiration_time: 0 # infinite session time (only one session per game)
+  carry_over_slots_to_new_session: false # there should not be a new session
 intents:
 - city:
     use_entities: true
@@ -64,6 +64,11 @@ entities:
 - password
 - strix
 slots:
+  agent_name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: 'John'
+    auto_fill: false
+    influence_conversation: false
   city:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
@@ -146,9 +151,9 @@ responses:
   - text: We can chit chat later.
   - text: Lets discuss that later. Lets catch some bad guys first, ok?
   utter_chit_chat/ask_name:
-  - text: Russ, Field Agent.
-  - text: I am Russ, remember?
-  - text: You know my name, guys. I am Russ. Come on now.
+  - text: '{agent_name}, Field Agent.'
+  - text: 'I am {agent_name}, remember?'
+  - text: 'You know my name, guys. I am {agent_name}. Come on now.'
   - text: You know who I am.
   - text: We just talked. Don't you remember?
   - text: Do you have Alzheimers? We just talked a minute ago.

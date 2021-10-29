@@ -4,7 +4,7 @@ rules:
 # --------------------------------------------------
 # GREETINGS, CHIT CHAT, BOT CHALLENGE, FALLBACK
 
-- rule: Handle greetings at the beginning
+- rule: Handle greeting at the very beginning
   conversation_start: true
   steps:
   - intent: greet
