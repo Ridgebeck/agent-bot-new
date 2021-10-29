@@ -153,6 +153,27 @@ slots:
 responses:
   utter_first_greet:
   - text: Hello agents. Great to have you on board! I need you to help me find out which city the hacker group is targeting for their attack. Just text me the city name in this chat.
+  
+  utter_correct_password:
+  - text: |-
+      {password} worked! The tablet is unlocked!
+       -- NEXT RIDDLE --
+  utter_incorrect_password:
+  - text: '{password} did not work. Must be a different combination.'
+  - text: Hhm, that did not work.
+  - text: 'No, {password} did not work.'
+  - text: That didn't work. Do you have another one to try?
+  - text: "I tried {password}...didn't work."
+  utter_wrong_length_password:
+  - text: '{password} is not the right length.'
+  - text: Hhm, that combination doesn't have the right length.
+  - text: No, that's not even the right number of digits.
+  - text: "{password} is not correct. It's not the right length even."
+  utter_no_password_needed:
+  - text: I don't know how that should help me.
+  - text: Is this a code or something? I don't need that right now.
+  - text: I don't think you are focusing on what I need right now.
+
   utter_store:
   - text: You are guessing a store.
   utter_restaurant:
@@ -166,9 +187,7 @@ responses:
   - text: '{agent_name}, Field Agent.'
   - text: 'I am {agent_name}, remember?'
   - text: 'You know my name, guys. I am {agent_name}. Come on now.'
-  - text: You know who I am.
-  - text: We just talked. Don't you remember?
-  - text: Do you have Alzheimers? We just talked a minute ago.
+  - text: 'I am {agent_name}.'
   utter_chit_chat/alcohol:
   - text: I don't drink...anymore.
   - text: No alcohol while on duty, guys.
@@ -207,10 +226,10 @@ responses:
   - text: 😉
   utter_iamnotabot:
   - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
-    text: Of course I am real...Could a bot do THIS?
+    text: Could a bot do THIS?
   - text: We just talked. Looked pretty real to me.
-  - text: What is even real nowadays, right?! Well, I am.
-  - text: Really funny, guys. Ofc I am real.
+  - text: What is even real nowadays, right?! Well, I am...I guess.
+  - text: Really funny, guys.
   - text: We will all get replaced some day I guess.
   utter_submit:
   - text: Form has been filled!
@@ -246,21 +265,6 @@ responses:
   utter_no_two_streets:
   - text: I don't get it. Can you please specify an intersection of two streets?
   - text: Which intersection? I didn't get the two street names.
-  utter_correct_password:
-  - text: |-
-      {password} worked! The door is open!
-       -- THE MISSION ENDS HERE. THANKS FOR TESTING! YOU CAN START A NEW CONVERSATION BY CLICKING ON 'RESTART' (RELOAD ICON ON MOBILE) --
-  utter_incorrect_password:
-  - text: '{password} did not work. Must be a different combination.'
-  - text: Hhm, that did not work.
-  - text: No, {password} did not work.
-  - text: That didn't work. Do you have another one to try?
-  - text: I tried {password}...didn't work.
-  utter_wrong_length_password:
-  - text: '{password} is not the right length.'
-  - text: Hhm, that combination doesn't have the right length.
-  - text: No, that's not even the right number of digits.
-  - text: "{password} is not correct. It's not the right length even."
   utter_city_old:
   - text: I know the city already.
   - text: You told me the city already.
@@ -270,15 +274,6 @@ responses:
   utter_street_old:
   - text: I know the street already.
   - text: You told me the intersection already.
-  utter_password_old:
-  - text: I know the password already.
-  - text: You told me the code already.
-  - text: You told me the password already.
-  - text: I got it already.
-  utter_no_password_needed:
-  - text: I don't know how that should help me.
-  - text: Is this a code or something? I don't need that right now.
-  - text: I don't think you are focusing on what I need right now.
   utter_city_not_street:
   - text: I am looking for a city, not a street name.
   - text: You need to look for a city, not a street.

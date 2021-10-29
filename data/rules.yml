@@ -113,35 +113,38 @@ rules:
 # --------------------------------------------------
 # VERIFYING SOLUTION GUESSES
 
-- rule: Verify the input if intent is city
+- rule: Verify the input if intent is password
   steps:
-  - intent: city
-  - action: action_verify_city
+  - intent: password
+  - action: utter_password
+  #- action: action_verify_password
+
+- rule: Verify store guess
+  steps:
+  - intent: store
+  - action: utter_store  
 
 - rule: Verify restaurant guess
   steps:
   - intent: restaurant
   - action: utter_restaurant
 
-- rule: Verify store guess
-  steps:
-  - intent: store
-  - action: utter_store
-
 - rule: Verify pier guess
   steps:
   - intent: pier
-  - action: utter_pier  
+  - action: utter_pier
+
+- rule: Verify the input if intent is city
+  steps:
+  - intent: city
+  - action: action_verify_city
 
 - rule: Verify the input if intent is street
   steps:
   - intent: street
   - action: action_verify_street
 
-- rule: Verify the input if intent is password
-  steps:
-  - intent: password
-  - action: action_verify_password
+
 
 
 # --------------------------------------------------
