@@ -5,13 +5,19 @@ session_config:
   session_expiration_time: 0 # infinite session time (only one session per game)
   carry_over_slots_to_new_session: false # there should not be a new session
 intents:
+- password:
+    use_entities: true    
+- store:
+    use_entities: true
+- restaurant:
+    use_entities: true
+- pier:
+    use_entities: true
 - city:
     use_entities: true
 - state:
     use_entities: true
 - street:
-    use_entities: true
-- password:
     use_entities: true
 - greet:
     use_entities: []
@@ -52,16 +58,20 @@ intents:
 - out_of_scope:
     use_entities: []
 - who_are_you:
-    use_entities: true
+    use_entities: []
 - chit_chat_person:
-    use_entities: true
+    use_entities: []
 - should_i_give_answer:
-    use_entities: true
+    use_entities: []
 entities:
+- password
+- store
+- restaurant
+- pier
+
 - city
 - state
 - street
-- password
 - strix
 slots:
   agent_name:
@@ -143,13 +153,15 @@ slots:
 responses:
   utter_first_greet:
   - text: Hello agents. Great to have you on board! I need you to help me find out which city the hacker group is targeting for their attack. Just text me the city name in this chat.
+  utter_store:
+  - text: You are guessing a store.
+  utter_restaurant:
+  - text: You are guessing a restaurant.
+  utter_pier:
+  - text: You are guessing a pier.
+
   utter_out_of_scope:
-  - text: Can we focus on the case right now and chit chat later?
-  - text: Concentrate on the mission!
-  - text: Come on guys, I need you to focus.
-  - text: Let's solve this case first.
-  - text: We can chit chat later.
-  - text: Lets discuss that later. Lets catch some bad guys first, ok?
+  - text: This was out of scope.
   utter_chit_chat/ask_name:
   - text: '{agent_name}, Field Agent.'
   - text: 'I am {agent_name}, remember?'
@@ -321,15 +333,15 @@ responses:
   - text: I just checked the website myself. The secret section is protected by a password. I think the password is hidden in the front page article.
   - text: The front page article on that website and the blue triangle are somewhat connected. Maybe a secret access?
   utter_offer_help:
-  - text: Yous sound frustrated...need some help?
+  - text: You sound frustrated...need some help?
   - text: Hmm...keep your chin up! Need help?
   - text: Come on guys, you are getting close! Want me to help?
   - text: Seems like you are stuck...need some help?
   utter_return_praise:
   - text: You guys are the best!
   - text: Awww, thanks!
-  - text: What a team we are!
-  - text: That's what I call chemistry.
+  - text: We are the best team...ever!
+  - text: That's what I call team chemistry.
   utter_profanity_response:
   - text: Really classy, guys...
   - text: '...'
@@ -337,8 +349,6 @@ responses:
   - text: No comment.
   - text: whatever
   - text: not gonna respond to that
-  utter_city_russ:
-  - text: I am at the Strix headquarters waiting for your city.
   utter_happy:
   - text: 😂
   - text: Oh you. 😄

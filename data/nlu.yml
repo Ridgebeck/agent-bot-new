@@ -73,6 +73,28 @@ nlu:
     - does Santa exist
     - is Santa real?
     - are you part of the matrix?
+- intent: store
+  examples: |
+    - [One More Chapter](store)
+    - [Off the Shelf](store)
+    - [Alphabet Soup](store)
+    - [Bards & Nobles](store)
+- intent: restaurant
+  examples: |
+    - [Spago](restaurant)
+    - [Burgrill](restaurant)
+    - [Pine & Dine](restaurant)
+    - [Vintage Machine](restaurant)
+    - [Pink Sugar](restaurant)
+    - [Yum Yum Tree](restaurant)
+- intent: pier
+  examples: |
+    - [Pier 25](pier)
+    - [Pier 8](pier)
+    - [Pier 11](pier)
+    - [Pier 55](pier)
+    - [Pier 76](pier)
+    - [Pier 88](pier) 
 - intent: chit_chat/how_are_you
   examples: |
     - what are you doing?

@@ -118,6 +118,21 @@ rules:
   - intent: city
   - action: action_verify_city
 
+- rule: Verify restaurant guess
+  steps:
+  - intent: restaurant
+  - action: utter_restaurant
+
+- rule: Verify store guess
+  steps:
+  - intent: store
+  - action: utter_store
+
+- rule: Verify pier guess
+  steps:
+  - intent: pier
+  - action: utter_pier  
+
 - rule: Verify the input if intent is street
   steps:
   - intent: street
