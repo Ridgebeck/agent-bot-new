@@ -1,4 +1,4 @@
-# version 2.0.1
+# version 2.0.2
 
 from typing import Any, Text, Dict, List
 
@@ -83,22 +83,22 @@ class ActionVerifyStore(Action):
         elif solution_store != None:
             dispatcher.utter_message(response="utter_restaurant_not_store")
             return []
+        # check if first password riddle is still active
+        elif solution_password == None:
+            dispatcher.utter_message(response="utter_password_not_store")
+            return []
         else:
-
-            # check if first password riddle is still active
-            if solution_pier != None:
-                dispatcher.utter_message(response="utter_password_not_store")
+        	# check if store entity was provided
+            if store == None:
+                #dispatcher.utter_message(response="utter_no_store")
                 return []
+            # verify given store entity
+            elif store.lower() == correct_answer_store.lower():
+                dispatcher.utter_message(response="utter_correct_store", store=correct_answer_store)
+                return [SlotSet("solution_store", correct_answer_store)]
             else:
-                if store == None:
-                    #dispatcher.utter_message(response="utter_no_store")
-                    return []
-                elif store.lower() == correct_answer_store.lower():
-                    dispatcher.utter_message(response="utter_correct_store", store=correct_answer_store)
-                    return [SlotSet("solution_store", correct_answer_store)]
-                else:
-                    dispatcher.utter_message(response="utter_incorrect_store", store=store)
-                    return [SlotSet("store", None)]
+                dispatcher.utter_message(response="utter_incorrect_store", store=store)
+                return [SlotSet("store", None)]
 
 
 
