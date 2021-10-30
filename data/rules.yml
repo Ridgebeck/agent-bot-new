@@ -68,47 +68,47 @@ rules:
 # --------------------------------------------------
 # ASKING FOR NEXT GOAL
 
-- rule: Verify the next goal if user asks for it
-  steps:
-  - intent: whats_the_next_goal
-  - action: action_next_goal
+# - rule: Verify the next goal if user asks for it
+#   steps:
+#   - intent: whats_the_next_goal
+#   - action: action_next_goal
 
 # --------------------------------------------------
 # HELP AND HINTS
 
-- rule: Offer help when stuck
-  steps:
-  - intent: unhappy_or_stuck
-  - action: utter_offer_help
+# - rule: Offer help when stuck
+#   steps:
+#   - intent: unhappy_or_stuck
+#   - action: utter_offer_help
 
-- rule: Help user if he accepts
-  steps:
-  - action: utter_offer_help
-  - intent: affirm
-  - action: action_help_user
+# - rule: Help user if he accepts
+#   steps:
+#   - action: utter_offer_help
+#   - intent: affirm
+#   - action: action_help_user
 
-- rule: Do not give help if user is stuck and denies
-  steps:
-  - action: utter_offer_help
-  - intent: deny
-  - action: utter_will_wait  
+# - rule: Do not give help if user is stuck and denies
+#   steps:
+#   - action: utter_offer_help
+#   - intent: deny
+#   - action: utter_will_wait  
 
-- rule: Offer customized help when help is requested
-  steps:
-  - intent: need_help
-  - action: action_help_user
+# - rule: Offer customized help when help is requested
+#   steps:
+#   - intent: need_help
+#   - action: action_help_user
 
-- rule: Give hint if user confirms
-  steps:
-  - action: action_help_user
-  - intent: affirm
-  - action: action_offer_hint
+# - rule: Give hint if user confirms
+#   steps:
+#   - action: action_help_user
+#   - intent: affirm
+#   - action: action_offer_hint
 
-- rule: Don't give hint if user denies
-  steps:
-  - action: action_help_user
-  - intent: deny
-  - action: utter_will_wait
+# - rule: Don't give hint if user denies
+#   steps:
+#   - action: action_help_user
+#   - intent: deny
+#   - action: utter_will_wait
 
 # --------------------------------------------------
 # VERIFYING SOLUTION GUESSES
@@ -133,15 +133,17 @@ rules:
   - intent: pier
   - action: utter_pier
 
-- rule: Verify the input if intent is city
-  steps:
-  - intent: city
-  - action: action_verify_city
+  
 
-- rule: Verify the input if intent is street
-  steps:
-  - intent: street
-  - action: action_verify_street
+# - rule: Verify the input if intent is city
+#   steps:
+#   - intent: city
+#   - action: action_verify_city
+
+# - rule: Verify the input if intent is street
+#   steps:
+#   - intent: street
+#   - action: action_verify_street
 
 
 
