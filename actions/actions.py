@@ -1,4 +1,4 @@
-# version 2.0.11
+# version 2.0.21
 
 from enum import Enum
 from typing import Any, Text, Dict, List
@@ -8,6 +8,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
 # define solutions as enumeration
+# ORDER OF RIDDLES IS DEFINED HERE!
 class SolutionSlotName(Enum):
     PASSWORD = "solution_password"
     STORE = "solution_store"
@@ -17,7 +18,7 @@ class SolutionSlotName(Enum):
 # convert to list to allow indexing
 solutionSlotList = list(SolutionSlotName)    
 
-# define answers as enumeration
+# define answers as enumeration (same names)
 class Answer(Enum):
     PASSWORD = "123456"
     STORE = "Alphabet Soup"
@@ -45,30 +46,39 @@ class ActionVerifyPassword(Action):
         # store password slot in local variable
         passcode = tracker.get_slot("password")
 
-        # store story progress slots in local variable
-        solution_password = tracker.get_slot("solution_password")
 
-        # respond if password riddle has already been solved         
-        if solution_password != None:
-            dispatcher.utter_message(response="utter_no_password_needed")
-            return []
-        # otherwise progress (user is supposed to work on password riddle)
-        else:
-            # remove everything thats not a digit
-            passcode = "".join(filter(str.isdigit, passcode))       
-            #print(passcode)
 
-            # check if length is correct
-            if len(passcode) != len(Answer.PASSWORD):
-                dispatcher.utter_message(response="utter_wrong_length_password", password=passcode)
-                return [SlotSet("password", None)]
-            else:
-                if passcode == Answer.PASSWORD:
-                    dispatcher.utter_message(response="utter_correct_password", password=Answer.PASSWORD)
-                    return [SlotSet("solution_password", Answer.PASSWORD)]
-                else:
-                    dispatcher.utter_message(response="utter_incorrect_password", password=passcode)
-                    return [SlotSet("password", None)]
+        # TODO: REMOVE AFTER TESTING!
+        dispatcher.utter_message(response="utter_incorrect_password", password=passcode)
+        return [SlotSet("password", None)]
+
+
+
+
+        # # store story progress slots in local variable
+        # solution_password = tracker.get_slot("solution_password")
+
+        # # respond if password riddle has already been solved         
+        # if solution_password != None:
+        #     dispatcher.utter_message(response="utter_no_password_needed")
+        #     return []
+        # # otherwise progress (user is supposed to work on password riddle)
+        # else:
+        #     # remove everything thats not a digit
+        #     passcode = "".join(filter(str.isdigit, passcode))       
+        #     #print(passcode)
+
+        #     # check if length is correct
+        #     if len(passcode) != len(Answer.PASSWORD):
+        #         dispatcher.utter_message(response="utter_wrong_length_password", password=passcode)
+        #         return [SlotSet("password", None)]
+        #     else:
+        #         if passcode == Answer.PASSWORD:
+        #             dispatcher.utter_message(response="utter_correct_password", password=Answer.PASSWORD)
+        #             return [SlotSet("solution_password", Answer.PASSWORD)]
+        #         else:
+        #             dispatcher.utter_message(response="utter_incorrect_password", password=passcode)
+        #             return [SlotSet("password", None)]
 
 
 class ActionVerifyStore(Action):
@@ -90,12 +100,12 @@ class ActionVerifyStore(Action):
         # solution_restaurant = tracker.get_slot(SolutionSlotName.RESTAURANT.value)
         # solution_pier = tracker.get_slot(SolutionSlotName.PIER.value)
 
-        # store all solution slots in ordered list
+        # store all solution slots from RASA bot in ordered list
         solutionList = list()
         for solutionName in SolutionSlotName:
-            solutionList.append(tracker.get_slot(solutionName))
+            solutionList.append(tracker.get_slot(solutionName))        
         
-        # TODO: VARIABLE
+        # TODO: MAKE VARIABLE
         # find index for riddle that the input was about
         inputRiddleIndex = solutionSlotList.index(SolutionSlotName.STORE)
 
@@ -104,9 +114,18 @@ class ActionVerifyStore(Action):
         activeRiddleIndex = solutionList.index(None)
 
         if inputRiddleIndex == activeRiddleIndex:
-        	dispatcher.utter_message(response="utter_correct_store")
+            # ONLY FOR TESTING / REMOVE
+            dispatcher.utter_message(response="utter_incorrect_store", store=store)
+            return [SlotSet("store", None)]
+        # when the current riddle category doesn't match
         else:
-        	dispatcher.utter_message(response="utter_not_looking_for_that")
+            # give user feedback about the mismatch
+            dispatcher.utter_message(response="utter_wrong_category")
+            return []
+            
+            # # let user know that it is the wrong category
+            # dispatcher.utter_message(response="utter_not_looking_for_that")
+            # return [SlotSet("store", None)]
 
 
 

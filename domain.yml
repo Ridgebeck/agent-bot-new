@@ -215,18 +215,13 @@ responses:
   - text: Is this a code or something? I don't need that right now.
   - text: I don't think you are focusing on what I need right now.
 
-
-
-
-  utter_not_looking_for_that:
-  - text: I am not looking for that right now.
-
   utter_correct_store:
   - text: The store is correct!
   utter_incorrect_store:
-  - text: Wrong store! 
+  - text: Wrong store!
 
-
+  utter_wrong_category:
+  - text: I am not looking for that right now.
 
 
 
