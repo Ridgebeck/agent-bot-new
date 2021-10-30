@@ -215,12 +215,12 @@ responses:
   - text: Is this a code or something? I don't need that right now.
   - text: I don't think you are focusing on what I need right now.
 
-  utter_password_not_store:
-  - text: You are guessing a store, but I look for a password.
-  utter_restaurant_not_store:
-  - text: You are guessing a store, but I look for a restaurant.
-  utter_pier_not_store:
-  - text: You are guessing a store, but I look for a pier.
+
+
+
+  utter_not_looking_for_that:
+  - text: I am not looking for that right now.
+
   utter_correct_store:
   - text: The store is correct!
   utter_incorrect_store:
