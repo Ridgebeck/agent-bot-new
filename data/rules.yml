@@ -116,13 +116,12 @@ rules:
 - rule: Verify the input if intent is password
   steps:
   - intent: password
-  - action: utter_password
-  #- action: action_verify_password
+  - action: action_verify_password
 
 - rule: Verify store guess
   steps:
   - intent: store
-  - action: utter_store  
+  - action: action_verify_store  
 
 - rule: Verify restaurant guess
   steps:

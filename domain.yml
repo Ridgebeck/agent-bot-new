@@ -79,77 +79,116 @@ slots:
     initial_value: 'John'
     auto_fill: false
     influence_conversation: false
-  city:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
-  state:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
-  last_street_guess:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
   password:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_city:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: true
-  solution_street:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: true
   solution_password:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
     influence_conversation: true
-  help_city:
-    type: rasa.shared.core.slots.FloatSlot
-    initial_value: 0
-    auto_fill: false
+  store:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
-    max_value: 3.0
-    min_value: 0.0
-  hint_city:
-    type: rasa.shared.core.slots.BooleanSlot
-    initial_value: false
+  solution_store:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
     auto_fill: false
     influence_conversation: true
-  help_street:
-    type: rasa.shared.core.slots.FloatSlot
-    initial_value: 0
-    auto_fill: false
-    influence_conversation: false
-    max_value: 3.0
-    min_value: 0.0
-  hint_street:
-    type: rasa.shared.core.slots.BooleanSlot
-    initial_value: false
+  restaurant:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false    
+  solution_restaurant:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
     auto_fill: false
     influence_conversation: true
-  help_password:
-    type: rasa.shared.core.slots.FloatSlot
-    initial_value: 0
-    auto_fill: false
-    influence_conversation: false
-    max_value: 3.0
-    min_value: 0.0
-  hint_password:
-    type: rasa.shared.core.slots.BooleanSlot
-    initial_value: false
+  pier:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false    
+  solution_pier:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
     auto_fill: false
     influence_conversation: true
+
+
+
+
+
+
+
+  # city:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: true
+  #   influence_conversation: false
+  # state:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: true
+  #   influence_conversation: false
+  # last_street_guess:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: false
+
+  # solution_city:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: true
+  # solution_street:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: true
+
+  # help_city:
+  #   type: rasa.shared.core.slots.FloatSlot
+  #   initial_value: 0
+  #   auto_fill: false
+  #   influence_conversation: false
+  #   max_value: 3.0
+  #   min_value: 0.0
+  # hint_city:
+  #   type: rasa.shared.core.slots.BooleanSlot
+  #   initial_value: false
+  #   auto_fill: false
+  #   influence_conversation: true
+  # help_street:
+  #   type: rasa.shared.core.slots.FloatSlot
+  #   initial_value: 0
+  #   auto_fill: false
+  #   influence_conversation: false
+  #   max_value: 3.0
+  #   min_value: 0.0
+  # hint_street:
+  #   type: rasa.shared.core.slots.BooleanSlot
+  #   initial_value: false
+  #   auto_fill: false
+  #   influence_conversation: true
+  # help_password:
+  #   type: rasa.shared.core.slots.FloatSlot
+  #   initial_value: 0
+  #   auto_fill: false
+  #   influence_conversation: false
+  #   max_value: 3.0
+  #   min_value: 0.0
+  # hint_password:
+  #   type: rasa.shared.core.slots.BooleanSlot
+  #   initial_value: false
+  #   auto_fill: false
+  #   influence_conversation: true
 responses:
   utter_first_greet:
   - text: Hello agents. Great to have you on board! I need you to help me find the pin code for the tablet.
@@ -173,6 +212,21 @@ responses:
   - text: I don't know how that should help me.
   - text: Is this a code or something? I don't need that right now.
   - text: I don't think you are focusing on what I need right now.
+
+  utter_password_not_store:
+  - text: You are guessing a store, but I look for a password.
+  utter_restaurant_not_store:
+  - text: You are guessing a store, but I look for a restaurant.
+  utter_pier_not_store:
+  - text: You are guessing a store, but I look for a pier.
+  utter_correct_store:
+  - text: The store is correct!
+  utter_incorrect_store:
+  - text: Wrong store! 
+
+
+
+
 
   utter_store:
   - text: You are guessing a store.

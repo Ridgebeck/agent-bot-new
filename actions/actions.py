@@ -7,6 +7,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
 correct_answer_password = "123456"
+correct_answer_store = "Alphabet Soup"
 
 # correct_answer_city = "Chicago"
 # correct_answer_street_1 = "First Street"
@@ -49,6 +50,55 @@ class ActionVerifyPassword(Action):
                 else:
                     dispatcher.utter_message(response="utter_incorrect_password", password=passcode)
                     return [SlotSet("password", None)]
+
+
+class ActionVerifyStore(Action):
+
+    def name(self) -> Text:
+        return "action_verify_store"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # store city slot in local variable
+        store = tracker.get_slot("store")
+
+        # store story progress slot in local variable
+        solution_password = tracker.get_slot("solution_password")
+        solution_store = tracker.get_slot("solution_store")
+        solution_restaurant = tracker.get_slot("solution_restaurant")
+        solution_pier = tracker.get_slot("solution_pier")
+
+
+        # check if pier riddle was already solved (final)
+        if solution_pier != None:
+            #dispatcher.utter_message(response="utter_mission_finished")
+            return []
+        # check if restaurant riddle was already solved (looking for pier)
+        elif solution_restaurant != None:
+            dispatcher.utter_message(response="utter_pier_not_store")
+            return []
+        # check if store riddle was already solved (looking for restaurant)
+        elif solution_store != None:
+            dispatcher.utter_message(response="utter_restaurant_not_store")
+            return []
+        else:
+
+            # check if first password riddle is still active
+            if solution_pier != None:
+                dispatcher.utter_message(response="utter_password_not_store")
+                return []
+            else:
+                if store == None:
+                    #dispatcher.utter_message(response="utter_no_store")
+                    return []
+                elif store.lower() == correct_answer_store.lower():
+                    dispatcher.utter_message(response="utter_correct_store", store=correct_answer_store)
+                    return [SlotSet("solution_store", correct_answer_store)]
+                else:
+                    dispatcher.utter_message(response="utter_incorrect_store", store=store)
+                    return [SlotSet("store", None)]
 
 
 
