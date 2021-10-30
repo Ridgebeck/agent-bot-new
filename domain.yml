@@ -189,6 +189,8 @@ slots:
   #   initial_value: false
   #   auto_fill: false
   #   influence_conversation: true
+
+
 responses:
   utter_first_greet:
   - text: Hello agents. Great to have you on board! I need you to help me find the pin code for the tablet.
@@ -419,11 +421,15 @@ responses:
   - text: I am kind of in a hurry here. So please send me the answers as quickly as you can. I wanna be done in 60 minutes.
   - text: Well, the sooner you can get me the answers the better. I am not planning on staying longer than an hour.
 actions:
-- action_verify_city
-- action_verify_street
-- action_verify_password
-- action_help_user
-- action_offer_hint
-- action_next_goal
+- action_verify_password    
+- action_verify_store
+- action_verify_restaurant
+- action_verify_pier
+
+# - action_verify_city
+# - action_verify_street
+# - action_help_user
+# - action_offer_hint
+# - action_next_goal
 forms: {}
 e2e_actions: []
