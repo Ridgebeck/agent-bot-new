@@ -1,4 +1,4 @@
-# version 2.0.21
+# version 2.0.35
 
 from enum import Enum
 from typing import Any, Text, Dict, List
@@ -25,8 +25,8 @@ class Answer(Enum):
     RESTAURANT = "Spago"
     PIER = "Pier 49"
 
-correct_answer_password = "123456"
-correct_answer_store = "Alphabet Soup"
+#correct_answer_password = "123456"
+#correct_answer_store = "Alphabet Soup"
 
 # TODO: Remove
 # correct_answer_city = "Chicago"
@@ -44,13 +44,47 @@ class ActionVerifyPassword(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # store password slot in local variable
-        passcode = tracker.get_slot("password")
+        #passcode = tracker.get_slot("password")
+
+        # TODO: VARIABLE
+        # guess city slot in local variable
+        entity = tracker.get_slot("password")
+
+        # store all solution slots from RASA bot in ordered list
+        solutionList = list()
+        for solutionName in SolutionSlotName:
+            solutionList.append(tracker.get_slot(solutionName))        
+        
+        # TODO: MAKE VARIABLE
+        # find index for riddle that the input was about
+        inputRiddleIndex = solutionSlotList.index(SolutionSlotName.PASSWORD)
+        correct_answer = Answer.PASSWORD.value
+
+        # go through solution list and find active riddle index
+        # (first index where entry is None)
+        activeRiddleIndex = solutionList.index(None)
+       
+        # check if intent matches the active riddle and a store entity was provided
+        if inputRiddleIndex == activeRiddleIndex and entity != None:            
+            # check if length is incorrect
+            if len(entity) != len(correct_answer):
+                dispatcher.utter_message(response="utter_wrong_length_password", password=entity, length=len(correct_answer))
+                return [SlotSet("password", None)]
+            # otherwise check if answer is correct
+            elif entity == correct_answer:
+                dispatcher.utter_message(response="utter_correct_password", password=correct_answer)
+                return [SlotSet("solution_password", correct_answer)]
+            else:
+                dispatcher.utter_message(response="utter_incorrect_password", password=entity)
+                return [SlotSet("password", None)]
+
+        # when the current riddle category doesn't match
+        else:
+            # give user feedback about the mismatching categories
+            dispatcher.utter_message(response = "utter_wrong_category")
+            return []
 
 
-
-        # TODO: REMOVE AFTER TESTING!
-        dispatcher.utter_message(response="utter_incorrect_password", password=passcode)
-        return [SlotSet("password", None)]
 
 
 
@@ -91,14 +125,8 @@ class ActionVerifyStore(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # TODO: VARIABLE
-        # store city slot in local variable
-        store = tracker.get_slot("store")
-
-        # store all solution slots in local variables
-        # solution_password = tracker.get_slot(SolutionSlotName.PASSWORD.value)
-        # solution_store = tracker.get_slot(SolutionSlotName.STORE.value)
-        # solution_restaurant = tracker.get_slot(SolutionSlotName.RESTAURANT.value)
-        # solution_pier = tracker.get_slot(SolutionSlotName.PIER.value)
+        # guess city slot in local variable
+        entity = tracker.get_slot("store")
 
         # store all solution slots from RASA bot in ordered list
         solutionList = list()
@@ -108,25 +136,28 @@ class ActionVerifyStore(Action):
         # TODO: MAKE VARIABLE
         # find index for riddle that the input was about
         inputRiddleIndex = solutionSlotList.index(SolutionSlotName.STORE)
+        correct_answer = Answer.STORE.value
 
         # go through solution list and find active riddle index
         # (first index where entry is None)
         activeRiddleIndex = solutionList.index(None)
+       
+        # check if intent matches the active riddle and a store entity was provided
+        if inputRiddleIndex == activeRiddleIndex and entity != None:            
+            # verify if given answer is correct
+            if entity.lower() == correct_answer.lower():
+                dispatcher.utter_message(response="utter_correct_store", store=correct_answer)
+                return [SlotSet("solution_store", correct_answer)]
+            else:
+                dispatcher.utter_message(response="utter_incorrect_store", store=entity)
+                return [SlotSet("store", None)]
 
-        if inputRiddleIndex == activeRiddleIndex:
-            # ONLY FOR TESTING / REMOVE
-            dispatcher.utter_message(response="utter_incorrect_store", store=store)
-            return [SlotSet("store", None)]
         # when the current riddle category doesn't match
         else:
-            # give user feedback about the mismatch
-            dispatcher.utter_message(response="utter_wrong_category")
+            # give user feedback about the mismatching categories
+            dispatcher.utter_message(response = "utter_wrong_category")
             return []
             
-            # # let user know that it is the wrong category
-            # dispatcher.utter_message(response="utter_not_looking_for_that")
-            # return [SlotSet("store", None)]
-
 
 
         # # check if pier riddle was already solved (final)
