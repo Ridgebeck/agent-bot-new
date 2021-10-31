@@ -220,17 +220,23 @@ responses:
   utter_incorrect_store:
   - text: Wrong store!
 
+  utter_correct_restaurant:
+  - text: The restaurant is correct!
+  utter_incorrect_restaurant:
+  - text: Wrong restaurant!
+
+  utter_correct_pier:
+  - text: The pier is correct!
+  utter_incorrect_pier:
+  - text: Wrong pier!
+
   utter_wrong_category:
   - text: I am not looking for that right now.
 
 
 
-  utter_store:
-  - text: You are guessing a store.
-  utter_restaurant:
-  - text: You are guessing a restaurant.
-  utter_pier:
-  - text: You are guessing a pier.
+
+
 
   utter_out_of_scope:
   - text: This was out of scope.

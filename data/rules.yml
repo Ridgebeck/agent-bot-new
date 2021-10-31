@@ -81,12 +81,12 @@ rules:
 - rule: Verify restaurant guess
   steps:
   - intent: restaurant
-  - action: utter_restaurant
+  - action: action_verify_restaurant
 
 - rule: Verify pier guess
   steps:
   - intent: pier
-  - action: utter_pier
+  - action: action_verify_pier
 
   
 # - rule: Verify the input if intent is city
