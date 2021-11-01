@@ -109,6 +109,7 @@ nlu:
     - how r u
     - How r u?
     - how are you doing?
+    - How was your day?
     - How r u doing
     - how is your day going
     - how are you
@@ -132,6 +133,23 @@ nlu:
   examples: |
     - what is your hobby?
     - do you ahve a hobby?
+    - what is your shirt size
+    - what is your shoe size?
+    - what is your favorite color?
+    - what is your favorite ocean
+    - do you like the simpsons
+    - are you a cat person
+    - do you like dogs
+    - are you a dog person
+    - do you like cats
+    - whats your favorite musical
+    - are you an inventor
+    - are you smart?
+    - are you intelligent?
+    - are you a good person?
+    - who trained you?
+    - favorite color?
+    - what is your favorite ice cream
     - happy birthday
     - whats your favorite animal?
     - How is the day going?
@@ -143,8 +161,7 @@ nlu:
     - what's your favorite ice cream?
     - By the way what's your favorite ice cream?
     - are you american
-    - where do you live?
-    - How was your day?
+    - where do you live?    
     - how is your day going?
     - how old are you?
     - do you like gummy bears
@@ -160,6 +177,10 @@ nlu:
     - marry me!
     - Are you Single?
     - are you single
+    - do you play a musical instrument
+    - do you like music
+    - what music do you like?
+    - can you sing
     - do you like people
     - What's your email address
     - Do you like people?
