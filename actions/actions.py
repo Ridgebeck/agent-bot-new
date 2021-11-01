@@ -1,38 +1,57 @@
-# version 2.1.5
+# version 2.1.8
 
-from enum import Enum
+from collections import OrderedDict
 
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
-# RASA SLOTS MUST BE NAMED THE SAME
-# RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + SlotName.value, e.g. "solution_password"
+# RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS KEYS, e.g. "password"
+# RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
 # ORDER OF RIDDLES IS DEFINED HERE!
-class SlotName(Enum):
-    PASSWORD = "password"
-    STORE = "store"
-    RESTAURANT = "restaurant"
-    PIER = "pier"
+
+# class SlotName(Enum):
+#     PASSWORD_1 = "password"
+#     STORE = "store"
+#     RESTAURANT = "restaurant"
+#     PIER = "pier"
+#     PASSWORD_2 = "password"
+
+slotNameDict = OrderedDict()
+slotNameDict["password_1"] = "password"
+slotNameDict["store"]      = "store"
+slotNameDict["restaurant"] = "restaurant"
+slotNameDict["pier"]       = "pier"
+slotNameDict["password_2"] = "password"
 
 # RASA solution slot prefix
 solutionPrefix = "solution_"
 
-# convert to list that contains solution slot names
-# IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName convention
-# follows the same order as slotName enum
-solutionSlotNameList = list()
-for slot in SlotName:
-    solutionSlotNameList.append(solutionPrefix + slot.value)
+# convert keys to list that contains solution slot names
+# IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
+solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
 
-# define answers as enumeration (same names)
-class Answer(Enum):
-    PASSWORD = "123456"
-    STORE = "Alphabet Soup"
-    RESTAURANT = "Spago"
-    PIER = "Pier 49"
 
+# solutionSlotNameList = list()
+# # __members__ needed to access duplicate values (e.g. multiple "password" entries)
+# for slot in SlotName.__members__.items():
+#     solutionSlotNameList.append(solutionPrefix + slot[-1].name.lower())
+
+# define answers as dict (same names, order not important)
+# class Answer(Enum):
+#     PASSWORD_1 = "123456"
+#     STORE = "Alphabet Soup"
+#     RESTAURANT = "Spago"
+#     PIER = "Pier 49"
+#     PASSWORD_2 = "123"
+
+answerDict = {}
+answerDict["password_1"] = "123456"
+answerDict["store"]      = "Alphabet Soup"
+answerDict["restaurant"] = "Spago"
+answerDict["pier"]       = "Pier 49"
+answerDict["password_2"] = "456789"
 
 class ActionVerifyPassword(Action):
 
@@ -44,53 +63,12 @@ class ActionVerifyPassword(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # define intent for this specific action
-        intent = SlotName.PASSWORD.value
+        intent = "password"
+
+        # define correct length from solution
+        # correct_length = len(Answer.PASSWORD.value)
 
         return test_function(tracker, dispatcher, intent)
-
-
-        # # get entity from RASA message
-        # entity = tracker.get_slot(intent)
-        # # save correct answer for intent in variable
-        # correct_answer = Answer[SlotName(intent).name].value
-
-        # # store all solution slots from RASA bot in ordered list
-        # rasaSolutionSlotList = list()
-        # for solutionSlotName in solutionSlotNameList:
-        #     rasaSolutionSlotList.append(tracker.get_slot(solutionSlotName))
-        
-        # # find index for riddle that the input was about
-        # inputRiddleIndex = solutionSlotNameList.index("solution_" + intent)
-        
-        # # go through solution list and find active riddle index
-        # # (first index where entry is None)
-        # if None not in rasaSolutionSlotList:
-        #     # TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-        #     dispatcher.utter_message(text = "Everything was solved!")
-        #     return []
-        # else:
-        #     activeRiddleIndex = rasaSolutionSlotList.index(None)
-
-
-        # # check if intent matches the active riddle and a store entity was provided
-        # if inputRiddleIndex == activeRiddleIndex and entity != None:
-        #     # check if length is incorrect
-        #     if len(entity) != len(correct_answer):
-        #         dispatcher.utter_message(response="utter_wrong_length_password", password=entity, length=len(correct_answer))
-        #         return [SlotSet("password", None)]
-        #     # otherwise check if answer is correct
-        #     elif entity == correct_answer:
-        #         dispatcher.utter_message(response="utter_correct_password", password=correct_answer)
-        #         return [SlotSet("solution_password", correct_answer)]
-        #     else:
-        #         dispatcher.utter_message(response="utter_incorrect_password", password=entity)
-        #         return [SlotSet("password", None)]
-
-        # # when the current riddle category doesn't match or entity was not provided
-        # else:
-        #     # give user feedback about the mismatching categories
-        #     dispatcher.utter_message(response = "utter_wrong_category")
-        #     return []
 
 
 class ActionVerifyStore(Action):
@@ -103,11 +81,9 @@ class ActionVerifyStore(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # define intent for this specific action
-        intent = SlotName.STORE.value
+        intent = "store"
 
         return test_function(tracker, dispatcher, intent)
-
-
 
 
 class ActionVerifyRestaurant(Action):
@@ -120,10 +96,9 @@ class ActionVerifyRestaurant(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # define intent for this specific action
-        intent = SlotName.RESTAURANT.value
+        intent = "restaurant"
 
         return test_function(tracker, dispatcher, intent)
-
 
 
 class ActionVerifyPier(Action):
@@ -136,64 +111,19 @@ class ActionVerifyPier(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # define intent for this specific action
-        intent = SlotName.PIER.value
+        intent = "pier"
 
         return test_function(tracker, dispatcher, intent)                
 
 
-        # # get entity from RASA message
-        # entity = tracker.get_slot(intent)
-        # # save correct answer for intent in variable
-        # correct_answer = Answer[SlotName(intent).name].value  
-
-        # # store all solution slots from RASA bot in ordered list
-        # rasaSolutionSlotList = list()
-        # for solutionSlotName in solutionSlotNameList:
-        #     rasaSolutionSlotList.append(tracker.get_slot(solutionSlotName))
-        
-        # # find index for riddle that the input was about
-        # inputRiddleIndex = solutionSlotNameList.index("solution_" + intent)
-
-        # # go through solution list and find active riddle index
-        # # (first index where entry is None)
-        # if None not in rasaSolutionSlotList:
-        #     # TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-        #     dispatcher.utter_message(text = "Everything was solved!")
-        #     return []
-        # else:
-        #     activeRiddleIndex = rasaSolutionSlotList.index(None)
-
-       
-        # # check if intent matches the active riddle and a store entity was provided
-        # if inputRiddleIndex == activeRiddleIndex and entity != None:            
-        #     # verify if given answer is correct
-        #     if entity.lower() == correct_answer.lower():
-        #         dispatcher.utter_message(response = "utter_correct_store", store=correct_answer)
-        #         return [SlotSet("solution_store", correct_answer)]
-        #     else:
-        #         dispatcher.utter_message(response = "utter_incorrect_store", store=entity)
-        #         return [SlotSet("store", None)]
-
-        # # when the current riddle category doesn't match
-        # else:
-        #     # give user feedback about the mismatching categories
-        #     dispatcher.utter_message(response = "utter_wrong_category")
-        #     return []         
-
-
 def test_function(tracker, dispatcher, intent):
+    
     # get entity from RASA message
     entity = tracker.get_slot(intent)
-    # save correct answer for intent in variable
-    correct_answer = Answer[SlotName(intent).name].value
 
-    # store all solution slots from RASA bot in ordered list
-    rasaSolutionSlotList = list()
-    for solutionSlotName in solutionSlotNameList:
-        rasaSolutionSlotList.append(tracker.get_slot(solutionSlotName))
-    
-    # find index for riddle that the input was about
-    inputRiddleIndex = solutionSlotNameList.index("solution_" + intent)
+    # store all solution slot values from RASA bot in list
+    rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+
 
     # go through solution list and find active riddle index
     # (first index where entry is None)
@@ -204,8 +134,27 @@ def test_function(tracker, dispatcher, intent):
     else:
         activeRiddleIndex = rasaSolutionSlotList.index(None)
 
+    # find index list of active riddles with same intent (e.g. all active password riddles)
+    index_list = [idx for idx, value in enumerate(solutionSlotNameList[activeRiddleIndex:]) if intent in value]
+
+    # check if there are any active riddles of the matching type left
+    if not index_list:
+        # give user feedback about the mismatching categories and exit action
+        dispatcher.utter_message(response = "utter_wrong_category")
+        return []
+
+    # save index of matching riddle (e.g. first "password") in active riddle list
+    inputRiddleIndex = activeRiddleIndex + index_list[0]
+
+
+    # find first occurence of specific riddle type (e.g. first "password") in active riddle list
+
+    # save correct answer for intent in variable
+    correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]
+    #correct_answer = Answer[SlotName(intent).name].value
+
    
-    # check if intent matches the active riddle and a store entity was provided
+    # check if intent matches the active riddle and an entity was recognized
     if inputRiddleIndex == activeRiddleIndex and entity != None:            
         # verify if given answer is correct
         if entity.lower() == correct_answer.lower():
@@ -217,148 +166,9 @@ def test_function(tracker, dispatcher, intent):
 
     # when the current riddle category doesn't match
     else:
-        # give user feedback about the mismatching categories
+        # give user feedback about the mismatching categories and exit action
         dispatcher.utter_message(response = "utter_wrong_category")
         return []
-
-
-            
-
-
-        # # check if pier riddle was already solved (final)
-        # if solution_pier != None:
-        #     #dispatcher.utter_message(response="utter_mission_finished")
-        #     return []
-        # # check if restaurant riddle was already solved (looking for pier)
-        # elif solution_restaurant != None:
-        #     dispatcher.utter_message(response="utter_pier_not_store")
-        #     return []
-        # # check if store riddle was already solved (looking for restaurant)
-        # elif solution_store != None:
-        #     dispatcher.utter_message(response="utter_restaurant_not_store")
-        #     return []
-        # # check if first password riddle is still active
-        # elif solution_password == None:
-        #     dispatcher.utter_message(response="utter_password_not_store")
-        #     return []
-        # else:
-        # 	# check if store entity was provided
-        #     if store == None:
-        #         #dispatcher.utter_message(response="utter_no_store")
-        #         return []
-        #     # verify given store entity
-        #     elif store.lower() == correct_answer_store.lower():
-        #         dispatcher.utter_message(response="utter_correct_store", store=correct_answer_store)
-        #         return [SlotSet("solution_store", correct_answer_store)]
-        #     else:
-        #         dispatcher.utter_message(response="utter_incorrect_store", store=store)
-        #         return [SlotSet("store", None)]
-
-
-
-# class ActionVerifyCity(Action):
-
-#     def name(self) -> Text:
-#         return "action_verify_city"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         # store city slot in local variable
-#         city = tracker.get_slot("city")
-
-#         # store story progress slot in local variable
-#         solution_city = tracker.get_slot("solution_city")
-
-#         # check if riddle was already solved
-#         if solution_city != None:
-#             dispatcher.utter_message(response="utter_city_old")
-#             return []
-#         else:
-#             if city == None:
-#                 dispatcher.utter_message(response="utter_no_city")
-#                 return []
-#             elif city.lower() == correct_answer_city.lower():
-#                 dispatcher.utter_message(response="utter_correct_city", city=correct_answer_city)
-#                 return [SlotSet("solution_city", correct_answer_city)]
-#             else:
-#                 dispatcher.utter_message(response="utter_incorrect_city", city=city)
-#                 return [SlotSet("city", None)]
-
-
-# class ActionVerifyStreet(Action):
-
-#     def name(self) -> Text:
-#         return "action_verify_street"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         # get slot of last single street guess
-#         last_street_guess = tracker.get_slot("last_street_guess")
-
-#         # store story progress slots in local variable
-#         solution_city = tracker.get_slot("solution_city")
-#         solution_street = tracker.get_slot("solution_street")
-
-
-#         # respond if city riddle has not yet been solved
-#         if solution_city == None:
-#             dispatcher.utter_message(response="utter_city_not_street")
-#             return []
-#         # respond if street riddle has already been solved         
-#         elif solution_street != None:
-#             dispatcher.utter_message(response="utter_street_old")
-#             return []
-#         # otherwise progress (user is supposed to work on street riddle)
-#         else:
-
-#             # list for detected street values
-#             streets = []
-
-#             # assemble solution string of correct intersection
-#             solution_string = "{} & {}".format(correct_answer_street_1, correct_answer_street_2)
-
-#             # go through all entities from last message   
-#             for entity in tracker.latest_message['entities']:
-#                 # check if entity was detected as a street and append text value
-#                 if entity['entity'] == 'street':
-#                     streets.append(entity['value'])
-
-#             # validate if solution is correct if two streets were given (both have to be correct)
-#             if len(streets) == 2:
-#                 if streets[0].lower() == correct_answer_street_1.lower() and streets[1].lower() == correct_answer_street_2.lower() or streets[1].lower() == correct_answer_street_1.lower() and streets[0].lower() == correct_answer_street_2.lower():
-#                     dispatcher.utter_message(response="utter_correct_intersection", intersection=solution_string)
-#                     return [SlotSet("solution_street", "{} & {}".format(correct_answer_street_1, correct_answer_street_2))]
-#                 else:
-#                     dispatcher.utter_message(response="utter_incorrect_intersection")
-#                     return [SlotSet("last_street_guess", None)]
-
-#             # validate if solution is correct if only one street was given
-#             elif len(streets) == 1:
-#                 # if last_street_guess has no saved value
-#                 if last_street_guess == None:
-#                     dispatcher.utter_message(response="utter_one_street", street=streets[0])
-#                     return [SlotSet("last_street_guess", streets[0])]
-#                 # if there was a saved street name
-#                 else:
-#                     streets.append(last_street_guess)
-#                     if streets[0].lower() == correct_answer_street_1.lower() and streets[1].lower() == correct_answer_street_2.lower() or streets[1].lower() == correct_answer_street_1.lower() and streets[0].lower() == correct_answer_street_2.lower():
-#                         dispatcher.utter_message(response="utter_correct_intersection", intersection=solution_string)
-#                         return [SlotSet("solution_street", "{} & {}".format(correct_answer_street_1, correct_answer_street_2))]
-#                     else:
-#                         dispatcher.utter_message(response="utter_incorrect_intersection")
-#                         return [SlotSet("last_street_guess", None)]
-                    
-#             # complain if 0 or more than 2 street names were given 
-#             else:
-#                 dispatcher.utter_message(response="utter_no_two_streets")
-#                 return [SlotSet("last_street_guess", None)]
-
-
-
 
 
 # class ActionHelpUser(Action):
