@@ -39,10 +39,11 @@ intents:
     use_entities: []
 - nlu_fallback:
     use_entities: []
+- need_help:
+    use_entities: []
 
 
-# - need_help:
-#     use_entities: []
+
 # - where_are_you:
 #     use_entities: []
 
@@ -473,10 +474,10 @@ actions:
 - action_verify_store
 - action_verify_restaurant
 - action_verify_pier
+- action_help_user
 
 # - action_verify_city
 # - action_verify_street
-# - action_help_user
 # - action_offer_hint
 # - action_next_goal
 forms: {}
