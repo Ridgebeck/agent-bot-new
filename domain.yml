@@ -23,6 +23,8 @@ intents:
     use_entities: []
 - praise:
     use_entities: []
+- whats_the_next_goal:
+    use_entities: []
 
 
 # - need_help:
