@@ -31,6 +31,8 @@ intents:
     use_entities: []
 - whats_the_next_goal:
     use_entities: []
+- out_of_scope:
+    use_entities: []
 - nlu_fallback:
     use_entities: []
 
@@ -48,9 +50,6 @@ intents:
 # - are_you_sure:
 #     use_entities: []
 # - working_on_it:
-#     use_entities: []
-
-# - out_of_scope:
 #     use_entities: []
 # - who_are_you:
 #     use_entities: []
@@ -265,9 +264,15 @@ responses:
   - text: No comment.
   - text: not gonna respond to that
 
+
+# --------------------------------------------------
+# HANDLING OUT OF SCOPE AND FALLBACK
+
+  utter_out_of_scope:
+  - text: This was out of scope.
+
   utter_default_fallback:
   - text: "TODO: handle default fallback"
-
 
 
 # --------------------------------------------------

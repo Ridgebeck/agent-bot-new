@@ -50,6 +50,11 @@ rules:
   - intent: profanity
   - action: utter_profanity_response
 
+- rule: Respond to out of scope messages
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
 - rule: Handle fallback gracefully
   steps:
   - intent: nlu_fallback

@@ -21,7 +21,7 @@ nlu:
     - hey hey baby
     - hallo
     - hallo agent
-    - hallo Russ
+    - hallo John
     - Hi agent!
     - Hi Agent!
     - Hi Russ!
@@ -73,6 +73,7 @@ nlu:
     - does Santa exist
     - is Santa real?
     - are you part of the matrix?
+    - didnt we?
 
 
 
@@ -139,7 +140,12 @@ nlu:
     - who is your mum
     - who is your dad
     - what is your shoe size?
+    - what is your favorite food?
+    - what's your favorite food?
+    - whats your favorite dish?
     - what is your favorite color?
+    - what's your favorite color?
+    - whats your favorite color?
     - what is your favorite ocean
     - something i should know?
     - do you like the simpsons
@@ -149,6 +155,7 @@ nlu:
     - do you like cats
     - whats your favorite musical
     - are you an inventor
+    - what do you like to eat
     - are you smart?
     - are you intelligent?
     - are you a good person?
@@ -166,6 +173,7 @@ nlu:
     - what's your favorite ice cream?
     - By the way what's your favorite ice cream?
     - are you american
+    - do you like watching youtube
     - where do you live?    
     - how is your day going?
     - how old are you?
@@ -184,6 +192,8 @@ nlu:
     - are you single
     - do you play a musical instrument
     - do you like music
+    - do you like movies
+    - do you like going to the movies
     - what music do you like?
     - can you sing
     - do you like people
@@ -599,6 +609,9 @@ nlu:
     - you are the absolute best
     - you are so amazing
     - I love you
+    - you are nice
+    - you are very kind
+    - you are very nice to us
     - we love you
     - you are funny
     - you rock
