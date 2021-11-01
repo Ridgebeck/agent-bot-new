@@ -19,6 +19,8 @@ intents:
     use_entities: []
 - chit_chat:
     use_entities: []
+- affirm:
+    use_entities: []    
 
 
 # - need_help:
