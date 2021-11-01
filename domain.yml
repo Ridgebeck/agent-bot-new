@@ -23,6 +23,8 @@ intents:
     use_entities: []
 - praise:
     use_entities: []
+- profanity:
+    use_entities: []
 - whats_the_next_goal:
     use_entities: []
 
@@ -35,8 +37,7 @@ intents:
 #     use_entities: []
 # - whats_the_next_goal:
 #     use_entities: []
-# - profanity:
-#     use_entities: []
+
 # - where_are_you:
 #     use_entities: []
 # - deny:
