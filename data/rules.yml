@@ -119,13 +119,19 @@ rules:
 
 
 # --------------------------------------------------
-# ASKING FOR NEXT GOAL
+# ASKING FOR NEXT GOAL, HELP OR HINTS
 
 - rule: Verify the next goal if user asks for it
   steps:
   - intent: whats_the_next_goal
   - action: utter_next_goal
   #- action: action_next_goal
+
+
+- rule: Offer help when stuck
+  steps:
+  - intent: unhappy_or_stuck
+  - action: utter_offer_help  
 
 # --------------------------------------------------
 # HELP AND HINTS

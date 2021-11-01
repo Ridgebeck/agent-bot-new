@@ -29,6 +29,8 @@ intents:
     use_entities: []
 - mood_great:
     use_entities: []
+- unhappy_or_stuck:
+    use_entities: []
 - profanity:
     use_entities: []
 - whats_the_next_goal:
@@ -40,8 +42,6 @@ intents:
 
 
 # - need_help:
-#     use_entities: []
-# - unhappy_or_stuck:
 #     use_entities: []
 # - where_are_you:
 #     use_entities: []
@@ -317,10 +317,17 @@ responses:
 
 
 # --------------------------------------------------
-# NEXT GOAL
+# NEXT GOAL, HINTS, HELP
 
   utter_next_goal:
   - text: "TODO: Next goal handling goes here."
+
+  utter_offer_help:
+  - text: "You sound frustrated. TODO: Offer help."
+  # - text: You sound frustrated...need some help?
+  # - text: Hmm...keep your chin up! Need help?
+  # - text: Come on guys, you are getting close! Want me to help?
+  # - text: Seems like you are stuck...need some help?
 
 
 
@@ -432,11 +439,7 @@ responses:
   # utter_hint_password:
   # - text: I just checked the website myself. The secret section is protected by a password. I think the password is hidden in the front page article.
   # - text: The front page article on that website and the blue triangle are somewhat connected. Maybe a secret access?
-  # utter_offer_help:
-  # - text: You sound frustrated...need some help?
-  # - text: Hmm...keep your chin up! Need help?
-  # - text: Come on guys, you are getting close! Want me to help?
-  # - text: Seems like you are stuck...need some help?
+
   # utter_return_praise:
   # - text: You guys are the best!
   # - text: Awww, thanks!
