@@ -45,6 +45,11 @@ rules:
   - intent: praise
   - action: utter_return_praise
 
+- rule: Respond to good mood
+  steps:
+  - intent: mood_great
+  - action: utter_good_mood
+
 - rule: Respond to profanity
   steps:
   - intent: profanity
@@ -61,10 +66,7 @@ rules:
   - action: utter_default_fallback
 
 
-# - rule: Respond to good mood
-#   steps:
-#   - intent: mood_great
-#   - action: utter_affirm
+
 
 # - rule: Respond to time limit
 #   steps:

@@ -27,6 +27,8 @@ intents:
     use_entities: []
 - praise:
     use_entities: []
+- mood_great:
+    use_entities: []
 - profanity:
     use_entities: []
 - whats_the_next_goal:
@@ -43,8 +45,7 @@ intents:
 #     use_entities: []
 # - where_are_you:
 #     use_entities: []
-# - mood_great:
-#     use_entities: []
+
 # - time_limit:
 #     use_entities: []
 # - are_you_sure:
@@ -256,6 +257,13 @@ responses:
   - text: Thanks!
   - text: Wow, thanks!
   - text: thx 😉
+
+  utter_good_mood:
+  - text: Glad to hear!
+  - text: good for you
+  - text: Yay!
+  - text: 👍
+  - text: 😉
 
   utter_profanity_response:
   - text: Really classy, guys...
