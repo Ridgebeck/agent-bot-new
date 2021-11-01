@@ -73,15 +73,7 @@ rules:
 #   - intent: time_limit
 #   - action: utter_no_time_limit
 
-# - rule: Respond to out of scope messages
-#   steps:
-#   - intent: out_of_scope
-#   - action: utter_out_of_scope
 
-# - rule: Handle fallback gracefully
-#   steps:
-#   - intent: nlu_fallback
-#   - action: action_default_fallback
 
 # --------------------------------------------------
 # VERIFYING SOLUTION GUESSES
@@ -127,11 +119,16 @@ rules:
   - action: utter_next_goal
   #- action: action_next_goal
 
-
 - rule: Offer help when stuck
   steps:
   - intent: unhappy_or_stuck
-  - action: utter_offer_help  
+  - action: utter_offer_help
+
+- rule: Offer customized help when help is requested
+  steps:
+  - intent: need_help
+  - action: utter_offer_help
+  #- action: action_help_user
 
 # --------------------------------------------------
 # HELP AND HINTS
