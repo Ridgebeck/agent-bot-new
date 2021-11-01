@@ -1,4 +1,4 @@
-# version 2.1.15
+# version 2.1.16
 
 from collections import OrderedDict
 
@@ -19,12 +19,17 @@ slotNameDict["restaurant"] = "restaurant"
 slotNameDict["pier"]       = "pier"
 slotNameDict["password_2"] = "password"
 
-# RASA solution slot prefix
+# RASA solution and help slot prefixes
 solutionPrefix = "solution_"
+helpPrefix = "help_"
 
 # convert keys to list that contains solution slot names
 # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
 solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
+
+# convert keys to list that contains help slot names
+# IMPORTANT: RASA slots need to follow the same naming convention of helpPrefix + slotName
+helpSlotNameList = [helpPrefix + key for key in list(slotNameDict.keys())]
 
 # answers are defined here
 answerDict = {}
@@ -164,6 +169,19 @@ def verify_guess(tracker, dispatcher, intent):
         return []
 
 
+
+class ActionHelpUser(Action):
+
+    def name(self) -> Text:
+        return "action_help_user"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # give user feedback about the mismatching categories and exit action
+        dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
+        return []
 
 
 

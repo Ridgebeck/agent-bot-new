@@ -127,8 +127,7 @@ rules:
 - rule: Offer customized help when help is requested
   steps:
   - intent: need_help
-  - action: utter_offer_help
-  #- action: action_help_user
+  - action: action_help_user
 
 # --------------------------------------------------
 # HELP AND HINTS
