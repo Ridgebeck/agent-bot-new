@@ -191,9 +191,78 @@ slots:
 
 
 responses:
+
+# --------------------------------------------------
+# GREETINGS, CHIT CHAT, BOT CHALLENGE, ETC.
+
   utter_first_greet:
   - text: Hello agents. Great to have you on board! I need you to help me find the pin code for the tablet.
-  
+
+  utter_greet:
+  - text: Hey guys.
+  - text: Hi.
+  - text: Hey everybody.
+  - text: Hi, agents.
+
+  utter_chit_chat/ask_name:
+  - text: '{agent_name}, Field Agent.'
+  - text: 'I am {agent_name}, remember?'
+  - text: 'You know my name, guys. I am {agent_name}. Come on now.'
+  - text: 'I am {agent_name}.'
+
+  utter_chit_chat/alcohol:
+  - text: I don't drink...anymore.
+  - text: No alcohol while on duty, guys.
+  - text: No alcohol for me, thanks.
+
+  utter_chit_chat/person:
+  - text: No private stuff right now. Focus on the mission, please.
+
+  utter_chit_chat/how_are_you:
+  - text: I am doing just fine. But lets chit chat later. Focus on the mission, agents.
+
+  utter_chit_chat/math:
+  - text: I am not a calculator, guys. Focus up.
+  - text: Ugh, I hate math.
+  - text: Math - are you serious? Focus on the mission, please.
+  - text: I am not a numebrs person. You are supposed to be the brains.
+
+  utter_affirm:
+  - text: great
+  - text: ok
+  - text: 👍
+  - text: 😎
+  - text: 😉
+
+  utter_iamnotabot:
+  - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
+    text: Could a bot do THIS?
+  - text: We just talked. Looked pretty real to me.
+  - text: What is even real nowadays, right?! Well, I am...I guess.
+  - text: Really funny, guys.
+  - text: We will all get replaced some day I guess.
+  - text: Well, they are paying me. That's all I need to know.
+
+  utter_return_praise:
+  - text: You guys are the best!
+  - text: Thank you!
+  - text: Thanks!
+  - text: Wow, thanks!
+  - text: thx 😉
+
+  utter_profanity_response:
+  - text: Really classy, guys...
+  - text: '...'
+  - text: That would be a case for HR, if we had one.
+  - text: No comment.
+  - text: not gonna respond to that
+
+
+
+
+# --------------------------------------------------
+# HANDLING GUESSES FOR RIDDLES
+
   utter_correct_password:
   - text: |-
       {password} worked!
@@ -224,62 +293,12 @@ responses:
   - text: I am not looking for that right now.
 
 
-
-
-  utter_chit_chat/ask_name:
-  - text: '{agent_name}, Field Agent.'
-  - text: 'I am {agent_name}, remember?'
-  - text: 'You know my name, guys. I am {agent_name}. Come on now.'
-  - text: 'I am {agent_name}.'
-
-  utter_chit_chat/alcohol:
-  - text: I don't drink...anymore.
-  - text: No alcohol while on duty, guys.
-  - text: No alcohol for me, thanks.
-
-  utter_chit_chat/person:
-  - text: No private stuff right now. Focus on the mission, please.
-
-  utter_chit_chat/how_are_you:
-  - text: I am doing just fine. But lets chit chat later. Focus on the mission, agents.
-
-  utter_chit_chat/math:
-  - text: I am not a calculator, guys. Focus up.
-  - text: Ugh, I hate math.
-  - text: Math - are you serious? Focus on the mission, please.
-  - text: I am not a numebrs person. You are supposed to be the brains.
-
-  utter_greet:
-  - text: Hey guys.
-  - text: Hi.
-  - text: Hey everybody.
-  - text: Hi, agents.
-
-  utter_affirm:
-  - text: great
-  - text: ok
-  - text: 👍
-  - text: 😎
-  - text: 😉
-
-  utter_iamnotabot:
-  - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
-    text: Could a bot do THIS?
-  - text: We just talked. Looked pretty real to me.
-  - text: What is even real nowadays, right?! Well, I am...I guess.
-  - text: Really funny, guys.
-  - text: We will all get replaced some day I guess.
-  - text: Well, they are paying me. That's all I need to know.
-
-  utter_return_praise:
-  - text: You guys are the best!
-  - text: Thank you!
-  - text: Thanks!
-  - text: Wow, thanks!
-  - text: thx 😉
+# --------------------------------------------------
+# NEXT GOAL
 
   utter_next_goal:
   - text: "TODO: Next goal handling goes here."
+
 
 
   # utter_password:
@@ -406,13 +425,7 @@ responses:
   # - text: Awww, thanks!
   # - text: We are the best team...ever!
   # - text: That's what I call team chemistry.
-  # utter_profanity_response:
-  # - text: Really classy, guys...
-  # - text: '...'
-  # - text: That would be a case for HR, if we had one.
-  # - text: No comment.
-  # - text: whatever
-  # - text: not gonna respond to that
+
   # utter_happy:
   # - text: 😂
   # - text: Oh you. 😄

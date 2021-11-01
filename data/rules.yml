@@ -32,13 +32,15 @@ rules:
   - intent: affirm
   - action: utter_affirm
 
-
 - rule: Return praise
   steps:
   - intent: praise
   - action: utter_return_praise
 
-
+- rule: Respond to profanity
+  steps:
+  - intent: profanity
+  - action: utter_profanity_response
 
 
 # - rule: Don't let user abort mission
