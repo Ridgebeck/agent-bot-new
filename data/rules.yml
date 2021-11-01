@@ -38,7 +38,7 @@ rules:
 - rule: Ask nicely to affirm after deny
   steps:
   - intent: deny
-  - action: utter_please  
+  - action: utter_please
 
 - rule: Return praise
   steps:
@@ -50,7 +50,10 @@ rules:
   - intent: profanity
   - action: utter_profanity_response
 
-
+- rule: Handle fallback gracefully
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default_fallback
 
 
 # - rule: Respond to good mood

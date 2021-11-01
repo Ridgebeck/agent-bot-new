@@ -31,6 +31,8 @@ intents:
     use_entities: []
 - whats_the_next_goal:
     use_entities: []
+- nlu_fallback:
+    use_entities: []
 
 
 # - need_help:
@@ -47,8 +49,7 @@ intents:
 #     use_entities: []
 # - working_on_it:
 #     use_entities: []
-# - nlu_fallback:
-#     use_entities: []
+
 # - out_of_scope:
 #     use_entities: []
 # - who_are_you:
@@ -228,7 +229,7 @@ responses:
   - text: I am not a calculator, guys. Focus up.
   - text: Ugh, I hate math.
   - text: Math - are you serious? Focus on the mission, please.
-  - text: I am not a numebrs person. You are supposed to be the brains.
+  - text: I am not a numbers person. You are supposed to be the brains.
 
   utter_affirm:
   - text: great
@@ -264,6 +265,8 @@ responses:
   - text: No comment.
   - text: not gonna respond to that
 
+  utter_default_fallback:
+  - text: "TODO: handle default fallback"
 
 
 
