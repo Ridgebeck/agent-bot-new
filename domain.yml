@@ -15,6 +15,8 @@ intents:
     use_entities: true
 - greet:
     use_entities: []
+- goodbye:
+    use_entities: []
 - bot_challenge:
     use_entities: []
 - chit_chat:
@@ -33,11 +35,6 @@ intents:
 #     use_entities: []
 # - unhappy_or_stuck:
 #     use_entities: []
-# - praise:
-#     use_entities: []
-# - whats_the_next_goal:
-#     use_entities: []
-
 # - where_are_you:
 #     use_entities: []
 # - deny:
@@ -205,6 +202,13 @@ responses:
   - text: Hey everybody.
   - text: Hi, agents.
 
+  utter_stayhere:
+  - text: You are not done yet. I need your help!
+  - text: This mission is not over yet.
+  - text: We haven't finished this mission.
+  - text: Don't leave me hanging.
+  - text: This is not over yet.
+
   utter_chit_chat/ask_name:
   - text: '{agent_name}, Field Agent.'
   - text: 'I am {agent_name}, remember?'
@@ -314,12 +318,6 @@ responses:
   # - text: Didn't you pay attention during the introduction? We fight cyber crime. You are now part of it.
   # utter_did_that_help:
   # - text: Did that help you?
-  # utter_stayhere:
-  # - text: You are not done yet. I need your help!
-  # - text: This mission is not over yet.
-  # - text: We haven't finished this mission.
-  # - text: Don't leave me hanging.
-  # - text: This is not over yet.
   # utter_goodbye:
   # - text: Bye
   # - text: 👋

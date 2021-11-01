@@ -2,7 +2,7 @@ version: "2.0"
 rules:
 
 # --------------------------------------------------
-# GREETINGS, CHIT CHAT, BOT CHALLENGE, FALLBACK
+# GREETINGS, CHIT CHAT, BOT CHALLENGE, ETC.
 
 - rule: Handle greeting at the very beginning
   conversation_start: true
@@ -15,7 +15,10 @@ rules:
   - intent: greet
   - action: utter_greet
 
-
+- rule: Don't let user abort mission
+  steps:
+  - intent: goodbye
+  - action: utter_stayhere
 
 - rule: Respond to chit chat
   steps:
@@ -43,15 +46,7 @@ rules:
   - action: utter_profanity_response
 
 
-# - rule: Don't let user abort mission
-#   steps:
-#   - intent: goodbye
-#   - action: utter_stayhere
 
-# - rule: Return praise
-#   steps:
-#   - intent: praise
-#   - action: utter_return_praise
 
 # - rule: Respond to good mood
 #   steps:
