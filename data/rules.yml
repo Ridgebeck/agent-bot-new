@@ -33,6 +33,12 @@ rules:
   - action: utter_affirm
 
 
+- rule: Return praise
+  steps:
+  - intent: praise
+  - action: utter_return_praise
+
+
 
 
 # - rule: Don't let user abort mission
@@ -108,10 +114,11 @@ rules:
 # --------------------------------------------------
 # ASKING FOR NEXT GOAL
 
-# - rule: Verify the next goal if user asks for it
-#   steps:
-#   - intent: whats_the_next_goal
-#   - action: action_next_goal
+- rule: Verify the next goal if user asks for it
+  steps:
+  - intent: whats_the_next_goal
+  - action: utter_next_goal
+  #- action: action_next_goal
 
 # --------------------------------------------------
 # HELP AND HINTS

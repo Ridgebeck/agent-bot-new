@@ -20,7 +20,9 @@ intents:
 - chit_chat:
     use_entities: []
 - affirm:
-    use_entities: []    
+    use_entities: []
+- praise:
+    use_entities: []
 
 
 # - need_help:
@@ -227,30 +229,37 @@ responses:
   - text: 'I am {agent_name}, remember?'
   - text: 'You know my name, guys. I am {agent_name}. Come on now.'
   - text: 'I am {agent_name}.'
+
   utter_chit_chat/alcohol:
   - text: I don't drink...anymore.
   - text: No alcohol while on duty, guys.
   - text: No alcohol for me, thanks.
+
   utter_chit_chat/person:
   - text: No private stuff right now. Focus on the mission, please.
+
   utter_chit_chat/how_are_you:
   - text: I am doing just fine. But lets chit chat later. Focus on the mission, agents.
+
   utter_chit_chat/math:
   - text: I am not a calculator, guys. Focus up.
   - text: Ugh, I hate math.
   - text: Math - are you serious? Focus on the mission, please.
   - text: I am not a numebrs person. You are supposed to be the brains.
+
   utter_greet:
   - text: Hey guys.
   - text: Hi.
   - text: Hey everybody.
   - text: Hi, agents.
+
   utter_affirm:
   - text: great
   - text: ok
   - text: 👍
   - text: 😎
   - text: 😉
+
   utter_iamnotabot:
   - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
     text: Could a bot do THIS?
@@ -259,7 +268,16 @@ responses:
   - text: Really funny, guys.
   - text: We will all get replaced some day I guess.
   - text: Well, they are paying me. That's all I need to know.
-  
+
+  utter_return_praise:
+  - text: You guys are the best!
+  - text: Thank you!
+  - text: Thanks!
+  - text: Wow, thanks!
+  - text: thx 😉
+
+  utter_next_goal:
+  - text: "TODO: Next goal handling goes here."
 
 
   # utter_password:
