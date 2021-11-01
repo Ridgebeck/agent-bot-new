@@ -23,6 +23,8 @@ intents:
     use_entities: []
 - affirm:
     use_entities: []
+- deny:
+    use_entities: []
 - praise:
     use_entities: []
 - profanity:
@@ -36,10 +38,6 @@ intents:
 # - unhappy_or_stuck:
 #     use_entities: []
 # - where_are_you:
-#     use_entities: []
-# - deny:
-#     use_entities: []
-# - affirm:
 #     use_entities: []
 # - mood_great:
 #     use_entities: []
@@ -238,6 +236,10 @@ responses:
   - text: 👍
   - text: 😎
   - text: 😉
+
+  utter_please:
+  - text: please?
+  - text: could you, please?
 
   utter_iamnotabot:
   - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif

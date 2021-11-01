@@ -132,11 +132,12 @@ nlu:
 - intent: chit_chat/person
   examples: |
     - what is your hobby?
-    - do you ahve a hobby?
+    - do you have a hobby?
     - what is your shirt size
     - what is your shoe size?
     - what is your favorite color?
     - what is your favorite ocean
+    - something i should know?
     - do you like the simpsons
     - are you a cat person
     - do you like dogs

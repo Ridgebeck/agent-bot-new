@@ -35,6 +35,11 @@ rules:
   - intent: affirm
   - action: utter_affirm
 
+- rule: Ask nicely to affirm after deny
+  steps:
+  - intent: deny
+  - action: utter_please  
+
 - rule: Return praise
   steps:
   - intent: praise
@@ -52,11 +57,6 @@ rules:
 #   steps:
 #   - intent: mood_great
 #   - action: utter_affirm
-
-# - rule: Respond to profanity
-#   steps:
-#   - intent: profanity
-#   - action: utter_profanity_response
 
 # - rule: Respond to time limit
 #   steps:
