@@ -15,55 +15,60 @@ rules:
   - intent: greet
   - action: utter_greet
 
-- rule: Don't let user abort mission
-  steps:
-  - intent: goodbye
-  - action: utter_stayhere
 
-- rule: Affirm back by default
-  steps:
-  - intent: affirm
-  - action: utter_affirm
-
-- rule: Return praise
-  steps:
-  - intent: praise
-  - action: utter_return_praise
-
-- rule: Respond to good mood 
-  steps:
-  - intent: mood_great
-  - action: utter_affirm 
-
-- rule: Don't admit to being a bot
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamnotabot
-
-- rule: Respond to profanity
-  steps:
-  - intent: profanity
-  - action: utter_profanity_response
-
-- rule: Respond to time limit
-  steps:
-  - intent: time_limit
-  - action: utter_no_time_limit  
 
 - rule: Respond to chit chat
   steps:
   - intent: chit_chat
   - action: utter_chit_chat
 
-- rule: Respond to out of scope messages
+- rule: Don't admit to being a bot
   steps:
-  - intent: out_of_scope
-  - action: utter_out_of_scope
+  - intent: bot_challenge
+  - action: utter_iamnotabot
 
-- rule: Handle fallback gracefully
+- rule: Affirm back by default
   steps:
-  - intent: nlu_fallback
-  - action: action_default_fallback
+  - intent: affirm
+  - action: utter_affirm
+
+
+
+
+# - rule: Don't let user abort mission
+#   steps:
+#   - intent: goodbye
+#   - action: utter_stayhere
+
+# - rule: Return praise
+#   steps:
+#   - intent: praise
+#   - action: utter_return_praise
+
+# - rule: Respond to good mood
+#   steps:
+#   - intent: mood_great
+#   - action: utter_affirm
+
+# - rule: Respond to profanity
+#   steps:
+#   - intent: profanity
+#   - action: utter_profanity_response
+
+# - rule: Respond to time limit
+#   steps:
+#   - intent: time_limit
+#   - action: utter_no_time_limit
+
+# - rule: Respond to out of scope messages
+#   steps:
+#   - intent: out_of_scope
+#   - action: utter_out_of_scope
+
+# - rule: Handle fallback gracefully
+#   steps:
+#   - intent: nlu_fallback
+#   - action: action_default_fallback
 
 # --------------------------------------------------
 # VERIFYING SOLUTION GUESSES

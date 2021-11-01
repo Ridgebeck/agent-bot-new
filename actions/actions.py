@@ -1,4 +1,4 @@
-# version 2.1.8
+# version 2.1.14
 
 from collections import OrderedDict
 
@@ -7,17 +7,11 @@ from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
+# TODO: GET DATA DYNAMICALLY FROM SETTINGS?
+
 # RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS KEYS, e.g. "password"
 # RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
 # ORDER OF RIDDLES IS DEFINED HERE!
-
-# class SlotName(Enum):
-#     PASSWORD_1 = "password"
-#     STORE = "store"
-#     RESTAURANT = "restaurant"
-#     PIER = "pier"
-#     PASSWORD_2 = "password"
-
 slotNameDict = OrderedDict()
 slotNameDict["password_1"] = "password"
 slotNameDict["store"]      = "store"
@@ -32,26 +26,27 @@ solutionPrefix = "solution_"
 # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
 solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
 
-
-# solutionSlotNameList = list()
-# # __members__ needed to access duplicate values (e.g. multiple "password" entries)
-# for slot in SlotName.__members__.items():
-#     solutionSlotNameList.append(solutionPrefix + slot[-1].name.lower())
-
-# define answers as dict (same names, order not important)
-# class Answer(Enum):
-#     PASSWORD_1 = "123456"
-#     STORE = "Alphabet Soup"
-#     RESTAURANT = "Spago"
-#     PIER = "Pier 49"
-#     PASSWORD_2 = "123"
-
+# answers are defined here
 answerDict = {}
 answerDict["password_1"] = "123456"
 answerDict["store"]      = "Alphabet Soup"
 answerDict["restaurant"] = "Spago"
 answerDict["pier"]       = "Pier 49"
 answerDict["password_2"] = "456789"
+
+# hints are defined here
+hintsDict = {}
+hintsDict["password_1"] = [
+    "it should be a 6 digit code",
+    "check the background picture on the tablet",
+    "it has something to do with chess",
+    "there is a chess trophy in the room",
+    "the date on the trophy seems to be important",
+    "it should be US date format (MM/DD/YY)"]
+hintsDict["store"]      = ["store_hint1", "store_hint2", "store_hint3"]
+hintsDict["restaurant"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
+hintsDict["pier"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
+hintsDict["password_2"] = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
 
 class ActionVerifyPassword(Action):
 
@@ -65,10 +60,7 @@ class ActionVerifyPassword(Action):
         # define intent for this specific action
         intent = "password"
 
-        # define correct length from solution
-        # correct_length = len(Answer.PASSWORD.value)
-
-        return test_function(tracker, dispatcher, intent)
+        return verify_guess(tracker, dispatcher, intent)
 
 
 class ActionVerifyStore(Action):
@@ -83,7 +75,7 @@ class ActionVerifyStore(Action):
         # define intent for this specific action
         intent = "store"
 
-        return test_function(tracker, dispatcher, intent)
+        return verify_guess(tracker, dispatcher, intent)
 
 
 class ActionVerifyRestaurant(Action):
@@ -98,7 +90,7 @@ class ActionVerifyRestaurant(Action):
         # define intent for this specific action
         intent = "restaurant"
 
-        return test_function(tracker, dispatcher, intent)
+        return verify_guess(tracker, dispatcher, intent)
 
 
 class ActionVerifyPier(Action):
@@ -113,17 +105,16 @@ class ActionVerifyPier(Action):
         # define intent for this specific action
         intent = "pier"
 
-        return test_function(tracker, dispatcher, intent)                
+        return verify_guess(tracker, dispatcher, intent)                
 
 
-def test_function(tracker, dispatcher, intent):
+def verify_guess(tracker, dispatcher, intent):
     
     # get entity from RASA message
     entity = tracker.get_slot(intent)
 
     # store all solution slot values from RASA bot in list
     rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-
 
     # go through solution list and find active riddle index
     # (first index where entry is None)
@@ -147,19 +138,21 @@ def test_function(tracker, dispatcher, intent):
     inputRiddleIndex = activeRiddleIndex + index_list[0]
 
 
-    # find first occurence of specific riddle type (e.g. first "password") in active riddle list
+    # #correct_answer = Answer[SlotName(intent).name].value
+    # dispatcher.utter_message(text = "inputRiddleIndex: {}".format(inputRiddleIndex))
+    # dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
+    # dispatcher.utter_message(text = "solutionSlotNameList[activeRiddleIndex]: {}".format(solutionSlotNameList[activeRiddleIndex]))
 
-    # save correct answer for intent in variable
-    correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]
-    #correct_answer = Answer[SlotName(intent).name].value
-
-   
+    
     # check if intent matches the active riddle and an entity was recognized
-    if inputRiddleIndex == activeRiddleIndex and entity != None:            
-        # verify if given answer is correct
+    if inputRiddleIndex == activeRiddleIndex and entity != None:        
+        # save correct answer for intent in variable
+        correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]    
+
+        # verify if given answer is correct (not case sensitive)
         if entity.lower() == correct_answer.lower():
             dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
-            return [SlotSet("solution_" + intent, correct_answer)]
+            return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer)]
         else:
             dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
             return [SlotSet(intent, None)]
@@ -169,6 +162,13 @@ def test_function(tracker, dispatcher, intent):
         # give user feedback about the mismatching categories and exit action
         dispatcher.utter_message(response = "utter_wrong_category")
         return []
+
+
+
+
+
+
+
 
 
 # class ActionHelpUser(Action):
