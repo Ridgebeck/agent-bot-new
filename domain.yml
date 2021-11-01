@@ -279,7 +279,7 @@ responses:
   utter_out_of_scope:
   - text: This was out of scope.
 
-  utter_default_fallback:
+  utter_default:
   - text: "TODO: handle default fallback"
 
 
