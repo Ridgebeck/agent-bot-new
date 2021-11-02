@@ -1,4 +1,4 @@
-# version 2.1.22
+# version 2.2.0
 
 from collections import OrderedDict
 
@@ -42,156 +42,116 @@ answerDict["password_2"] = "456789"
 # hints are defined here
 hintsDict = {}
 hintsDict["password_1"] = [
-    "it should be a 6 digit code",
-    "check the background picture on the tablet",
-    "it has something to do with chess",
-    "there is a chess trophy in the room",
-    "the date on the trophy seems to be important",
-    "it should be US date format (MM/DD/YY)"]
+	"it should be a 6 digit code",
+	"check the background picture on the tablet",
+	"it has something to do with chess",
+	"there is a chess trophy in the room",
+	"the date on the trophy seems to be important",
+	"it should be US date format (MM/DD/YY)"]
 hintsDict["store"]      = ["store_hint1", "store_hint2", "store_hint3"]
 hintsDict["restaurant"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
 hintsDict["pier"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
 hintsDict["password_2"] = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
 
+
 class ActionVerifyGuess(Action):
-    def name(self) -> Text:
-        return "action_verify_guess"
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+	def name(self) -> Text:
+		return "action_verify_guess"
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text = "latest intent name: {}".format(tracker.latest_message.get('intent').get('name')))
+		# get intent from last message
+		intent = tracker.latest_message.get('intent').get('name')
 
-        # get intent from last message
-        intent = tracker.latest_message.get('intent').get('name')
+		# utter fallback message if no intent or intent name was found or if intent is no riddle intent
+		if intent == None or intent not in set(slotNameDict.values()):
+			dispatcher.utter_message(response = "utter_default")
+			return []
+		else:
+			# get entity from RASA message
+			entity = tracker.get_slot(intent)
+			
+			# utter fallback message if entity could not be found
+			if entity == None:
+				dispatcher.utter_message(response = "utter_default")
+				return []
+			else:
 
-        # utter fallback message if no intent or intent name was found or if intent is no riddle intent
-        if intent == None or intent not in set(slotNameDict.values()):
-            dispatcher.utter_message(response = "utter_default")
-            return []
-        else:
-            return verify_guess(tracker, dispatcher, intent)
+				# store all solution slot values from RASA bot in list
+				rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
 
+				# go through solution list and find active riddle index
+				# (first index where entry is None)
+				if None not in rasaSolutionSlotList:
+					# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
+					dispatcher.utter_message(text = "Everything was solved!")
+					return []
+				else:
+					activeRiddleIndex = rasaSolutionSlotList.index(None)
 
-# class ActionVerifyStore(Action):
-#     def name(self) -> Text:
-#         return "action_verify_store"
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+				# find index list of active riddles with same intent (e.g. all active password riddles)
+				index_list = [idx for idx, value in enumerate(solutionSlotNameList[activeRiddleIndex:]) if intent in value]
 
-#         # define intent for this specific action
-#         intent = "store"
+				# check if there are any active riddles of the matching type left
+				if not index_list:
+					# give user feedback about the mismatching categories and exit action
+					dispatcher.utter_message(response = "utter_wrong_category")
+					return []
 
-#         return verify_guess(tracker, dispatcher, intent)
+				# save index of matching riddle (e.g. first "password") in active riddle list
+				inputRiddleIndex = activeRiddleIndex + index_list[0]
 
+				# #correct_answer = Answer[SlotName(intent).name].value
+				# dispatcher.utter_message(text = "inputRiddleIndex: {}".format(inputRiddleIndex))
+				# dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
+				# dispatcher.utter_message(text = "solutionSlotNameList[activeRiddleIndex]: {}".format(solutionSlotNameList[activeRiddleIndex]))
+				
+				# check if intent matches the active riddle and an entity was recognized
+				if inputRiddleIndex == activeRiddleIndex:        
+					# save correct answer for intent in variable
+					correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]    
 
-# class ActionVerifyRestaurant(Action):
-#     def name(self) -> Text:
-#         return "action_verify_restaurant"
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+					# verify if given answer is correct (not case sensitive)
+					if entity.lower() == correct_answer.lower():
+						dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
+						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer)]
+					else:
+						dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
+						return [SlotSet(intent, None)]
 
-#         # define intent for this specific action
-#         intent = "restaurant"
+				# when the current riddle category doesn't match
+				else:
+					# give user feedback about the mismatching categories and exit action
+					dispatcher.utter_message(response = "utter_wrong_category")
+					return [SlotSet(intent, None)]
 
-#         return verify_guess(tracker, dispatcher, intent)
-
-
-# class ActionVerifyPier(Action):
-#     def name(self) -> Text:
-#         return "action_verify_pier"
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         # define intent for this specific action
-#         intent = "pier"
-
-#         return verify_guess(tracker, dispatcher, intent)                
-
-
-def verify_guess(tracker, dispatcher, intent):
-    
-    # get entity from RASA message
-    entity = tracker.get_slot(intent)
-
-    # store all solution slot values from RASA bot in list
-    rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-
-    # go through solution list and find active riddle index
-    # (first index where entry is None)
-    if None not in rasaSolutionSlotList:
-        # TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-        dispatcher.utter_message(text = "Everything was solved!")
-        return []
-    else:
-        activeRiddleIndex = rasaSolutionSlotList.index(None)
-
-    # find index list of active riddles with same intent (e.g. all active password riddles)
-    index_list = [idx for idx, value in enumerate(solutionSlotNameList[activeRiddleIndex:]) if intent in value]
-
-    # check if there are any active riddles of the matching type left
-    if not index_list:
-        # give user feedback about the mismatching categories and exit action
-        dispatcher.utter_message(response = "utter_wrong_category")
-        return []
-
-    # save index of matching riddle (e.g. first "password") in active riddle list
-    inputRiddleIndex = activeRiddleIndex + index_list[0]
-
-
-    # #correct_answer = Answer[SlotName(intent).name].value
-    # dispatcher.utter_message(text = "inputRiddleIndex: {}".format(inputRiddleIndex))
-    # dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
-    # dispatcher.utter_message(text = "solutionSlotNameList[activeRiddleIndex]: {}".format(solutionSlotNameList[activeRiddleIndex]))
-
-    
-    # check if intent matches the active riddle and an entity was recognized
-    if inputRiddleIndex == activeRiddleIndex and entity != None:        
-        # save correct answer for intent in variable
-        correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]    
-
-        # verify if given answer is correct (not case sensitive)
-        if entity.lower() == correct_answer.lower():
-            dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
-            return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer)]
-        else:
-            dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
-            return [SlotSet(intent, None)]
-
-    # when the current riddle category doesn't match
-    else:
-        # give user feedback about the mismatching categories and exit action
-        dispatcher.utter_message(response = "utter_wrong_category")
-        return [SlotSet(intent, None)]
 
 
 
 class ActionHelpUser(Action):
-    def name(self) -> Text:
-        return "action_help_user"
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+	def name(self) -> Text:
+		return "action_help_user"
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # store all solution slot values from RASA bot in list
-        rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-    
-        # go through solution list and find active riddle index
-        # (first index where entry is None)
-        if None not in rasaSolutionSlotList:
-            # TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-            dispatcher.utter_message(text = "Everything was solved!")
-            return []
-        else:
-            activeRiddleIndex = rasaSolutionSlotList.index(None)
+		# store all solution slot values from RASA bot in list
+		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+	
+		# go through solution list and find active riddle index
+		# (first index where entry is None)
+		if None not in rasaSolutionSlotList:
+			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
+			dispatcher.utter_message(text = "Everything was solved!")
+			return []
+		else:
+			activeRiddleIndex = rasaSolutionSlotList.index(None)
 
-            # give user feedback about the mismatching categories and exit action
-            dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
-            dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
-            return []
+			# give user feedback about the mismatching categories and exit action
+			dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
+			dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
+			return []
 
 
 
@@ -351,7 +311,7 @@ class ActionHelpUser(Action):
 
 
 
-       
+	   
 # class FacilityForm(FormValidationAction):
 
 #     def name(self) -> Text:
