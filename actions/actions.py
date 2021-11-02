@@ -1,4 +1,4 @@
-# version 2.2.6
+# version 2.2.15
 
 from collections import OrderedDict
 
@@ -113,7 +113,8 @@ class ActionVerifyGuess(Action):
 					# verify if given answer is correct (not case sensitive)
 					if entity.lower() == correct_answer.lower():
 						dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
-						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer)]
+						# set correct answer in solution slot, reset hint counter and asked_to_solve slots
+						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet('asked_to_solve', False)]
 					else:
 						dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
 						return [SlotSet(intent, None)]
@@ -146,20 +147,34 @@ class ActionHelpUser(Action):
 			dispatcher.utter_message(text = "Everything was solved!")
 			return []
 		else:
+			# define active riddle index
 			activeRiddleIndex = rasaSolutionSlotList.index(None)
+			# get name of active riddle	
+			currentRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
+			# check if there is a hint left
+			if rasaHintCounter < len(hintsDict[currentRiddleName]):
+				# give the hint and increase the hint counter by one
+				currentHint = hintsDict[currentRiddleName][rasaHintCounter]
+				dispatcher.utter_message(text = currentHint)
+				return [SlotSet(hintCounterName, rasaHintCounter + 1)]
+			else:
+				# ask if agent should solve the riddle and set slot to true
+				dispatcher.utter_message(response = "utter_should_i_solve")
+				# set asked_to_solve slot to true
+				return [SlotSet('asked_to_solve', True)]
 
-			currentHint = hintsDict['password_1'][rasaHintCounter]
 
-			# give user feedback about the mismatching categories and exit action
-			# dispatcher.utter_message(text = "rasaHintCounter: {}".format(rasaHintCounter))
-			# dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
-			dispatcher.utter_message(text = "currentHint: {}".format(currentHint))
-			return [SlotSet(hintCounterName, rasaHintCounter + 1)]
+class ActionSolveRiddle(Action):
+	def name(self) -> Text:
+		return "action_solve_riddle"
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-
-
-
-
+		# TODO: Solve riddle
+		dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
+		# reset asked_to_solve slot back to false
+		return [SlotSet('asked_to_solve', False)]
 
 
 # class ActionHelpUser(Action):

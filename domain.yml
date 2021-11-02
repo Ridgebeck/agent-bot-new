@@ -121,6 +121,11 @@ slots:
     initial_value: 0
     auto_fill: false
     influence_conversation: false
+  asked_to_solve:
+    type: bool
+    initial_value: false
+    auto_fill: false
+    influence_conversation: false # change?
 
 
 
@@ -335,6 +340,11 @@ responses:
   # - text: Come on guys, you are getting close! Want me to help?
   # - text: Seems like you are stuck...need some help?
 
+  utter_should_i_solve:
+  - text: "Should I solve the riddle for you?"
+  
+  utter_do_not_solve:
+  - text: "Ok, I will let you work on it."  
 
 
   # utter_password:
@@ -477,6 +487,7 @@ responses:
 actions:
 - action_verify_guess    
 - action_help_user
+- action_solve_riddle
 
 # - action_verify_city
 # - action_verify_street

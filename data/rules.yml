@@ -118,7 +118,23 @@ rules:
   - intent: need_help
   - action: action_help_user
 
+- rule: Solve riddle for user when they agree
+  condition:
+  - slot_was_set:
+    - asked_to_solve: true
+  steps:  
+  - action: utter_should_i_solve
+  - intent: affirm
+  - action: action_solve_riddle
 
+- rule: Do not solve riddle for user when they deny
+  condition:
+  - slot_was_set:
+    - asked_to_solve: true
+  steps:  
+  - action: utter_should_i_solve
+  - intent: deny
+  - action: utter_do_not_solve
 
 
 # --------------------------------------------------
