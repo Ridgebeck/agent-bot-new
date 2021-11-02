@@ -1,4 +1,4 @@
-# version 2.2.19
+# version 2.2.22
 
 from collections import OrderedDict
 
@@ -9,7 +9,7 @@ from rasa_sdk.events import SlotSet
 
 # TODO: GET DATA DYNAMICALLY FROM SETTINGS?
 
-# RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS KEYS, e.g. "password"
+# RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS VALUES, e.g. "password"
 # RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
 # ORDER OF RIDDLES IS DEFINED HERE!
 slotNameDict = OrderedDict()
@@ -113,8 +113,8 @@ class ActionVerifyGuess(Action):
 					# verify if given answer is correct (not case sensitive)
 					if entity.lower() == correct_answer.lower():
 						dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
-						# set correct answer in solution slot, reset hint counter and asked_to_solve slots
-						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet('asked_to_solve', False)]
+						# set correct answer in solution slot, reset hint counter and agent_should_solve slots
+						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet('agent_should_solve', False)]
 					else:
 						dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
 						return [SlotSet(intent, None)]

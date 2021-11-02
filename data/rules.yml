@@ -113,6 +113,18 @@ rules:
   - intent: unhappy_or_stuck
   - action: utter_offer_help
 
+- rule: Handle positive reply to help offer
+  steps:  
+  - action: utter_offer_help
+  - intent: affirm
+  - action: action_help_user
+
+- rule: Handle negative reply to help offer
+  steps:  
+  - action: utter_offer_help
+  - intent: deny
+  - action: utter_do_not_solve
+
 - rule: Offer customized help when help is requested
   steps:
   - intent: need_help

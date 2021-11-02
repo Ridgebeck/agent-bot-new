@@ -334,11 +334,10 @@ responses:
   - text: "TODO: Next goal handling goes here."
 
   utter_offer_help:
-  - text: "You sound frustrated. TODO: Offer help."
-  # - text: You sound frustrated...need some help?
-  # - text: Hmm...keep your chin up! Need help?
-  # - text: Come on guys, you are getting close! Want me to help?
-  # - text: Seems like you are stuck...need some help?
+  - text: You sound frustrated...need some help?
+  - text: Hmm...keep your chin up! Need help?
+  - text: Come on guys, you are getting close! Want me to help?
+  - text: Seems like you are stuck...need some help?
 
   utter_should_i_solve:
   - text: "Should I solve the riddle for you?"
