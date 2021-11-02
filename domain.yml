@@ -299,7 +299,7 @@ responses:
   utter_correct_password:
   - text: |-
       {password} worked!
-       -- NEXT RIDDLE --
+       -- NEXT RIDDLE: STORE --
   utter_incorrect_password:
   - text: '{password} did not work. Must be a different combination.'
   - text: Hhm, that did not work.
@@ -307,18 +307,26 @@ responses:
   - text: That didn't work. Do you have another one to try?
   - text: "I tried {password}...didn't work."
 
+
+
   utter_correct_store:
-  - text: The store is correct!
+  - text: |-
+      The store is correct!
+       -- NEXT RIDDLE: RESTAURANT --  
   utter_incorrect_store:
   - text: Wrong store!
 
   utter_correct_restaurant:
-  - text: The restaurant is correct!
+  - text: |-
+      The restaurant is correct!
+       -- NEXT RIDDLE: PIER --  
   utter_incorrect_restaurant:
   - text: Wrong restaurant!
 
   utter_correct_pier:
-  - text: The pier is correct!
+  - text: |-
+      The pier is correct!
+       -- NEXT RIDDLE: PASSWORD 2 --  
   utter_incorrect_pier:
   - text: Wrong pier!
 

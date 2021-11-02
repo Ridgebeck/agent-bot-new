@@ -1,4 +1,4 @@
-# version 2.2.25
+# version 2.2.26
 
 from collections import OrderedDict
 
@@ -148,9 +148,9 @@ class ActionNextGoal(Action):
 			# find active riddle name
 			activeRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
 
-		dispatcher.utter_message(text = "activeRiddleName: {}".format(activeRiddleName))
-		dispatcher.utter_message(text = "TODO: NEXT ACTION HERE!")
-		return []
+			dispatcher.utter_message(text = "activeRiddleName: {}".format(activeRiddleName))
+			dispatcher.utter_message(text = "TODO: SHOW NEXT ACTION HERE!")
+			return []
 
 
 class ActionHelpUser(Action):
