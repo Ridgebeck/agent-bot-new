@@ -1,4 +1,4 @@
-# version 2.2.18
+# version 2.2.19
 
 from collections import OrderedDict
 
@@ -13,11 +13,11 @@ from rasa_sdk.events import SlotSet
 # RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
 # ORDER OF RIDDLES IS DEFINED HERE!
 slotNameDict = OrderedDict()
-slotNameDict["password_1"] = "password"
-slotNameDict["store"]      = "store"
-slotNameDict["restaurant"] = "restaurant"
-slotNameDict["pier"]       = "pier"
-slotNameDict["password_2"] = "password"
+slotNameDict["password_1"]   = "password"
+slotNameDict["store_1"]      = "store"
+slotNameDict["restaurant_1"] = "restaurant"
+slotNameDict["pier_1"]       = "pier"
+slotNameDict["password_2"]   = "password"
 
 # RASA solution slot prefix
 solutionPrefix = "solution_"
@@ -31,11 +31,11 @@ solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys()
 
 # answers are defined here
 answerDict = {}
-answerDict["password_1"] = "123456"
-answerDict["store"]      = "Alphabet Soup"
-answerDict["restaurant"] = "Spago"
-answerDict["pier"]       = "Pier 49"
-answerDict["password_2"] = "456789"
+answerDict["password_1"]   = "123456"
+answerDict["store_1"]      = "Alphabet Soup"
+answerDict["restaurant_1"] = "Spago"
+answerDict["pier_1"]       = "Pier 49"
+answerDict["password_2"]   = "456789"
 
 # hints are defined here
 hintsDict = {}
@@ -46,10 +46,10 @@ hintsDict["password_1"] = [
 	"there is a chess trophy in the room",
 	"the date on the trophy seems to be important",
 	"it should be US date format (MM/DD/YY)"]
-hintsDict["store"]      = ["store_hint1", "store_hint2", "store_hint3"]
-hintsDict["restaurant"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
-hintsDict["pier"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
-hintsDict["password_2"] = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
+hintsDict["store_1"]      = ["store_hint1", "store_hint2", "store_hint3"]
+hintsDict["restaurant_1"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
+hintsDict["pier_1"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
+hintsDict["password_2"]   = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
 
 
 class ActionVerifyGuess(Action):
@@ -126,8 +126,6 @@ class ActionVerifyGuess(Action):
 					return [SlotSet(intent, None)]
 
 
-
-
 class ActionHelpUser(Action):
 	def name(self) -> Text:
 		return "action_help_user"
@@ -171,17 +169,20 @@ class ActionSolveRiddleOrWait(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# get intent from last message
+		# get intent from last message and current slot value
 		intent = tracker.latest_message.get('intent').get('name')
-
 		agentShouldSolve = tracker.get_slot('agent_should_solve')
-		dispatcher.utter_message(text = "agentShouldSolve: {}".format(agentShouldSolve))
+
+		# create return list with standard slot set (reset agent_should_solve) 
+		returnList = [SlotSet('agent_should_solve', False)]
 
 		# check if agent should solve the riddle
 		if agentShouldSolve:
 			if intent == "affirm":
 				# TODO: Solve riddle
 				dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
+				# add reset hint counter to return list
+				returnList.append(SlotSet(hintCounterName, 0))
 			elif intent == "deny":
 				dispatcher.utter_message(response = "utter_do_not_solve")
 			else:
@@ -189,14 +190,16 @@ class ActionSolveRiddleOrWait(Action):
 		# otherwise respond with normal reaction
 		else:
 			if intent == "affirm":
+				# TODO: VERIFY IF RESPONSE TO HINTS MAKES SENSE
 				dispatcher.utter_message(response = "utter_affirm")
 			elif intent == "deny":
+				# TODO: VERIFY IF RESPONSE TO HINTS MAKES SENSE
 				dispatcher.utter_message(response = "utter_please")
 			else:
 				dispatcher.utter_message(response = "utter_default")
 
-		# reset agent_should_solve slot back to false
-		return [SlotSet('agent_should_solve', False)]
+		# return SlotSets based on input
+		return returnList
 
 
 

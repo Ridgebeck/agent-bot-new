@@ -80,42 +80,42 @@ slots:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
-    influence_conversation: true
+    influence_conversation: false
   solution_password_2:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
-    influence_conversation: true
+    influence_conversation: false
   store:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_store:
+  solution_store_1:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
-    influence_conversation: true
+    influence_conversation: false
   restaurant:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_restaurant:
+  solution_restaurant_1:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
-    influence_conversation: true
+    influence_conversation: false
   pier:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_pier:
+  solution_pier_1:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
-    influence_conversation: true
+    influence_conversation: false
   hint_counter:
     type: float
     initial_value: 0
