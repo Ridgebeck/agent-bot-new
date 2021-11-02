@@ -98,17 +98,6 @@ rules:
   - intent: pier
   - action: action_verify_guess
 
-  
-# - rule: Verify the input if intent is city
-#   steps:
-#   - intent: city
-#   - action: action_verify_city
-
-# - rule: Verify the input if intent is street
-#   steps:
-#   - intent: street
-#   - action: action_verify_street
-
 
 # --------------------------------------------------
 # ASKING FOR NEXT GOAL, HELP OR HINTS
@@ -129,8 +118,11 @@ rules:
   - intent: need_help
   - action: action_help_user
 
+
+
+
 # --------------------------------------------------
-# HELP AND HINTS
+# OLD HELP AND HINTS
 
 
 # - rule: Help user if he accepts
@@ -145,11 +137,6 @@ rules:
 #   - intent: deny
 #   - action: utter_will_wait  
 
-# - rule: Offer customized help when help is requested
-#   steps:
-#   - intent: need_help
-#   - action: action_help_user
-
 # - rule: Give hint if user confirms
 #   steps:
 #   - action: action_help_user
@@ -161,8 +148,6 @@ rules:
 #   - action: action_help_user
 #   - intent: deny
 #   - action: utter_will_wait
-
-
 
 
 

@@ -1,4 +1,4 @@
-# version 2.2.3
+# version 2.2.5
 
 from collections import OrderedDict
 
@@ -148,12 +148,13 @@ class ActionHelpUser(Action):
 		else:
 			activeRiddleIndex = rasaSolutionSlotList.index(None)
 
+			currentHint = hintsDict['password_1'][rasaHintCounter]
+
 			# give user feedback about the mismatching categories and exit action
-			dispatcher.utter_message(text = "rasaSolutionSlotList: {}".format(rasaSolutionSlotList))
-			dispatcher.utter_message(text = "rasaHintCounter: {}".format(rasaHintCounter))
-			dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
-			dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
-			return []
+			# dispatcher.utter_message(text = "rasaHintCounter: {}".format(rasaHintCounter))
+			# dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
+			dispatcher.utter_message(text = "currentHint: {}".format(currentHint))
+			return [SlotSet(hintCounterName, rasaHintCounter + 1)]
 
 
 
