@@ -129,7 +129,6 @@ rules:
   - slot_was_set:
     - asked_to_solve: true
   steps:  
-  - action: utter_should_i_solve
   - intent: affirm
   - action: action_solve_riddle
 
@@ -138,7 +137,6 @@ rules:
   - slot_was_set:
     - asked_to_solve: true
   steps:  
-  - action: utter_should_i_solve
   - intent: deny
   - action: utter_do_not_solve
 
