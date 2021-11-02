@@ -1,4 +1,4 @@
-# version 2.2.17
+# version 2.2.18
 
 from collections import OrderedDict
 
@@ -171,15 +171,29 @@ class ActionSolveRiddleOrWait(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+		# get intent from last message
+		intent = tracker.latest_message.get('intent').get('name')
 
 		agentShouldSolve = tracker.get_slot('agent_should_solve')
 		dispatcher.utter_message(text = "agentShouldSolve: {}".format(agentShouldSolve))
 
+		# check if agent should solve the riddle
 		if agentShouldSolve:
-			# TODO: Solve riddle
-			dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
+			if intent == "affirm":
+				# TODO: Solve riddle
+				dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
+			elif intent == "deny":
+				dispatcher.utter_message(response = "utter_do_not_solve")
+			else:
+				dispatcher.utter_message(response = "utter_default")
+		# otherwise respond with normal reaction
 		else:
-			dispatcher.utter_message(response = "utter_do_not_solve")
+			if intent == "affirm":
+				dispatcher.utter_message(response = "utter_affirm")
+			elif intent == "deny":
+				dispatcher.utter_message(response = "utter_please")
+			else:
+				dispatcher.utter_message(response = "utter_default")
 
 		# reset agent_should_solve slot back to false
 		return [SlotSet('agent_should_solve', False)]
