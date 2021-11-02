@@ -488,6 +488,7 @@ actions:
 - action_verify_guess    
 - action_help_user
 - action_solve_riddle
+- action_solve_riddle_or_wait
 
 # - action_verify_city
 # - action_verify_street

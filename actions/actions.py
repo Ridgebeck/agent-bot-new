@@ -1,4 +1,4 @@
-# version 2.2.16
+# version 2.2.17
 
 from collections import OrderedDict
 
@@ -172,7 +172,7 @@ class ActionSolveRiddleOrWait(Action):
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
 
-		agentShouldSolve = tracker.get_slot(agent_should_solve)
+		agentShouldSolve = tracker.get_slot('agent_should_solve')
 		dispatcher.utter_message(text = "agentShouldSolve: {}".format(agentShouldSolve))
 
 		if agentShouldSolve:
