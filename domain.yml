@@ -76,21 +76,11 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  hints_password_1:
-    type: list
-    initial_value: ['hint_1', 'hint_2', 'hint_3']
-    auto_fill: false
-    influence_conversation: false
   solution_password_1:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: false
     influence_conversation: true
-  hints_password_2:
-    type: list
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
   solution_password_2:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
@@ -100,11 +90,6 @@ slots:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
-    influence_conversation: false
-  hints_store:
-    type: list
-    initial_value: null
-    auto_fill: false
     influence_conversation: false
   solution_store:
     type: rasa.shared.core.slots.TextSlot
@@ -116,11 +101,6 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  hints_restaurant:
-    type: list
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
   solution_restaurant:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
@@ -131,14 +111,14 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  hints_pier:
-    type: list
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
   solution_pier:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
+    auto_fill: false
+    influence_conversation: true
+  hint_counter:
+    type: float
+    initial_value: 0
     auto_fill: false
     influence_conversation: true
 

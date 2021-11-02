@@ -1,4 +1,4 @@
-# version 2.2.2
+# version 2.2.3
 
 from collections import OrderedDict
 
@@ -19,17 +19,15 @@ slotNameDict["restaurant"] = "restaurant"
 slotNameDict["pier"]       = "pier"
 slotNameDict["password_2"] = "password"
 
-# RASA solution and hints slot prefixes
+# RASA solution slot prefix
 solutionPrefix = "solution_"
-hintsPrefix = "hints_"
+
+# name of RASA hint counter slot
+hintCounterName = 'hint_counter'
 
 # convert keys to list that contains solution slot names
 # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
 solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
-
-# convert keys to list that contains hints slot names
-# IMPORTANT: RASA slots need to follow the same naming convention of hintsPrefix + slotName
-hintsSlotNameList = [hintsPrefix + key for key in list(slotNameDict.keys())]
 
 # answers are defined here
 answerDict = {}
@@ -136,9 +134,10 @@ class ActionHelpUser(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# store all solution and hints slot values from RASA bot in respective lists
+		# store all solution slot values from RASA bot in respective lists
 		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-		rasaHintsSlotList = [tracker.get_slot(hintsSlotName) for hintsSlotName in hintsSlotNameList]
+		# get current hint counter value
+		rasaHintCounter = tracker.get_slot(hintCounterName)
 	
 		# go through solution list and find active riddle index
 		# (first index where entry is None)
@@ -151,7 +150,7 @@ class ActionHelpUser(Action):
 
 			# give user feedback about the mismatching categories and exit action
 			dispatcher.utter_message(text = "rasaSolutionSlotList: {}".format(rasaSolutionSlotList))
-			dispatcher.utter_message(text = "rasaHintsSlotList: {}".format(rasaHintsSlotList))
+			dispatcher.utter_message(text = "rasaHintCounter: {}".format(rasaHintCounter))
 			dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
 			dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
 			return []
