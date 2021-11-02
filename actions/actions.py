@@ -1,4 +1,4 @@
-# version 2.2.0
+# version 2.2.1
 
 from collections import OrderedDict
 
@@ -19,17 +19,17 @@ slotNameDict["restaurant"] = "restaurant"
 slotNameDict["pier"]       = "pier"
 slotNameDict["password_2"] = "password"
 
-# RASA solution and help slot prefixes
+# RASA solution and hints slot prefixes
 solutionPrefix = "solution_"
-helpPrefix = "help_"
+hintsPrefix = "hints_"
 
 # convert keys to list that contains solution slot names
 # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
 solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
 
-# convert keys to list that contains help slot names
-# IMPORTANT: RASA slots need to follow the same naming convention of helpPrefix + slotName
-helpSlotNameList = [helpPrefix + key for key in list(slotNameDict.keys())]
+# convert keys to list that contains hints slot names
+# IMPORTANT: RASA slots need to follow the same naming convention of hintsPrefix + slotName
+hintsSlotNameList = [hintsPrefix + key for key in list(slotNameDict.keys())]
 
 # answers are defined here
 answerDict = {}
@@ -136,8 +136,9 @@ class ActionHelpUser(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# store all solution slot values from RASA bot in list
+		# store all solution and hints slot values from RASA bot in respective lists
 		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+		rasaHintsSlotList = [tracker.get_slot(hintsSlotName) for hintsSlotName in hintsSlotNameList]
 	
 		# go through solution list and find active riddle index
 		# (first index where entry is None)
