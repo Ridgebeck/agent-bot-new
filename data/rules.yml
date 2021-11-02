@@ -105,8 +105,7 @@ rules:
 - rule: Verify the next goal if user asks for it
   steps:
   - intent: whats_the_next_goal
-  - action: utter_next_goal
-  #- action: action_next_goal
+  - action: action_next_goal
 
 - rule: Offer help when stuck
   steps:

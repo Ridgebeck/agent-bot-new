@@ -126,6 +126,17 @@ class ActionVerifyGuess(Action):
 					return [SlotSet(intent, None)]
 
 
+class ActionNextGoal(Action):
+	def name(self) -> Text:
+		return "action_next_goal"
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		dispatcher.utter_message(text = "TODO: NEXT ACTION HERE!")
+		return []
+
+
 class ActionHelpUser(Action):
 	def name(self) -> Text:
 		return "action_help_user"

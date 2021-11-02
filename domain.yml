@@ -244,7 +244,6 @@ responses:
 
   utter_affirm:
   - text: great
-  - text: ok
   - text: 👍
   - text: 😎
   - text: 😉
@@ -484,7 +483,8 @@ responses:
 
 
 actions:
-- action_verify_guess    
+- action_verify_guess
+- action_next_goal
 - action_help_user
 - action_solve_riddle
 - action_solve_riddle_or_wait

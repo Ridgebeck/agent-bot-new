@@ -77,7 +77,6 @@ nlu:
 
 
 
-
 - intent: store
   examples: |
     - [One More Chapter](store)
@@ -142,6 +141,10 @@ nlu:
     - what is your shoe size?
     - what is your favorite food?
     - what's your favorite food?
+    - are you a vegetarian?
+    - are you a lesbian
+    - are you rich?
+    - do you eat meat
     - whats your favorite dish?
     - what is your favorite color?
     - what's your favorite color?
