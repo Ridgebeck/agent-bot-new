@@ -121,7 +121,7 @@ slots:
     initial_value: 0
     auto_fill: false
     influence_conversation: false
-  asked_to_solve:
+  agent_should_solve:
     type: bool
     initial_value: false
     auto_fill: false
@@ -344,7 +344,7 @@ responses:
   - text: "Should I solve the riddle for you?"
   
   utter_do_not_solve:
-  - text: "Ok, I will let you work on it."  
+  - text: "Ok, I will let you work on it."
 
 
   # utter_password:

@@ -1,4 +1,4 @@
-# version 2.2.15
+# version 2.2.16
 
 from collections import OrderedDict
 
@@ -160,21 +160,30 @@ class ActionHelpUser(Action):
 			else:
 				# ask if agent should solve the riddle and set slot to true
 				dispatcher.utter_message(response = "utter_should_i_solve")
-				# set asked_to_solve slot to true
-				return [SlotSet('asked_to_solve', True)]
+				# set agent_should_solve slot to true
+				return [SlotSet('agent_should_solve', True)]
 
 
-class ActionSolveRiddle(Action):
+class ActionSolveRiddleOrWait(Action):
 	def name(self) -> Text:
-		return "action_solve_riddle"
+		return "action_solve_riddle_or_wait"
 	def run(self, dispatcher: CollectingDispatcher,
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# TODO: Solve riddle
-		dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
-		# reset asked_to_solve slot back to false
-		return [SlotSet('asked_to_solve', False)]
+
+		agentShouldSolve = tracker.get_slot(agent_should_solve)
+		dispatcher.utter_message(text = "agentShouldSolve: {}".format(agentShouldSolve))
+
+		if agentShouldSolve:
+			# TODO: Solve riddle
+			dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
+		else:
+			dispatcher.utter_message(response = "utter_do_not_solve")
+
+		# reset agent_should_solve slot back to false
+		return [SlotSet('agent_should_solve', False)]
+
 
 
 # class ActionHelpUser(Action):
