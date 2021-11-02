@@ -31,11 +31,17 @@ rules:
   - action: utter_iamnotabot
 
 - rule: Affirm back by default
+  condition:
+  - slot_was_set:
+    - asked_to_solve: false
   steps:
   - intent: affirm
   - action: utter_affirm
 
-- rule: Ask nicely to affirm after deny
+- rule: Ask nicely to affirm after deny by default
+  condition:
+  - slot_was_set:
+    - asked_to_solve: false
   steps:
   - intent: deny
   - action: utter_please
