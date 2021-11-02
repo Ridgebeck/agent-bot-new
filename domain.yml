@@ -120,7 +120,7 @@ slots:
     type: float
     initial_value: 0
     auto_fill: false
-    influence_conversation: true
+    influence_conversation: false
 
 
 
