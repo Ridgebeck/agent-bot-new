@@ -1,4 +1,4 @@
-# version 2.2.1
+# version 2.2.2
 
 from collections import OrderedDict
 
@@ -150,6 +150,8 @@ class ActionHelpUser(Action):
 			activeRiddleIndex = rasaSolutionSlotList.index(None)
 
 			# give user feedback about the mismatching categories and exit action
+			dispatcher.utter_message(text = "rasaSolutionSlotList: {}".format(rasaSolutionSlotList))
+			dispatcher.utter_message(text = "rasaHintsSlotList: {}".format(rasaHintsSlotList))
 			dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
 			dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
 			return []
