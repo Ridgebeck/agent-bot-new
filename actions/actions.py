@@ -1,4 +1,4 @@
-# version 2.1.16
+# version 2.1.22
 
 from collections import OrderedDict
 
@@ -53,64 +53,63 @@ hintsDict["restaurant"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
 hintsDict["pier"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
 hintsDict["password_2"] = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
 
-class ActionVerifyPassword(Action):
-
+class ActionVerifyGuess(Action):
     def name(self) -> Text:
-        return "action_verify_password"
-
+        return "action_verify_guess"
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # define intent for this specific action
-        intent = "password"
+        dispatcher.utter_message(text = "latest intent name: {}".format(tracker.latest_message.get('intent').get('name')))
 
-        return verify_guess(tracker, dispatcher, intent)
+        # get intent from last message
+        intent = tracker.latest_message.get('intent').get('name')
 
-
-class ActionVerifyStore(Action):
-
-    def name(self) -> Text:
-        return "action_verify_store"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        # define intent for this specific action
-        intent = "store"
-
-        return verify_guess(tracker, dispatcher, intent)
+        # utter fallback message if no intent or intent name was found or if intent is no riddle intent
+        if intent == None or intent not in set(slotNameDict.values()):
+            dispatcher.utter_message(response = "utter_default")
+            return []
+        else:
+            return verify_guess(tracker, dispatcher, intent)
 
 
-class ActionVerifyRestaurant(Action):
+# class ActionVerifyStore(Action):
+#     def name(self) -> Text:
+#         return "action_verify_store"
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    def name(self) -> Text:
-        return "action_verify_restaurant"
+#         # define intent for this specific action
+#         intent = "store"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        # define intent for this specific action
-        intent = "restaurant"
-
-        return verify_guess(tracker, dispatcher, intent)
+#         return verify_guess(tracker, dispatcher, intent)
 
 
-class ActionVerifyPier(Action):
+# class ActionVerifyRestaurant(Action):
+#     def name(self) -> Text:
+#         return "action_verify_restaurant"
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    def name(self) -> Text:
-        return "action_verify_pier"
+#         # define intent for this specific action
+#         intent = "restaurant"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         return verify_guess(tracker, dispatcher, intent)
 
-        # define intent for this specific action
-        intent = "pier"
 
-        return verify_guess(tracker, dispatcher, intent)                
+# class ActionVerifyPier(Action):
+#     def name(self) -> Text:
+#         return "action_verify_pier"
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+#         # define intent for this specific action
+#         intent = "pier"
+
+#         return verify_guess(tracker, dispatcher, intent)                
 
 
 def verify_guess(tracker, dispatcher, intent):
@@ -166,22 +165,33 @@ def verify_guess(tracker, dispatcher, intent):
     else:
         # give user feedback about the mismatching categories and exit action
         dispatcher.utter_message(response = "utter_wrong_category")
-        return []
+        return [SlotSet(intent, None)]
 
 
 
 class ActionHelpUser(Action):
-
     def name(self) -> Text:
         return "action_help_user"
-
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # give user feedback about the mismatching categories and exit action
-        dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
-        return []
+        # store all solution slot values from RASA bot in list
+        rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+    
+        # go through solution list and find active riddle index
+        # (first index where entry is None)
+        if None not in rasaSolutionSlotList:
+            # TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
+            dispatcher.utter_message(text = "Everything was solved!")
+            return []
+        else:
+            activeRiddleIndex = rasaSolutionSlotList.index(None)
+
+            # give user feedback about the mismatching categories and exit action
+            dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
+            dispatcher.utter_message(text = "HERE WOULD BE THE HELP TEXT")
+            return []
 
 
 

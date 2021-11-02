@@ -81,22 +81,22 @@ rules:
 - rule: Verify the input if intent is password
   steps:
   - intent: password
-  - action: action_verify_password
+  - action: action_verify_guess
 
 - rule: Verify store guess
   steps:
   - intent: store
-  - action: action_verify_store  
+  - action: action_verify_guess  
 
 - rule: Verify restaurant guess
   steps:
   - intent: restaurant
-  - action: action_verify_restaurant
+  - action: action_verify_guess
 
 - rule: Verify pier guess
   steps:
   - intent: pier
-  - action: action_verify_pier
+  - action: action_verify_guess
 
   
 # - rule: Verify the input if intent is city

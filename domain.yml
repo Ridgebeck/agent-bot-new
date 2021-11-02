@@ -470,10 +470,7 @@ responses:
 
 
 actions:
-- action_verify_password    
-- action_verify_store
-- action_verify_restaurant
-- action_verify_pier
+- action_verify_guess    
 - action_help_user
 
 # - action_verify_city
