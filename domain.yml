@@ -125,7 +125,7 @@ slots:
     type: bool
     initial_value: false
     auto_fill: false
-    influence_conversation: false # change?
+    influence_conversation: true # change?
 
 
 
