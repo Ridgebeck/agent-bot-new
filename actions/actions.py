@@ -1,4 +1,4 @@
-# version 2.2.22
+# version 2.2.25
 
 from collections import OrderedDict
 
@@ -83,7 +83,7 @@ class ActionVerifyGuess(Action):
 				# (first index where entry is None)
 				if None not in rasaSolutionSlotList:
 					# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-					dispatcher.utter_message(text = "Everything was solved!")
+					dispatcher.utter_message(response = "utter_everything_solved")
 					return []
 				else:
 					activeRiddleIndex = rasaSolutionSlotList.index(None)
@@ -133,6 +133,22 @@ class ActionNextGoal(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+		# store all solution slot values from RASA bot in respective lists
+		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+
+		# go through solution list and find active riddle index
+		# (first index where entry is None)
+		if None not in rasaSolutionSlotList:
+			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?			
+			dispatcher.utter_message(response = "utter_everything_solved")
+			return []
+		else:
+			# define active riddle index
+			activeRiddleIndex = rasaSolutionSlotList.index(None)
+			# find active riddle name
+			activeRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
+
+		dispatcher.utter_message(text = "activeRiddleName: {}".format(activeRiddleName))
 		dispatcher.utter_message(text = "TODO: NEXT ACTION HERE!")
 		return []
 
@@ -153,7 +169,7 @@ class ActionHelpUser(Action):
 		# (first index where entry is None)
 		if None not in rasaSolutionSlotList:
 			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-			dispatcher.utter_message(text = "Everything was solved!")
+			dispatcher.utter_message(response = "utter_everything_solved")
 			return []
 		else:
 			# define active riddle index

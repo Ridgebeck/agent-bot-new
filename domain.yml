@@ -327,10 +327,7 @@ responses:
 
 
 # --------------------------------------------------
-# NEXT GOAL, HINTS, HELP
-
-  utter_next_goal:
-  - text: "TODO: Next goal handling goes here."
+# HINTS AND HELP SOLVING
 
   utter_offer_help:
   - text: You sound frustrated...need some help?
@@ -339,11 +336,14 @@ responses:
   - text: Seems like you are stuck...need some help?
 
   utter_should_i_solve:
-  - text: "Should I solve the riddle for you?"
+  - text: Should I solve the riddle for you?
   
   utter_do_not_solve:
-  - text: "Ok, I will let you work on it."
+  - text: Ok, I will let you work on it.
 
+  utter_everything_solved:
+  - text: All riddles have been solved already.
+  
 
   # utter_password:
   # - text: This is what I need from you geniuses.
