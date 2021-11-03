@@ -1,4 +1,4 @@
-# version 2.2.26
+# version 2.2.29
 
 from collections import OrderedDict
 
@@ -22,8 +22,14 @@ slotNameDict["password_2"]   = "password"
 # RASA solution slot prefix
 solutionPrefix = "solution_"
 
+# name of RASA agent should solve slot
+agentShouldSolveName = 'agent_should_solve'
+
 # name of RASA hint counter slot
 hintCounterName = 'hint_counter'
+
+# name of RASA already told slot
+alreadyToldGoalName = 'already_told_goal'
 
 # convert keys to list that contains solution slot names
 # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
@@ -36,6 +42,14 @@ answerDict["store_1"]      = "Alphabet Soup"
 answerDict["restaurant_1"] = "Spago"
 answerDict["pier_1"]       = "Pier 49"
 answerDict["password_2"]   = "456789"
+
+# defined answers to what's next questions
+whatsNextDict = {}
+whatsNextDict["password_1"]   = "I need you to help me find the passcode for the tablet."
+whatsNextDict["store_1"]      = "You need to find out where Derek went from his apartment."
+whatsNextDict["restaurant_1"] = "I need to know which restaurant the group went to."
+whatsNextDict["pier_1"]       = "Derek is held captive somewhere. You need to find out the location."
+whatsNextDict["password_2"]   = "I need the passcode to open the door to the warehouse."
 
 # hints are defined here
 hintsDict = {}
@@ -114,7 +128,7 @@ class ActionVerifyGuess(Action):
 					if entity.lower() == correct_answer.lower():
 						dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
 						# set correct answer in solution slot, reset hint counter and agent_should_solve slots
-						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet('agent_should_solve', False)]
+						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet(agentShouldSolveName, False), SlotSet(alreadyToldGoalName, False)]
 					else:
 						dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
 						return [SlotSet(intent, None)]
@@ -135,6 +149,10 @@ class ActionNextGoal(Action):
 
 		# store all solution slot values from RASA bot in respective lists
 		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+		# get current hint counter value
+		alreadyToldGoal = tracker.get_slot(alreadyToldGoalName)
+		
+		dispatcher.utter_message(text = "alreadyToldGoal: {}".format(alreadyToldGoal))
 
 		# go through solution list and find active riddle index
 		# (first index where entry is None)
@@ -143,14 +161,17 @@ class ActionNextGoal(Action):
 			dispatcher.utter_message(response = "utter_everything_solved")
 			return []
 		else:
-			# define active riddle index
-			activeRiddleIndex = rasaSolutionSlotList.index(None)
-			# find active riddle name
-			activeRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
+			if alreadyToldGoal:
+				dispatcher.utter_message(response = "utter_offer_help")
+				return []
+			else:
+				# define active riddle index
+				activeRiddleIndex = rasaSolutionSlotList.index(None)
+				# find active riddle name
+				activeRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
 
-			dispatcher.utter_message(text = "activeRiddleName: {}".format(activeRiddleName))
-			dispatcher.utter_message(text = "TODO: SHOW NEXT ACTION HERE!")
-			return []
+				dispatcher.utter_message(text = whatsNextDict[activeRiddleName])
+				return [SlotSet(alreadyToldGoalName, True)]
 
 
 class ActionHelpUser(Action):
@@ -186,7 +207,7 @@ class ActionHelpUser(Action):
 				# ask if agent should solve the riddle and set slot to true
 				dispatcher.utter_message(response = "utter_should_i_solve")
 				# set agent_should_solve slot to true
-				return [SlotSet('agent_should_solve', True)]
+				return [SlotSet(agentShouldSolveName, True)]
 
 
 class ActionSolveRiddleOrWait(Action):
@@ -198,18 +219,18 @@ class ActionSolveRiddleOrWait(Action):
 
 		# get intent from last message and current slot value
 		intent = tracker.latest_message.get('intent').get('name')
-		agentShouldSolve = tracker.get_slot('agent_should_solve')
+		agentShouldSolve = tracker.get_slot(agentShouldSolveName)
 
 		# create return list with standard slot set (reset agent_should_solve) 
-		returnList = [SlotSet('agent_should_solve', False)]
+		returnList = [SlotSet(agentShouldSolveName, False)]
 
 		# check if agent should solve the riddle
 		if agentShouldSolve:
 			if intent == "affirm":
 				# TODO: Solve riddle
 				dispatcher.utter_message(text = "TODO: I WILL SOLVE FOR YOU")
-				# add reset hint counter to return list
-				returnList.append(SlotSet(hintCounterName, 0))
+				# add reset hint counter and reset already told goal return list
+				returnList.append([SlotSet(hintCounterName, 0), SlotSet(alreadyToldGoalName, False)])
 			elif intent == "deny":
 				dispatcher.utter_message(response = "utter_do_not_solve")
 			else:

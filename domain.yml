@@ -125,7 +125,12 @@ slots:
     type: bool
     initial_value: false
     auto_fill: false
-    influence_conversation: false # change?
+    influence_conversation: false
+  already_told_goal:
+    type: bool
+    initial_value: false
+    auto_fill: false
+    influence_conversation: false    
 
 
 
@@ -335,13 +340,13 @@ responses:
 
 
 # --------------------------------------------------
-# HINTS AND HELP SOLVING
+# HINTS AND HELP WITH SOLVING
 
   utter_offer_help:
-  - text: You sound frustrated...need some help?
-  - text: Hmm...keep your chin up! Need help?
-  - text: Come on guys, you are getting close! Want me to help?
-  - text: Seems like you are stuck...need some help?
+  - text: Do you need some help?
+  # - text: Hmm...keep your chin up! Need help?
+  # - text: Come on guys, you are getting close! Want me to help?
+  # - text: Seems like you are stuck...need some help?
 
   utter_should_i_solve:
   - text: Should I solve the riddle for you?
