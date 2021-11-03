@@ -1,4 +1,4 @@
-# version 2.2.29
+# version 2.2.30
 
 from collections import OrderedDict
 
@@ -151,8 +151,6 @@ class ActionNextGoal(Action):
 		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
 		# get current hint counter value
 		alreadyToldGoal = tracker.get_slot(alreadyToldGoalName)
-		
-		dispatcher.utter_message(text = "alreadyToldGoal: {}".format(alreadyToldGoal))
 
 		# go through solution list and find active riddle index
 		# (first index where entry is None)
