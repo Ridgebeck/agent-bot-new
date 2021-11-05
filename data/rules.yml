@@ -25,6 +25,29 @@ rules:
   - intent: chit_chat
   - action: utter_chit_chat
 
+- rule: Asked to tell a joke
+  steps:
+  - intent: tell_a_joke
+  - action: utter_joke
+
+- rule: Asked to do something
+  steps:
+  - intent: do_this_for_me
+  - action: utter_cannot_do_this
+
+- rule: Agents make progress
+  steps:
+  - intent: we_are_making_progress
+  - action: utter_great_progress
+
+
+  
+
+- rule: Asked about Missing Person
+  steps:
+  - intent: who_is_missing
+  - action: utter_missing_person
+
 - rule: Don't admit to being a bot
   steps:
   - intent: bot_challenge
@@ -45,6 +68,7 @@ rules:
   - intent: praise
   - action: utter_return_praise
 
+# TODO: CHECK IF NEEDED!
 - rule: Respond to good mood
   steps:
   - intent: mood_great
@@ -77,6 +101,12 @@ rules:
 
 # --------------------------------------------------
 # VERIFYING SOLUTION GUESSES
+
+
+- rule: Respond to we want to solve intent
+  steps:
+  - intent: want_to_solve
+  - action: utter_tell_me_your_guess
 
 - rule: Verify the input if intent is password
   steps:
@@ -152,6 +182,21 @@ rules:
   - action: action_next_goal
   - intent: deny
   - action: utter_do_not_solve  
+
+
+# --------------------------------------------------
+# HANDLE CLARIFICATION QUESTIONS
+
+
+- rule: Handle generic questions about riddles
+  steps:
+  - intent: ask_for_riddle_details
+  - action: utter_look_through_info
+
+- rule: Handle questions about pictures
+  steps:
+  - intent: ask_for_pictures
+  - action: utter_picture_location   
 
 
 # --------------------------------------------------

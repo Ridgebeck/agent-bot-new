@@ -13,14 +13,24 @@ intents:
     use_entities: true
 - pier:
     use_entities: true
+- ask_for_riddle_details:
+    use_entities: true
 - greet:
     use_entities: []
 - goodbye:
     use_entities: []
 - bot_challenge:
     use_entities: []
+- tell_a_joke:
+    use_entities: []    
 - chit_chat:
     use_entities: []
+- we_are_making_progress:
+    use_entities: []
+- do_this_for_me:
+    use_entities: []
+- who_is_missing:
+    use_entities: []    
 - affirm:
     use_entities: []
 - deny:
@@ -35,11 +45,15 @@ intents:
     use_entities: []
 - whats_the_next_goal:
     use_entities: []
+- want_to_solve:
+    use_entities: []    
 - out_of_scope:
     use_entities: []
 - nlu_fallback:
     use_entities: []
 - need_help:
+    use_entities: []
+- ask_for_pictures:
     use_entities: []
 
 
@@ -64,6 +78,7 @@ entities:
 - store
 - restaurant
 - pier
+- riddle
 
 slots:
   agent_name:
@@ -71,6 +86,16 @@ slots:
     initial_value: 'John'
     auto_fill: false
     influence_conversation: false
+  missing_person_name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: 'Derek'
+    auto_fill: false
+    influence_conversation: false    
+  riddle:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false    
   password:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
@@ -130,7 +155,7 @@ slots:
     type: bool
     initial_value: false
     auto_fill: false
-    influence_conversation: false    
+    influence_conversation: false
 
 
 
@@ -224,6 +249,38 @@ responses:
   - text: Don't leave me hanging.
   - text: This is not over yet.
 
+  utter_joke:
+  - text: I had an idea for a movie where a retired CIA agent searches for his daughter in Paris...It turns out that idea was taken.
+  - text: What does a CIA Agent do when it's time for bed? He Goes Under Cover.
+  - text: Why do kgb agents work in groups of three? One reads, another writes and the third keeps an eye on these 2 intellectuals.
+  - text: What does a government give to their top agent who is also a shrimp? A license to krill.
+  - text: Why are former Stasi agents the best taxi drivers in Berlin? All you have to do is tell them your name...they already know where you live.
+
+  utter_cannot_do_this:
+  - text: No need for that. I will wait here for your answer.
+
+  utter_great_progress:
+  - text: Great! Let me know when you have the answers ready.
+
+  utter_missing_person:
+  - text: "{missing_person_name} is missing. Check the mission screen for more info."
+  - text: "Their name is {missing_person_name}. Check the mission screen and profiles."
+  - text: "{missing_person_name} was reported missing. Check the mission screen for more details."
+
+  utter_chit_chat/what_time_is_it:
+  - text: It's time to work on this case.
+  - text: Time to solve this case.
+  - text: Time to get going. We really should hurry up.
+  - text: It is time to hurry up.
+
+  utter_chit_chat/job:
+  - text: I can't complain. I get around a lot.
+  - text: The pay is solid and the cases are interesting.
+  - text: It is challenging but also a lot of fun.
+  - text: It is not a normal job but I like it.
+  - text: It is not for everyone but I am pretty good at this.
+
+
   utter_chit_chat/ask_name:
   - text: '{agent_name}, Field Agent.'
   - text: 'I am {agent_name}, remember?'
@@ -301,6 +358,11 @@ responses:
 # --------------------------------------------------
 # HANDLING GUESSES FOR RIDDLES
 
+
+  utter_tell_me_your_guess:
+  - text: Great! Please tell me your guess.
+
+
   utter_correct_password:
   - text: |-
       {password} worked!
@@ -311,6 +373,8 @@ responses:
   - text: 'No, {password} did not work.'
   - text: That didn't work. Do you have another one to try?
   - text: "I tried {password}...didn't work."
+  - text: "Well, {password} did not work."
+  - text: "Hhmm, {password} didn't work."
 
 
 
@@ -341,6 +405,12 @@ responses:
 
 # --------------------------------------------------
 # HINTS AND HELP WITH SOLVING
+
+  utter_look_through_info:
+  - text: Check your data folder. You will find the pictures I sent you and a lot of other useful info there.
+
+  utter_picture_location:
+  - text: All pictures are in your data folder. Check the tabs at the bottom to navigate there.
 
   utter_offer_help:
   - text: Do you need some help?

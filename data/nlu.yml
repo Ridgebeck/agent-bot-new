@@ -50,17 +50,14 @@ nlu:
     - Good evening
     - Good night
     - hi russ
+
+
 - intent: out_of_scope
   examples: |
     - I want to order food
     - Who's the US President?
     - Ice 🍨 tonight?
     - My mum is calling
-    - what time is it
-    - do you know what time it is
-    - What time is it?
-    - Can you tell me the time?
-    - What's the time?
     - Will it rain today
     - Now we can chit chat
     - Hahhaahh. You should go do some stand-up comedy
@@ -75,7 +72,149 @@ nlu:
     - are you part of the matrix?
     - didnt we?
 
+- intent: do_this_for_me
+  examples: |
+    - check the phone book
+    - open the door
+    - can you call someone
+    - go to the other room
+    - do some pushups
+    - sing a song
+    - can you open the door
+    - check the address book
+    - look under the carpet
+    - check the cupboard
+    - check the bookshelf
+    - please check his emails
+    - check the mailbox
+    - can you go outside?
+    - can you drive there
 
+- intent: tell_a_joke
+  examples: |
+    - tell a joke
+    - can you tell a joke?
+    - make me laugh!
+    - tell me somthing funny
+    - tell us a joke
+    - tell me a joke
+    - tell another joke
+    - you should tell a joke
+    - do you know a good joke?
+    - do you know any jokes
+
+
+- intent: we_are_making_progress
+  examples: |
+    - I think we are onto something now
+    - I am onto something
+    - we are getting close
+    - we should be so close now
+    - I am getting closer
+    - Just a minute
+    - I have a feeling we are close
+    - just a few more minutes
+    - we are almost there
+    - yes, we are advancing
+    - I think we are getting there
+    - I am making progress
+    - we are making progress
+
+- intent: want_to_solve
+  examples: |
+    - John, I have a guess
+    - I have a guess
+    - we have a guess
+    - I think we got it
+    - we have an idea
+    - we have the solution
+    - we have an idea
+    - got an idea, john
+    - i have an idea
+    - we have the solution!
+    - we finally got the solution!
+    - we want to guess
+    - i want to solve
+    - we have an idea
+    - we want to solve
+    - i have an idea
+    - Johnny we wanna solve this
+    - yeah, we got the solution
+    - yes, we have it
+    - we got it
+    - i got it
+
+- intent: who_is_missing
+  examples: |
+    - who went missing
+    - who are we looking for?
+    - who is the guy missing
+    - who is the person missing
+    - who is missing
+    - who's tablet is this
+    - who's apartment is this?
+    - who lives in this apartment?
+    - who's apartment are you in
+    - who is Derek?
+    - do you know Derek?
+    - what do we know about derek?
+
+- intent: whos_apartment
+  examples: |
+    - who's apartment is this?
+    - who lives in this apartment?
+    - who's apartment are you in
+
+
+- intent: ask_for_riddle_details
+  examples: |
+    - how long is the [password](riddle)
+    - how many digits?
+    - are we looking for numbers or letters
+    - do we look for numbers
+    - do we look for letters
+    - letters or numbers?
+    - what do we know about the tablet?
+    - who's tablet is it
+    - who's [store](riddle) are we looking for
+    - how many digits
+    - Sry, how many digits?
+    - whats the length of the [password](riddle)
+    - what is the length of the [password](riddle)
+    - what's the length of the [password](riddle)
+    - what kind of [password](riddle) is this?
+    - what [password](riddle) are we looking for
+    - where is the [restaurant](riddle)
+    - where is the [store](riddle)
+    - what [store](riddle) are we looking for
+    - what kind of [store](riddle) are we looking for
+    - what kind of [restaurant](riddle) are we looking for
+    - what kind of [store](riddle)
+    - what kind of [restaurant](riddle)
+    - what kind of [pier](riddle)
+    - what kind of [password](riddle)
+    - what kind of [password](riddle) is it
+    - what [store](riddle)?
+    - what [restaurant](riddle)?
+    - what [pier](riddle)?
+    - which [store](riddle)?
+    - which [restaurant](riddle)?
+    - which [pier](riddle)?    
+    - how many numbers
+    - how many stores
+    - where do I find the [store](riddle)
+    - where do I find the information
+    - where is the tablet
+    - where do I find the info
+
+- intent: ask_for_pictures
+  examples: |
+    - what pictures?
+    - where are the pictures
+    - what pictures are you talking about
+    - where do I find the pictures
+    - what pics
+    - pictures?
 
 - intent: store
   examples: |
@@ -98,7 +237,40 @@ nlu:
     - [Pier 11](pier)
     - [Pier 55](pier)
     - [Pier 76](pier)
-    - [Pier 88](pier) 
+    - [Pier 88](pier)
+
+- intent: chit_chat/what_time_is_it
+  examples: |
+    - what time is it
+    - do you know what time it is
+    - What time is it?
+    - Can you tell me the time?
+    - What's the time?
+    - do you know the time
+    - can you please let me know the time
+    - what s the current time where you are
+    - do you have the time?
+    - what time do we have right now
+
+- intent: chit_chat/job
+  examples: |
+    - how is your job
+    - how is it to work at strix
+    - do you like being an agent
+    - how do you like your job
+    - is your job cool?
+    - isn't this job terrible?
+    - is this really a good job
+    - do you enjoy this stuff?
+    - are you enjoying what you are doing
+    - is it cool to be an agent
+    - do you enjoy being an agent
+    - do you have an interesting job
+    - do you like working for strix
+    - how do you like being an agent
+    - is your job cool
+    - do you like your work
+
 - intent: chit_chat/how_are_you
   examples: |
     - what are you doing?
@@ -119,7 +291,7 @@ nlu:
     - How r u, Russ?
     - how are you doing Russ?
     - How r u doing russ
-    - Russ, how are you
+    - John, how are you
     - how are you feeling today, Russ?
     - how are you?
     - how are you today?
@@ -127,9 +299,14 @@ nlu:
     - How Are You?
     - Hownr u?
     - Hey Russ, how are you?
+
 - intent: chit_chat/person
   examples: |
     - what is your hobby?
+    - are you blonde
+    - are you a lefty
+    - what have you had for breakfast this mroning
+    - are you a good person
     - do you have a hobby?
     - what is your shirt size
     - do you have vacation
@@ -147,6 +324,8 @@ nlu:
     - do you eat meat
     - whats your favorite dish?
     - what is your favorite color?
+    - how tall are you
+    - are you tall
     - what's your favorite color?
     - whats your favorite color?
     - what is your favorite ocean
@@ -211,9 +390,17 @@ nlu:
     - What is 1/2+1/2
     - What is 1 + 1
     - Can you calculate 5+5
+    - 8x8
+    - 8 times 9
     - What is 2 + 2
     - 2+2
     - 10-2?
+    - tell me what is 7 x 4
+    - 6x3
+    - 6/5
+    - 1220/4
+    - 11x91
+    - 6 divided by 3
     - calculate 5*3
     - What is 120 x 12?
     - What is 15+2
@@ -229,7 +416,7 @@ nlu:
   examples: |
     - Sambuca?
     - Ouzo?
-    - Rhum?
+    - Rum?
     - Whisky and cigar?
     - Let's have a beer
     - lets have a drink
@@ -239,7 +426,7 @@ nlu:
     - what is your favorite beer?
     - what is your favorite drink?
     - should we have a drink later?
-    - I really need a drink
+    - I really need a drink, wanna join
     - wanna have a beer later?
     - what about a beer later?
 - intent: chit_chat/ask_name
@@ -260,19 +447,19 @@ nlu:
     - who is it?
     - who r u
     - who are u
-    - is your name  Russ?
+    - is your name  John?
     - I didn't get your name
-    - Are you Russ
-    - Are you really Russ?
-    - Is your name Russ
-    - Are we talking to Russ?
+    - Are you John
+    - Are you really John?
+    - Is your name John
+    - Are we talking to John?
     - Are you sure you are Agent Russ?
-    - Are you sure you are Russ?
+    - Are you sure you are John?
     - are you Russ?
     - who are you
     - russ?
     - are you russ?
-    - Are you Russ?
+    - Are you John?
     - Are you Russ.
     - Who are you?
     - is your name Russ?
@@ -392,6 +579,8 @@ nlu:
   examples: |
     - are you a bot?
     - are you a human?
+    - are you really real
+    - are you a person
     - are you expensive?
     - am I talking to a bot?
     - am I talking to a human?
@@ -1369,6 +1558,7 @@ nlu:
     - The passcode is [07489](password)
     - passcode is [874598](password)
     - The passcode is [842563](password)
+    - The passcode is [842](password)
     - passcode is [4455820](password)
     - The passcode is [084100](password)
     - passcode is [779634](password)
@@ -1391,6 +1581,8 @@ nlu:
     - passcode: [87498](password)
     - passcode: [8425563](password)
     - passcode: [44520](password)
+    - passcode: [451](password)
+    - passcode: [44512312320](password)
     - pw: [0841500](password)
     - pw: [779634](password)
     - pw: [889632](password)
@@ -1398,11 +1590,14 @@ nlu:
     - I think the password is [14789657](password)
     - I believe the password is [120345](password)
     - I got it. The password is [889631](password)
+    - I got it. The password is [889](password)
     - I got the PW! It is [14789657](password)
     - Got it. The code is [12003](password)
     - I think the code is [012784](password)
+    - I think the code is [784](password)
     - is it [123456](password)?
     - could it be [123456](password)?
+    - could it be [123](password)?
     - [123456](password)
     - [789456](password)
     - [468752](password)
@@ -1422,6 +1617,25 @@ nlu:
     - password: [456789](password)
     - Is it [345678](password)
     - Is it [12244](password)
+    - how about [124](password)
+    - how about [987](password)
+    - what about [987](password)
+    - what about [555](password)?
+    - Can you try [698](password)?
+    - Can you try [123789](password)?
+    - Can you try [6572398741](password)?
+    - please try [456398](password)
+    - please try [498](password)
+    - [abcdef](password)
+    - the password is [abefas](password)
+    - password should be [ythega](password)
+    - the password is [ABCDEF](password)
+    - password: [aGaWaX](password)
+    - PW is [abefas](password)
+    - our guess is [abefas](password)
+    - our guess is [123456](password)
+    - my guess is [489632](password)
+
 # - synonym: first street
 #   examples: |
 #     - first
