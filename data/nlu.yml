@@ -164,6 +164,9 @@ nlu:
     - who's apartment is this?
     - who lives in this apartment?
     - who's apartment are you in
+    - who lives in this house
+    - who lives in this flat?
+    - whos flat is this
 
 
 - intent: ask_for_riddle_details

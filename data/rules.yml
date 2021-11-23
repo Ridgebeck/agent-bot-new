@@ -40,9 +40,6 @@ rules:
   - intent: we_are_making_progress
   - action: utter_great_progress
 
-
-  
-
 - rule: Asked about Missing Person
   steps:
   - intent: who_is_missing

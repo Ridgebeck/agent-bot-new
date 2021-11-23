@@ -251,13 +251,13 @@ responses:
 
   utter_joke:
   - text: I had an idea for a movie where a retired CIA agent searches for his daughter in Paris...It turns out that idea was taken.
-  - text: What does a CIA Agent do when it's time for bed? He Goes Under Cover.
+  - text: What does a CIA Agent do when it's time for bed? They go under cover.
   - text: Why do kgb agents work in groups of three? One reads, another writes and the third keeps an eye on these 2 intellectuals.
   - text: What does a government give to their top agent who is also a shrimp? A license to krill.
   - text: Why are former Stasi agents the best taxi drivers in Berlin? All you have to do is tell them your name...they already know where you live.
 
   utter_cannot_do_this:
-  - text: No need for that. I will wait here for your answer.
+  - text: No need for that. We need to work on the current objective first. I will wait here for your answer.
 
   utter_great_progress:
   - text: Great! Let me know when you have the answers ready.
