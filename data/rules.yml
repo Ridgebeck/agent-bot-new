@@ -36,11 +36,12 @@ rules:
   - intent: mood_great
   - action: utter_was_funny
 
-# - rule: Handle negative reply to joke
-#   steps:  
-#   - action: utter_joke
-#   - intent: deny
-#   - action: utter_ 
+# TODO: handle differently
+- rule: Handle negative reply to joke
+  steps:  
+  - action: utter_joke
+  - intent: deny
+  - action: utter_was_funny 
 
 - rule: Asked to do something
   steps:
