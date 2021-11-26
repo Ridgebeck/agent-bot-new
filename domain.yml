@@ -310,6 +310,16 @@ responses:
   - text: 😎
   - text: 😉
 
+  utter_was_funny:
+  - text: 😂
+  - text: 😅
+  - text: 😆
+  - text: 😝
+  - text: 😜
+  - text: 😝
+  - text: 🤣
+  - text: 😃
+
   utter_please:
   - text: please?
   - text: could you, please?

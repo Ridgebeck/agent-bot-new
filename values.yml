@@ -16,6 +16,9 @@ rasax:
     tag: "0.39.3"       
 # rasa: Settings common for all Rasa containers
 rasa:
+    # IMPORTANT: necessary for rest API!
+    additionalChannelCredentials:
+        rest:
     # token Rasa accepts as authentication token from other Rasa services
     token: "HN3D7HW6S369pNbFL7Uc"
     # tag refers to the Rasa image tag
@@ -41,4 +44,4 @@ app:
     # name of the custom action server image to use
     name: "rsniklas/agent_bot_actions"
     # tag refers to the custom action server image tag
-    tag: "v2_2_18"
+    tag: "v2_3_0"

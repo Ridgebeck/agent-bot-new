@@ -1227,6 +1227,15 @@ nlu:
     - too funny
     - you make me laugh
     - lol
+    - lolz
+    - lulz
+    - LOL
+    - hahahahaha
+    - omg
+    - OMG
+    - wow
+    - bwaha
+    - rofl
     - haha
     - hihi
     - hehe
@@ -1243,7 +1252,6 @@ nlu:
     - really cool
     - what a fantastic app
     - this is great
-    - rofl
     - this is too funny
     - lololol
     - pleasure is mine

@@ -30,6 +30,18 @@ rules:
   - intent: tell_a_joke
   - action: utter_joke
 
+- rule: Handle positive reply to joke
+  steps:  
+  - action: utter_joke
+  - intent: mood_great
+  - action: utter_was_funny
+
+# - rule: Handle negative reply to joke
+#   steps:  
+#   - action: utter_joke
+#   - intent: deny
+#   - action: utter_ 
+
 - rule: Asked to do something
   steps:
   - intent: do_this_for_me
