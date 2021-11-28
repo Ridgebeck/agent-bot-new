@@ -1,5 +1,6 @@
 # IMPORTANT: ALWAYS UPDATE FILE ON CLUSTER /SERVER!
 
+
 # rasax specific settings
 rasax:
     # initialUser is the user which is created upon the initial start of Rasa X
@@ -44,4 +45,4 @@ app:
     # name of the custom action server image to use
     name: "rsniklas/agent_bot_actions"
     # tag refers to the custom action server image tag
-    tag: "v2_3_0"
+    tag: "v2_3_24"

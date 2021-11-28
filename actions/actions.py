@@ -1,4 +1,4 @@
-# version 2.3.0
+# version 2.3.26
 
 from collections import OrderedDict
 
@@ -7,7 +7,44 @@ from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
-# TODO: GET DATA DYNAMICALLY FROM SETTINGS?
+# use firebase admin SDK via service account
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+
+# initialize firebase app with credentials
+credDict =	{
+  "type": "service_account",
+  "project_id": "strix-3b648",
+  "private_key_id": "5552c9242ab9aeaca592004edbf233e9a097b788",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDT0l1Raw1thupU\nPuL6kDxjDIj6cf3bnRpi5bW7RJsOG8II8dLYAo2LDD3AbhY5aWB15mV7F9C0LKHJ\nl6X9kv7ugitGKW4yJozKg0jgydBuWay/SRzgYEmgGva4GywOJfYSM3qXuqhGNFa+\nMnRSV6cjUC7Sr5VdQh1HD4ysaiYrEGPa4NhT8TD5SIYfvYygwC+ua+9DYF3g+7UM\nw99c8mMOcEJhvD690ivjelcnDGW8y6Yu9ukBpLfyRjbM8dFNY4qOmxwXWuJS76l7\nO/Uc8T2bW0skPLqG4BEswASn88+v2G1DqHOlKASrrNamZaWv64fgiGxCz7YezmwN\n0MV+SANzAgMBAAECggEAC4B/c2MDa6XJJkyejp8zvZJ6Av9wRXNBHOBUVJg5GImx\nU5hYq+9s4tawqQ5RQ/TQ5BYKqfsfvhOJBXqn7MkFRsuSsKX3RzSIrfEgYp8SzlXY\nPNrU0pTn6pBhl/BXHWg6SxVjMXH/89qhCzA6Lhkhs5fbCF24bUP1ywdbytDzbvXE\n66DncaufX6IzGvlTO8uS6PvYI8t4d0HIUfTM0W5YN0V2thnGzzh4f6XGH+MZLknB\nhXK3AkvDH7v52/YxSbofR+6tGUuBHKU7uiz5nrBcwsxFFrf0RpgyAalETzlDeSKg\nGampHzi0UB/86GAi2T+ffvXYYb12lLBLiEY/Y9b5AQKBgQDr5tvMnIL990EVHukD\nQcNtwJs1SVOE033IwHsy1M3FVUQSNnQc9EvCsmN2N1qIKnaROIo8qdVPyUUHwf8z\nQWWhr+IxRwie0Yca+CvzdZUW5hcBeBJNVQC5sRJW1HstXELnMTaolDAkePQe5bY8\nyZZTJat39dx7Icd71I42yAqT4QKBgQDl3k6uG+v3TkPdBCgEQT5D83fTzdxkOPjS\na2BC9aS8x6GK79/m0rBYr4j8ungkpD/NXtww04jOcWPc2OA1HtV02whbhGiI8B5j\nAjJb71ikUpdDajJEoXwfC/0NOi4a6YqxNquGteiQDG3sxKN534ltOwGkPZEVz1sj\nBKp1boRB0wKBgQDgQeEmDIvCnzDxwSbGf9gnF/j0mTaaiOuE0ubLld3gAITrw3Ry\nqhLzjd5b3Zdk5uk8eMGBlfpBFRdYnqXatgrFwIyJR/v77zg+/TnbAiavVCD+toS/\nm1VLMfg7L1fB8Xlwiypo7CcwJQP982ZhN0p+1MrDCamGLMCVCaYAkf7sQQKBgQCX\nwdvKAK8ZV3dgO/U7UeOMsvlCQR+mnyJOsQsdSdVXuKhC9LiqSCCafFEBIQ5ein2A\n1YajSZSBTsTyMdBb4Z5lBpIO8WyeM4CsNvAOWAb6fXhVzo+fVcl/KcgH6ogzxkmF\nU6WMSx5ds4cDEJMoy9aL4a/kway+bGYryVHMM4lndwKBgGq22Dx3FzHUOW75S9Zj\n9Q0Eduik5rngUNjBkQgjbatYFKkCeNiJUhGUSMjZxoWmmXMMjc0YFooe+s1YbkAc\npIhgBqvlcOVDtAhtJlWjptaDssXP8rbKJKviLWMlL6G2nrUfsfLPwwFF3ZMk0UnA\n7OPVm7uVnkFAC5swQhQ+0oDG\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fj4ol@strix-3b648.iam.gserviceaccount.com",
+  "client_id": "107409023459416415651",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fj4ol%40strix-3b648.iam.gserviceaccount.com"
+}
+
+cred = credentials.Certificate(credDict)
+firebase_admin.initialize_app(cred)
+
+# save database reference
+db = firestore.client()
+
+# field references
+roomCollection = u'activeRooms'
+gameProgressField = u'gameProgress'
+settingField = u'settings'
+availableAssetsField = u'availableAssets'
+missionField = u'mission'
+goalsField = u'currentGoals'
+entityField = u'entity'
+solutionField = u'solution'
+
+
+
 
 # RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS VALUES, e.g. "password"
 # RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
@@ -35,35 +72,35 @@ alreadyToldGoalName = 'already_told_goal'
 # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
 solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
 
-# answers are defined here
-answerDict = {}
-answerDict["password_1"]   = "123456"
-answerDict["store_1"]      = "Alphabet Soup"
-answerDict["restaurant_1"] = "Spago"
-answerDict["pier_1"]       = "Pier 49"
-answerDict["password_2"]   = "456789"
+# # answers are defined here
+# answerDict = {}
+# answerDict["password_1"]   = "123456"
+# answerDict["store_1"]      = "Alphabet Soup"
+# answerDict["restaurant_1"] = "Spago"
+# answerDict["pier_1"]       = "Pier 49"
+# answerDict["password_2"]   = "456789"
 
-# defined answers to what's next questions
-whatsNextDict = {}
-whatsNextDict["password_1"]   = "I need you to help me find the passcode for the tablet."
-whatsNextDict["store_1"]      = "You need to find out where Derek went from his apartment."
-whatsNextDict["restaurant_1"] = "I need to know which restaurant the group went to."
-whatsNextDict["pier_1"]       = "Derek is held captive somewhere. You need to find out the location."
-whatsNextDict["password_2"]   = "I need the passcode to open the door to the warehouse."
+# # defined answers to what's next questions
+# whatsNextDict = {}
+# whatsNextDict["password_1"]   = "I need you to help me find the passcode for the tablet."
+# whatsNextDict["store_1"]      = "You need to find out where Derek went from his apartment."
+# whatsNextDict["restaurant_1"] = "I need to know which restaurant the group went to."
+# whatsNextDict["pier_1"]       = "Derek is held captive somewhere. You need to find out the location."
+# whatsNextDict["password_2"]   = "I need the passcode to open the door to the warehouse."
 
-# hints are defined here
-hintsDict = {}
-hintsDict["password_1"] = [
-	"it should be a 6 digit code",
-	"check the background picture on the tablet",
-	"it has something to do with chess",
-	"there is a chess trophy in the room",
-	"the date on the trophy seems to be important",
-	"it should be US date format (MM/DD/YY)"]
-hintsDict["store_1"]      = ["store_hint1", "store_hint2", "store_hint3"]
-hintsDict["restaurant_1"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
-hintsDict["pier_1"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
-hintsDict["password_2"]   = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
+# # hints are defined here
+# hintsDict = {}
+# hintsDict["password_1"] = [
+# 	"it should be a 6 digit code",
+# 	"check the background picture on the tablet",
+# 	"it has something to do with chess",
+# 	"there is a chess trophy in the room",
+# 	"the date on the trophy seems to be important",
+# 	"it should be US date format (MM/DD/YY)"]
+# hintsDict["store_1"]      = ["store_hint1", "store_hint2", "store_hint3"]
+# hintsDict["restaurant_1"] = ["rest_hint1", "rest_hint2", "rest_hint3"]
+# hintsDict["pier_1"]       = ["pier_hint1", "pier_hint2", "pier_hint3"]
+# hintsDict["password_2"]   = ["pw2_hint1", "pw2_hint2", "pw2_hint3"]
 
 
 class ActionVerifyGuess(Action):
@@ -73,71 +110,155 @@ class ActionVerifyGuess(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# get intent from last message
-		intent = tracker.latest_message.get('intent').get('name')
+		# save intent, entity and roomID (aka. senderID)
+		intent = tracker.get_intent_of_latest_message()
+		entity = tracker.get_slot(intent)
+		roomID = tracker.sender_id
 
-		# utter fallback message if no intent or intent name was found or if intent is no riddle intent
-		if intent == None or intent not in set(slotNameDict.values()):
+		# utter fallback message if no intent was found
+		if intent == None or entity == None:
 			dispatcher.utter_message(response = "utter_default")
 			return []
+		# proceed if an intent was given
 		else:
-			# get entity from RASA message
-			entity = tracker.get_slot(intent)
-			
-			# utter fallback message if entity could not be found
-			if entity == None:
-				dispatcher.utter_message(response = "utter_default")
+
+			# TESTING: allow for trouble shooting through RASA X UI
+			if len(roomID) > 10:
+				# use an existing room as dummy
+				roomID = "ARXYDR"
+
+
+			# try to get room document with specific roomID
+			roomDoc= db.collection(roomCollection).document(roomID).get()
+
+			# check if a room with this roomID exists
+			if roomDoc.exists == False:
+				# TODO: error handling when room cannot be found
+				dispatcher.utter_message(text = "room {} does not exist".format(roomID))
 				return []
 			else:
 
-				# store all solution slot values from RASA bot in list
-				rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+				# save room data as a dict
+				roomData = roomDoc.to_dict()
 
-				# go through solution list and find active riddle index
-				# (first index where entry is None)
-				if None not in rasaSolutionSlotList:
-					# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-					dispatcher.utter_message(response = "utter_everything_solved")
+				# create empty dict for an intent matching goal
+				matchingGoal = {}
+
+				# find the current assets based on game progress
+				currentAssets = {}
+				for assetEntry in roomData[settingField][availableAssetsField]:
+					# save current assetEntry
+					if list(assetEntry.keys())[0] == roomData[gameProgressField]:
+						currentAssets = assetEntry[roomData[gameProgressField]]
+
+				# check if current assetEntry has mission field
+				if missionField not in currentAssets:
+					# TODO: error handling when mission field cannot be found
+					dispatcher.utter_message(text = "no mission field entry")
 					return []
 				else:
-					activeRiddleIndex = rasaSolutionSlotList.index(None)
-
-				# find index list of active riddles with same intent (e.g. all active password riddles)
-				index_list = [idx for idx, value in enumerate(solutionSlotNameList[activeRiddleIndex:]) if intent in value]
-
-				# check if there are any active riddles of the matching type left
-				if not index_list:
-					# give user feedback about the mismatching categories and exit action
-					dispatcher.utter_message(response = "utter_wrong_category")
-					return []
-
-				# save index of matching riddle (e.g. first "password") in active riddle list
-				inputRiddleIndex = activeRiddleIndex + index_list[0]
-
-				# #correct_answer = Answer[SlotName(intent).name].value
-				# dispatcher.utter_message(text = "inputRiddleIndex: {}".format(inputRiddleIndex))
-				# dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
-				# dispatcher.utter_message(text = "solutionSlotNameList[activeRiddleIndex]: {}".format(solutionSlotNameList[activeRiddleIndex]))
-				
-				# check if intent matches the active riddle and an entity was recognized
-				if inputRiddleIndex == activeRiddleIndex:        
-					# save correct answer for intent in variable
-					correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]    
-
-					# verify if given answer is correct (not case sensitive)
-					if entity.lower() == correct_answer.lower():
-						dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
-						# set correct answer in solution slot, reset hint counter and agent_should_solve slots
-						return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet(agentShouldSolveName, False), SlotSet(alreadyToldGoalName, False)]
+					# check if mission entry has goal field
+					if goalsField not in currentAssets[missionField]:
+						# TODO: error handling when goals field cannot be found
+						dispatcher.utter_message(text = "no goal field entry")
+						return []
 					else:
-						dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
-						return [SlotSet(intent, None)]
 
-				# when the current riddle category doesn't match
-				else:
-					# give user feedback about the mismatching categories and exit action
-					dispatcher.utter_message(response = "utter_wrong_category")
-					return [SlotSet(intent, None)]
+						# go through all current goals (list)
+						for goal in currentAssets[missionField][goalsField]:						
+							# check if any entity of current goals matches the intent
+							if entityField in goal:
+								# save first matching goal and exit loop
+								if intent == goal[entityField]:
+									# WARNING: cannot have multiple riddles with same intent at the same time!
+									matchingGoal = goal
+									break
+
+						# check if a matching goal was found
+						if matchingGoal:
+							# check if guess is correct
+							# TODO: ignore caps
+							if entity == matchingGoal[solutionField]:
+								dispatcher.utter_message(text = 'answer {} was correct!'.format(entity))
+								return []
+							else:
+								dispatcher.utter_message(text = 'answer {} was not correct!'.format(entity))
+								return []
+							# TODO: CONTINUE
+							
+						else:
+							# TODO: REPLY WITH INFO ABOUT MISMATCHED INTENT
+							# I am not looking for this right now
+							dispatcher.utter_message(text = 'no matching entity found to intent: {}'.format(intent))
+
+
+
+
+		# # get intent from last message
+		# intent = tracker.latest_message.get('intent').get('name')
+
+		# # utter fallback message if no intent or intent name was found or if intent is no riddle intent
+		# if intent == None or intent not in set(slotNameDict.values()):
+		# 	dispatcher.utter_message(response = "utter_default")
+		# 	return []
+		# else:
+		# 	# get entity from RASA message
+		# 	entity = tracker.get_slot(intent)
+			
+		# 	# utter fallback message if entity could not be found
+		# 	if entity == None:
+		# 		dispatcher.utter_message(response = "utter_default")
+		# 		return []
+		# 	else:
+
+		# 		# store all solution slot values from RASA bot in list
+		# 		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+
+		# 		# go through solution list and find active riddle index
+		# 		# (first index where entry is None)
+		# 		if None not in rasaSolutionSlotList:
+		# 			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
+		# 			dispatcher.utter_message(response = "utter_everything_solved")
+		# 			return []
+		# 		else:
+		# 			activeRiddleIndex = rasaSolutionSlotList.index(None)
+
+		# 		# find index list of active riddles with same intent (e.g. all active password riddles)
+		# 		index_list = [idx for idx, value in enumerate(solutionSlotNameList[activeRiddleIndex:]) if intent in value]
+
+		# 		# check if there are any active riddles of the matching type left
+		# 		if not index_list:
+		# 			# give user feedback about the mismatching categories and exit action
+		# 			dispatcher.utter_message(response = "utter_wrong_category")
+		# 			return []
+
+		# 		# save index of matching riddle (e.g. first "password") in active riddle list
+		# 		inputRiddleIndex = activeRiddleIndex + index_list[0]
+
+		# 		# #correct_answer = Answer[SlotName(intent).name].value
+		# 		# dispatcher.utter_message(text = "inputRiddleIndex: {}".format(inputRiddleIndex))
+		# 		# dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
+		# 		# dispatcher.utter_message(text = "solutionSlotNameList[activeRiddleIndex]: {}".format(solutionSlotNameList[activeRiddleIndex]))
+				
+		# 		# check if intent matches the active riddle and an entity was recognized
+		# 		if inputRiddleIndex == activeRiddleIndex:        
+		# 			# save correct answer for intent in variable
+		# 			correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]    
+
+		# 			# verify if given answer is correct (not case sensitive)
+		# 			if entity.lower() == correct_answer.lower():
+		# 				dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
+		# 				# set correct answer in solution slot, reset hint counter and agent_should_solve slots
+		# 				return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet(agentShouldSolveName, False), SlotSet(alreadyToldGoalName, False)]
+		# 			else:
+		# 				dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
+		# 				return [SlotSet(intent, None)]
+
+		# 		# when the current riddle category doesn't match
+		# 		else:
+		# 			# give user feedback about the mismatching categories and exit action
+		# 			dispatcher.utter_message(response = "utter_wrong_category")
+		# 			return [SlotSet(intent, None)]
 
 
 class ActionNextGoal(Action):
