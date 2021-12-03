@@ -218,8 +218,9 @@ class ActionVerifyGuess(Action):
 
 						# offer help if 3 times guessed wrong
 						if int(matchingGoal[wrongGuessField]) > 3:
-							dispatcher.utter_message(response = "utter_offer_help")
-							return []
+							#dispatcher.utter_message(response = "utter_offer_help")
+							return [rasa_sdk.events.FollowupAction("utter_offer_help")]
+							#return []
 						else:
 							dispatcher.utter_message(response = "utter_incorrect_" + intent)
 							return []
