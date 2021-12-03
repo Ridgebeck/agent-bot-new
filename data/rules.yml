@@ -158,6 +158,12 @@ rules:
   - intent: affirm
   - action: action_help_user
 
+- rule: Handle positive reply to help offer 2
+  steps:  
+  - action: action_verify_guess
+  - intent: affirm
+  - action: action_help_user
+
 - rule: Handle negative reply to help offer
   steps:  
   - action: utter_offer_help

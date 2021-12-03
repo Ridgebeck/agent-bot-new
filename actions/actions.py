@@ -1,4 +1,4 @@
-# version 2.3.26
+# version 2.3.83
 
 from collections import OrderedDict
 
@@ -33,16 +33,58 @@ firebase_admin.initialize_app(cred)
 # save database reference
 db = firestore.client()
 
-# field references
+# prepare for transactions
+transaction = db.transaction()
+
+
+@firestore.transactional
+def increase_wrongGuess_counter(transaction, dynamicDataDocRef, matchingGoalIndex):
+	# get snapshot of doc and data as dict
+	snapshot = dynamicDataDocRef.get(transaction=transaction)
+	dynamicData = snapshot.to_dict()
+
+	# read current goals list (whole list)
+	goalList = dynamicData[goalsField]
+
+	# increase wrongGuessCounter for specific goal 
+	goalList[dynamicData[gameProgressIDField]][goalsField][matchingGoalIndex][wrongGuessField] += 1
+
+	# update goalList in dynamic data document
+	transaction.update(dynamicDataDocRef, {goalsField: goalList})
+
+
+@firestore.transactional
+def move_forward_and_lock(transaction, dynamicDataDocRef, dispatcher):
+	# get snapshot of doc and data as dict
+	snapshot = dynamicDataDocRef.get(transaction=transaction)
+	dynamicData = snapshot.to_dict()
+
+	# check if document is locked (already guessed correctly)
+	if dynamicData[lockedForBotField] == False:
+		# increase current progress ID and lock document for bot
+		transaction.update(dynamicDataDocRef, {gameProgressIDField: dynamicData[gameProgressIDField] + 1, lockedForBotField: True})
+
+
+
+# collection and document references
 roomCollection = u'activeRooms'
+chatCollection = u'chat'
+dataCollection = u'data'
+chatDocument = u'chatData'
+dynamicDataDocument = u'dynamicData'
+
+# field references
 gameProgressField = u'gameProgress'
+gameProgressIDField = u'gameProgressID'
+lockedForBotField = u'lockedForBot'
 settingField = u'settings'
+goalsField = u'goals'
 availableAssetsField = u'availableAssets'
 missionField = u'mission'
-goalsField = u'currentGoals'
+#goalsField = u'currentGoals'
 entityField = u'entity'
 solutionField = u'solution'
-
+wrongGuessField = u'wrongGuessCounter'
 
 
 
@@ -110,13 +152,13 @@ class ActionVerifyGuess(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# save intent, entity and roomID (aka. senderID)
-		intent = tracker.get_intent_of_latest_message()
-		entity = tracker.get_slot(intent)
+		# save intent, guess and roomID (aka. senderID)
+		intent = str(tracker.get_intent_of_latest_message())
+		guess = str(tracker.get_slot(intent))
 		roomID = tracker.sender_id
 
 		# utter fallback message if no intent was found
-		if intent == None or entity == None:
+		if intent == None or guess == None:
 			dispatcher.utter_message(response = "utter_default")
 			return []
 		# proceed if an intent was given
@@ -125,72 +167,142 @@ class ActionVerifyGuess(Action):
 			# TESTING: allow for trouble shooting through RASA X UI
 			if len(roomID) > 10:
 				# use an existing room as dummy
-				roomID = "ARXYDR"
+				roomID = "NEQIBR"
 
+			# store reference to document with dynamic data
+			dynamicDataDocRef = db.collection(roomCollection).document(roomID).collection(dataCollection).document(dynamicDataDocument)
+			
+			# # get room document from reference
+			dynamicDataDoc = dynamicDataDocRef.get()
 
-			# try to get room document with specific roomID
-			roomDoc= db.collection(roomCollection).document(roomID).get()
-
-			# check if a room with this roomID exists
-			if roomDoc.exists == False:
+			# check if the document exists
+			if dynamicDataDoc.exists == False:
 				# TODO: error handling when room cannot be found
 				dispatcher.utter_message(text = "room {} does not exist".format(roomID))
 				return []
-			else:
+			else:				
 
 				# save room data as a dict
-				roomData = roomDoc.to_dict()
+				dynamicData = dynamicDataDoc.to_dict()
 
-				# create empty dict for an intent matching goal
+				# create empty dict for an intent-matching goal
 				matchingGoal = {}
+				matchingGoalIndex = None
 
-				# find the current assets based on game progress
-				currentAssets = {}
-				for assetEntry in roomData[settingField][availableAssetsField]:
-					# save current assetEntry
-					if list(assetEntry.keys())[0] == roomData[gameProgressField]:
-						currentAssets = assetEntry[roomData[gameProgressField]]
+				# # TODO: create constants with field names
+				currentGoals = dynamicData[goalsField][dynamicData[gameProgressIDField]][goalsField]
 
-				# check if current assetEntry has mission field
-				if missionField not in currentAssets:
-					# TODO: error handling when mission field cannot be found
-					dispatcher.utter_message(text = "no mission field entry")
-					return []
-				else:
-					# check if mission entry has goal field
-					if goalsField not in currentAssets[missionField]:
-						# TODO: error handling when goals field cannot be found
-						dispatcher.utter_message(text = "no goal field entry")
+				for idx, goal in enumerate(currentGoals):
+					if entityField in goal:
+						if intent == goal[entityField]:
+							# save first matching goal and exit loop
+							# WARNING: cannot have multiple riddles with same intent at the same time!
+							matchingGoal = goal
+							matchingGoalIndex = idx
+							break
+
+				# check if a matching goal was found
+				if matchingGoal:
+					# save correct answer in variable
+					correctAnswer = str(matchingGoal[solutionField])
+
+					# check if guess is correct
+					if guess.lower() == correctAnswer.lower():
+						# progress and lock for bot to avoid multiple correct guesses
+						move_forward_and_lock(transaction=transaction, dynamicDataDocRef=dynamicDataDocRef, dispatcher=dispatcher)
+						dispatcher.utter_message(response = "utter_correct_" + intent)
 						return []
 					else:
+						# increase wrongGuess counter by one 
+						increase_wrongGuess_counter(transaction=transaction, dynamicDataDocRef=dynamicDataDocRef, matchingGoalIndex=matchingGoalIndex)
 
-						# go through all current goals (list)
-						for goal in currentAssets[missionField][goalsField]:						
-							# check if any entity of current goals matches the intent
-							if entityField in goal:
-								# save first matching goal and exit loop
-								if intent == goal[entityField]:
-									# WARNING: cannot have multiple riddles with same intent at the same time!
-									matchingGoal = goal
-									break
-
-						# check if a matching goal was found
-						if matchingGoal:
-							# check if guess is correct
-							# TODO: ignore caps
-							if entity == matchingGoal[solutionField]:
-								dispatcher.utter_message(text = 'answer {} was correct!'.format(entity))
-								return []
-							else:
-								dispatcher.utter_message(text = 'answer {} was not correct!'.format(entity))
-								return []
-							# TODO: CONTINUE
-							
+						# offer help if 3 times guessed wrong
+						if int(matchingGoal[wrongGuessField]) > 3:
+							dispatcher.utter_message(response = "utter_offer_help")
+							return []
 						else:
-							# TODO: REPLY WITH INFO ABOUT MISMATCHED INTENT
-							# I am not looking for this right now
-							dispatcher.utter_message(text = 'no matching entity found to intent: {}'.format(intent))
+							dispatcher.utter_message(response = "utter_incorrect_" + intent)
+							return []
 
+				# handle wrong intent (no matching goal)
+				else:
+					dispatcher.utter_message(response = "utter_wrong_category")
+					return [SlotSet(intent, None)]
+
+
+
+
+				# set indices of arrays to None
+				#matchingGoalIndex = None
+
+				# # find the current assets based on game progress
+				# currentAssets = {}
+				# for idx, assetEntry in enumerate(availableAssets):
+				# 	# save current assetEntry
+				# 	if list(assetEntry.keys())[0] == roomData[gameProgressField]:
+				# 		currentAssetIndex = idx
+				# 		currentAssets = assetEntry[roomData[gameProgressField]]
+
+				# # check if current assetEntry has mission field
+				# if missionField not in currentAssets:
+				# 	# TODO: error handling when mission field cannot be found
+				# 	dispatcher.utter_message(text = "no mission field entry")
+				# 	return []
+				# else:
+				# 	# check if mission entry has goal field
+				# 	if goalsField not in currentAssets[missionField]:
+				# 		# TODO: error handling when goals field cannot be found
+				# 		dispatcher.utter_message(text = "no goal field entry")
+				# 		return []
+				# 	else:
+
+						# # go through all current goals (list)
+						# for idx, goal in enumerate(currentAssets[missionField][goalsField]):					
+						# 	# check if any entity of current goals matches the intent
+						# 	if entityField in goal:								
+						# 		if intent == goal[entityField]:
+						# 			# save first matching goal and its index, and exit loop
+						# 			# WARNING: cannot have multiple riddles with same intent at the same time!
+						# 			matchingGoal = goal
+						# 			matchingGoalIndex = idx
+						# 			break
+
+
+
+
+						# # check if a matching goal was found
+						# if matchingGoal:							
+						# 	# save correct answer in variable
+						# 	correctAnswer = matchingGoal[solutionField]
+
+						# 	# convert guess and answer to string if necessary
+						# 	if not isinstance(guess, str):
+						# 		guess = str(guess)
+						# 	if not isinstance(correctAnswer, str):
+						# 		correctAnswer = str(correctAnswer)								
+
+						# 	# check if guess is correct
+						# 	if guess.lower() == correctAnswer.lower():
+						# 		# TODO: MOVE FORWARD IN STORY IF CORRECT
+						# 		dispatcher.utter_message(response = "utter_correct_" + intent)
+						# 		return []
+						# 	else:
+						# 		# CHECK IF ALREADY 3X guessed wrong
+						# 		if matchingGoal[wrongGuessField] >= 3:
+						# 			# TODO: utter_offer_help
+						# 			dispatcher.utter_message(text = "Offer help!")
+						# 		else:
+						# 			# increase wrongGuess counter by one
+						# 			increase_wrongGuess_counter(transaction=transaction, roomDocRef=roomDocRef, currentAssetIndex=currentAssetIndex, matchingGoalIndex=matchingGoalIndex)
+
+						# 			dispatcher.utter_message(response = "utter_incorrect_" + intent)
+						# 			return []
+						
+						# # handle wrong intent
+						# else:
+						# 	#dispatcher.utter_message(text = "wrong category!")
+						# 	dispatcher.utter_message(response = "utter_wrong_category")
+						# 	return [SlotSet(intent, None)]
 
 
 
@@ -300,33 +412,42 @@ class ActionHelpUser(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# store all solution slot values from RASA bot in respective lists
-		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-		# get current hint counter value
-		rasaHintCounter = tracker.get_slot(hintCounterName)
+
+		dispatcher.utter_message(text = "OFFER HINT!")
+
+
+		# # store all solution slot values from RASA bot in respective lists
+		# rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
+		# # get current hint counter value
+		# rasaHintCounter = tracker.get_slot(hintCounterName)
 	
-		# go through solution list and find active riddle index
-		# (first index where entry is None)
-		if None not in rasaSolutionSlotList:
-			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-			dispatcher.utter_message(response = "utter_everything_solved")
-			return []
-		else:
-			# define active riddle index
-			activeRiddleIndex = rasaSolutionSlotList.index(None)
-			# get name of active riddle	
-			currentRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
-			# check if there is a hint left
-			if rasaHintCounter < len(hintsDict[currentRiddleName]):
-				# give the hint and increase the hint counter by one
-				currentHint = hintsDict[currentRiddleName][rasaHintCounter]
-				dispatcher.utter_message(text = currentHint)
-				return [SlotSet(hintCounterName, rasaHintCounter + 1)]
-			else:
-				# ask if agent should solve the riddle and set slot to true
-				dispatcher.utter_message(response = "utter_should_i_solve")
-				# set agent_should_solve slot to true
-				return [SlotSet(agentShouldSolveName, True)]
+		# # go through solution list and find active riddle index
+		# # (first index where entry is None)
+		# if None not in rasaSolutionSlotList:
+		# 	# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
+		# 	dispatcher.utter_message(response = "utter_everything_solved")
+		# 	return []
+		# else:
+		# 	# define active riddle index
+		# 	activeRiddleIndex = rasaSolutionSlotList.index(None)
+		# 	# get name of active riddle
+		# 	currentRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
+		# 	# check if there is a hint left
+		# 	if rasaHintCounter < len(hintsDict[currentRiddleName]):
+		# 		# give the hint and increase the hint counter by one
+		# 		currentHint = hintsDict[currentRiddleName][rasaHintCounter]
+		# 		dispatcher.utter_message(text = currentHint)
+		# 		return [SlotSet(hintCounterName, rasaHintCounter + 1)]
+		# 	else:
+		# 		# ask if agent should solve the riddle and set slot to true
+		# 		dispatcher.utter_message(response = "utter_should_i_solve")
+		# 		# set agent_should_solve slot to true
+		# 		return [SlotSet(agentShouldSolveName, True)]
+
+
+
+
+
 
 
 class ActionSolveRiddleOrWait(Action):

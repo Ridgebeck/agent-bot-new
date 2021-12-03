@@ -101,61 +101,61 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_password_1:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
-  solution_password_2:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
+  # solution_password_1:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: false
+  # solution_password_2:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: false
   store:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_store_1:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
+  # solution_store_1:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: false
   restaurant:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_restaurant_1:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
+  # solution_restaurant_1:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: false
   pier:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  solution_pier_1:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: false
-    influence_conversation: false
-  hint_counter:
-    type: float
-    initial_value: 0
-    auto_fill: false
-    influence_conversation: false
-  agent_should_solve:
-    type: bool
-    initial_value: false
-    auto_fill: false
-    influence_conversation: false
-  already_told_goal:
-    type: bool
-    initial_value: false
-    auto_fill: false
-    influence_conversation: false
+  # solution_pier_1:
+  #   type: rasa.shared.core.slots.TextSlot
+  #   initial_value: null
+  #   auto_fill: false
+  #   influence_conversation: false
+  # hint_counter:
+  #   type: float
+  #   initial_value: 0
+  #   auto_fill: false
+  #   influence_conversation: false
+  # agent_should_solve:
+  #   type: bool
+  #   initial_value: false
+  #   auto_fill: false
+  #   influence_conversation: false
+  # already_told_goal:
+  #   type: bool
+  #   initial_value: false
+  #   auto_fill: false
+  #   influence_conversation: false
 
 
 
@@ -377,6 +377,7 @@ responses:
   - text: |-
       {password} worked!
        -- NEXT RIDDLE: STORE --
+
   utter_incorrect_password:
   - text: '{password} did not work. Must be a different combination.'
   - text: Hhm, that did not work.
