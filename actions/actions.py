@@ -1,11 +1,11 @@
-# version 2.3.83
-
+# version 2.4.05
 from collections import OrderedDict
 
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
+from rasa_sdk.events import FollowupAction
 
 # use firebase admin SDK via service account
 import firebase_admin
@@ -219,7 +219,7 @@ class ActionVerifyGuess(Action):
 						# offer help if 3 times guessed wrong
 						if int(matchingGoal[wrongGuessField]) > 3:
 							#dispatcher.utter_message(response = "utter_offer_help")
-							return [rasa_sdk.events.FollowupAction("utter_offer_help")]
+							return [FollowupAction(name = "utter_offer_help")]
 							#return []
 						else:
 							dispatcher.utter_message(response = "utter_incorrect_" + intent)
