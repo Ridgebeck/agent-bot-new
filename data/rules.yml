@@ -181,18 +181,6 @@ rules:
   - intent: deny
   - action: action_solve_riddle_or_wait
 
-- rule: Solve riddle for user when they agree
-  steps:
-  - action: action_next_goal
-  - intent: affirm
-  - action: action_help_user
-
-- rule: Solve riddle for user when they agree
-  steps:
-  - action: action_next_goal
-  - intent: deny
-  - action: utter_do_not_solve  
-
 
 # --------------------------------------------------
 # HANDLE CLARIFICATION QUESTIONS

@@ -47,7 +47,7 @@ def increase_wrongGuess_counter(transaction, dynamicDataDocRef, matchingGoalInde
 	goalList = dynamicData[goalsField]
 
 	# increase wrongGuessCounter for specific goal 
-	goalList[dynamicData[gameProgressIDField]][goalsField][matchingGoalIndex][wrongGuessField] += 1
+	goalList[dynamicData[gameProgressIDField]][goalsField][matchingGoalIndex][wrongGuessCounterField] += 1
 
 	# update goalList in dynamic data document
 	transaction.update(dynamicDataDocRef, {goalsField: goalList})
@@ -64,7 +64,8 @@ def move_forward_and_lock(transaction, dynamicDataDocRef, dispatcher):
 		# increase current progress ID and lock document for bot
 		transaction.update(dynamicDataDocRef, {gameProgressIDField: dynamicData[gameProgressIDField] + 1, lockedForBotField: True})
 
-
+# FOR TESTING
+testingRoom = "NEQIBR"
 
 # collection and document references
 roomCollection = u'activeRooms'
@@ -80,39 +81,42 @@ lockedForBotField = u'lockedForBot'
 settingField = u'settings'
 goalsField = u'goals'
 availableAssetsField = u'availableAssets'
-missionField = u'mission'
+whatsNextField = u'whatsNext'
+#missionField = u'mission'
 #goalsField = u'currentGoals'
 entityField = u'entity'
 solutionField = u'solution'
-wrongGuessField = u'wrongGuessCounter'
+hintCounterField = u'hintCounter'
+hintsField = u'hints'
+wrongGuessCounterField = u'wrongGuessCounter'
 
 
 
-# RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS VALUES, e.g. "password"
-# RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
-# ORDER OF RIDDLES IS DEFINED HERE!
-slotNameDict = OrderedDict()
-slotNameDict["password_1"]   = "password"
-slotNameDict["store_1"]      = "store"
-slotNameDict["restaurant_1"] = "restaurant"
-slotNameDict["pier_1"]       = "pier"
-slotNameDict["password_2"]   = "password"
+# # RASA SLOTS (ENTITIES) MUST BE NAMED THE SAME AS VALUES, e.g. "password"
+# # RASA SOLUTION SLOTS MUST BE NAMED AS "solution_" + key, e.g. "solution_password_1"
+# # ORDER OF RIDDLES IS DEFINED HERE!
+# slotNameDict = OrderedDict()
+# slotNameDict["password_1"]   = "password"
+# slotNameDict["store_1"]      = "store"
+# slotNameDict["restaurant_1"] = "restaurant"
+# slotNameDict["pier_1"]       = "pier"
+# slotNameDict["password_2"]   = "password"
 
-# RASA solution slot prefix
-solutionPrefix = "solution_"
+# # RASA solution slot prefix
+# solutionPrefix = "solution_"
 
-# name of RASA agent should solve slot
-agentShouldSolveName = 'agent_should_solve'
+# # name of RASA agent should solve slot
+# agentShouldSolveName = 'agent_should_solve'
 
-# name of RASA hint counter slot
-hintCounterName = 'hint_counter'
+# # name of RASA hint counter slot
+# hintCounterName = 'hint_counter'
 
-# name of RASA already told slot
-alreadyToldGoalName = 'already_told_goal'
+# # name of RASA already told slot
+# alreadyToldGoalName = 'already_told_goal'
 
-# convert keys to list that contains solution slot names
-# IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
-solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
+# # convert keys to list that contains solution slot names
+# # IMPORTANT: RASA slots need to follow the same naming convention of solutionPrefix + slotName
+# solutionSlotNameList = [solutionPrefix + key for key in list(slotNameDict.keys())]
 
 # # answers are defined here
 # answerDict = {}
@@ -166,13 +170,12 @@ class ActionVerifyGuess(Action):
 
 			# TESTING: allow for trouble shooting through RASA X UI
 			if len(roomID) > 10:
-				# use an existing room as dummy
-				roomID = "NEQIBR"
+				roomID = testingRoom
 
 			# store reference to document with dynamic data
 			dynamicDataDocRef = db.collection(roomCollection).document(roomID).collection(dataCollection).document(dynamicDataDocument)
 			
-			# # get room document from reference
+			# get room document from reference
 			dynamicDataDoc = dynamicDataDocRef.get()
 
 			# check if the document exists
@@ -181,7 +184,6 @@ class ActionVerifyGuess(Action):
 				dispatcher.utter_message(text = "room {} does not exist".format(roomID))
 				return []
 			else:				
-
 				# save room data as a dict
 				dynamicData = dynamicDataDoc.to_dict()
 
@@ -189,7 +191,7 @@ class ActionVerifyGuess(Action):
 				matchingGoal = {}
 				matchingGoalIndex = None
 
-				# # TODO: create constants with field names
+				# save current goal
 				currentGoals = dynamicData[goalsField][dynamicData[gameProgressIDField]][goalsField]
 
 				for idx, goal in enumerate(currentGoals):
@@ -217,8 +219,8 @@ class ActionVerifyGuess(Action):
 						increase_wrongGuess_counter(transaction=transaction, dynamicDataDocRef=dynamicDataDocRef, matchingGoalIndex=matchingGoalIndex)
 
 						# offer help if 3 times guessed wrong
-						if int(matchingGoal[wrongGuessField]) > 3:
-							#dispatcher.utter_message(response = "utter_offer_help")
+						if int(matchingGoal[wrongGuessCounterField]) > 3:
+							dispatcher.utter_message(response = "utter_incorrect_" + intent)
 							return [FollowupAction(name = "utter_offer_help")]
 							#return []
 						else:
@@ -232,148 +234,6 @@ class ActionVerifyGuess(Action):
 
 
 
-
-				# set indices of arrays to None
-				#matchingGoalIndex = None
-
-				# # find the current assets based on game progress
-				# currentAssets = {}
-				# for idx, assetEntry in enumerate(availableAssets):
-				# 	# save current assetEntry
-				# 	if list(assetEntry.keys())[0] == roomData[gameProgressField]:
-				# 		currentAssetIndex = idx
-				# 		currentAssets = assetEntry[roomData[gameProgressField]]
-
-				# # check if current assetEntry has mission field
-				# if missionField not in currentAssets:
-				# 	# TODO: error handling when mission field cannot be found
-				# 	dispatcher.utter_message(text = "no mission field entry")
-				# 	return []
-				# else:
-				# 	# check if mission entry has goal field
-				# 	if goalsField not in currentAssets[missionField]:
-				# 		# TODO: error handling when goals field cannot be found
-				# 		dispatcher.utter_message(text = "no goal field entry")
-				# 		return []
-				# 	else:
-
-						# # go through all current goals (list)
-						# for idx, goal in enumerate(currentAssets[missionField][goalsField]):					
-						# 	# check if any entity of current goals matches the intent
-						# 	if entityField in goal:								
-						# 		if intent == goal[entityField]:
-						# 			# save first matching goal and its index, and exit loop
-						# 			# WARNING: cannot have multiple riddles with same intent at the same time!
-						# 			matchingGoal = goal
-						# 			matchingGoalIndex = idx
-						# 			break
-
-
-
-
-						# # check if a matching goal was found
-						# if matchingGoal:							
-						# 	# save correct answer in variable
-						# 	correctAnswer = matchingGoal[solutionField]
-
-						# 	# convert guess and answer to string if necessary
-						# 	if not isinstance(guess, str):
-						# 		guess = str(guess)
-						# 	if not isinstance(correctAnswer, str):
-						# 		correctAnswer = str(correctAnswer)								
-
-						# 	# check if guess is correct
-						# 	if guess.lower() == correctAnswer.lower():
-						# 		# TODO: MOVE FORWARD IN STORY IF CORRECT
-						# 		dispatcher.utter_message(response = "utter_correct_" + intent)
-						# 		return []
-						# 	else:
-						# 		# CHECK IF ALREADY 3X guessed wrong
-						# 		if matchingGoal[wrongGuessField] >= 3:
-						# 			# TODO: utter_offer_help
-						# 			dispatcher.utter_message(text = "Offer help!")
-						# 		else:
-						# 			# increase wrongGuess counter by one
-						# 			increase_wrongGuess_counter(transaction=transaction, roomDocRef=roomDocRef, currentAssetIndex=currentAssetIndex, matchingGoalIndex=matchingGoalIndex)
-
-						# 			dispatcher.utter_message(response = "utter_incorrect_" + intent)
-						# 			return []
-						
-						# # handle wrong intent
-						# else:
-						# 	#dispatcher.utter_message(text = "wrong category!")
-						# 	dispatcher.utter_message(response = "utter_wrong_category")
-						# 	return [SlotSet(intent, None)]
-
-
-
-		# # get intent from last message
-		# intent = tracker.latest_message.get('intent').get('name')
-
-		# # utter fallback message if no intent or intent name was found or if intent is no riddle intent
-		# if intent == None or intent not in set(slotNameDict.values()):
-		# 	dispatcher.utter_message(response = "utter_default")
-		# 	return []
-		# else:
-		# 	# get entity from RASA message
-		# 	entity = tracker.get_slot(intent)
-			
-		# 	# utter fallback message if entity could not be found
-		# 	if entity == None:
-		# 		dispatcher.utter_message(response = "utter_default")
-		# 		return []
-		# 	else:
-
-		# 		# store all solution slot values from RASA bot in list
-		# 		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-
-		# 		# go through solution list and find active riddle index
-		# 		# (first index where entry is None)
-		# 		if None not in rasaSolutionSlotList:
-		# 			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?
-		# 			dispatcher.utter_message(response = "utter_everything_solved")
-		# 			return []
-		# 		else:
-		# 			activeRiddleIndex = rasaSolutionSlotList.index(None)
-
-		# 		# find index list of active riddles with same intent (e.g. all active password riddles)
-		# 		index_list = [idx for idx, value in enumerate(solutionSlotNameList[activeRiddleIndex:]) if intent in value]
-
-		# 		# check if there are any active riddles of the matching type left
-		# 		if not index_list:
-		# 			# give user feedback about the mismatching categories and exit action
-		# 			dispatcher.utter_message(response = "utter_wrong_category")
-		# 			return []
-
-		# 		# save index of matching riddle (e.g. first "password") in active riddle list
-		# 		inputRiddleIndex = activeRiddleIndex + index_list[0]
-
-		# 		# #correct_answer = Answer[SlotName(intent).name].value
-		# 		# dispatcher.utter_message(text = "inputRiddleIndex: {}".format(inputRiddleIndex))
-		# 		# dispatcher.utter_message(text = "activeRiddleIndex: {}".format(activeRiddleIndex))
-		# 		# dispatcher.utter_message(text = "solutionSlotNameList[activeRiddleIndex]: {}".format(solutionSlotNameList[activeRiddleIndex]))
-				
-		# 		# check if intent matches the active riddle and an entity was recognized
-		# 		if inputRiddleIndex == activeRiddleIndex:        
-		# 			# save correct answer for intent in variable
-		# 			correct_answer = answerDict[list(slotNameDict.keys())[inputRiddleIndex]]    
-
-		# 			# verify if given answer is correct (not case sensitive)
-		# 			if entity.lower() == correct_answer.lower():
-		# 				dispatcher.utter_message(response = "utter_correct_" + intent) #, store=correct_answer)
-		# 				# set correct answer in solution slot, reset hint counter and agent_should_solve slots
-		# 				return [SlotSet(solutionSlotNameList[activeRiddleIndex], correct_answer), SlotSet(hintCounterName, 0), SlotSet(agentShouldSolveName, False), SlotSet(alreadyToldGoalName, False)]
-		# 			else:
-		# 				dispatcher.utter_message(response = "utter_incorrect_" + intent) #, store=entity)
-		# 				return [SlotSet(intent, None)]
-
-		# 		# when the current riddle category doesn't match
-		# 		else:
-		# 			# give user feedback about the mismatching categories and exit action
-		# 			dispatcher.utter_message(response = "utter_wrong_category")
-		# 			return [SlotSet(intent, None)]
-
-
 class ActionNextGoal(Action):
 	def name(self) -> Text:
 		return "action_next_goal"
@@ -381,29 +241,50 @@ class ActionNextGoal(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-		# store all solution slot values from RASA bot in respective lists
-		rasaSolutionSlotList = [tracker.get_slot(solutionSlotName) for solutionSlotName in solutionSlotNameList]
-		# get current hint counter value
-		alreadyToldGoal = tracker.get_slot(alreadyToldGoalName)
+		# save roomID (aka. senderID)
+		roomID = tracker.sender_id
 
-		# go through solution list and find active riddle index
-		# (first index where entry is None)
-		if None not in rasaSolutionSlotList:
-			# TODO: HANDLE INPUT WHEN EVERYTHING IS SOLVED?			
-			dispatcher.utter_message(response = "utter_everything_solved")
+
+		# TESTING: allow for trouble shooting through RASA X UI
+		if len(roomID) > 10:
+			roomID = testingRoom
+
+		# store reference to document with dynamic data
+		dynamicDataDocRef = db.collection(roomCollection).document(roomID).collection(dataCollection).document(dynamicDataDocument)
+		
+		# get room document from reference
+		dynamicDataDoc = dynamicDataDocRef.get()
+
+		# check if the document exists
+		if dynamicDataDoc.exists == False:
+			# TODO: error handling when room cannot be found?!
+			dispatcher.utter_message(text = "room {} does not exist".format(roomID))
 			return []
 		else:
-			if alreadyToldGoal:
-				dispatcher.utter_message(response = "utter_offer_help")
+			# save room data as a dict
+			dynamicData = dynamicDataDoc.to_dict()
+
+			# save current goal
+			currentGoals = dynamicData[goalsField][dynamicData[gameProgressIDField]][goalsField]
+
+			# check if there are any current goals
+			if not currentGoals:
+				dispatcher.utter_message(text = "no goals found.")
 				return []
 			else:
-				# define active riddle index
-				activeRiddleIndex = rasaSolutionSlotList.index(None)
-				# find active riddle name
-				activeRiddleName = list(slotNameDict.keys())[activeRiddleIndex]
 
-				dispatcher.utter_message(text = whatsNextDict[activeRiddleName])
-				return [SlotSet(alreadyToldGoalName, True)]
+				# check if multiple goals are active
+				if len(currentGoals) == 1:
+					dispatcher.utter_message(text = "{}".format(currentGoals[0][whatsNextField]))
+					return []
+				else:
+					# TODO: USE UTTER VARIATION TEXT INSTEAD
+					dispatcher.utter_message(text = "There are {} things to do right now:".format(len(currentGoals)))
+					for goal in currentGoals:
+						dispatcher.utter_message(text = "{}".format(goal[whatsNextField]))
+					return []
+
+
 
 
 class ActionHelpUser(Action):
@@ -413,8 +294,77 @@ class ActionHelpUser(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-
 		dispatcher.utter_message(text = "OFFER HINT!")
+
+		# # save roomID (aka. senderID)
+		# roomID = tracker.sender_id
+
+
+		# # TESTING: allow for trouble shooting through RASA X UI
+		# if len(roomID) > 10:
+		# 	roomID = testingRoom
+
+
+		# # store reference to document with dynamic data
+		# dynamicDataDocRef = db.collection(roomCollection).document(roomID).collection(dataCollection).document(dynamicDataDocument)
+
+		# # get snapshot of doc and data as dict
+		# snapshot = dynamicDataDocRef.get(transaction=transaction)
+		# dynamicData = snapshot.to_dict()
+
+		# # read current goals list (whole list)
+		# goalList = dynamicData[goalsField]
+
+		# # save current goals
+		# currentGoals = goalList[dynamicData[gameProgressIDField]][goalsField]
+
+		# dispatcher.utter_message(text = "CURRENT GOALS: {}".format(currentGoals))
+
+		# # handle only one current goal
+		# if len(currentGoals) == 1:
+		# 	# save current hint counter
+		# 	hintCounter = goalList[dynamicData[gameProgressIDField]][goalsField][0][hintCounterField]
+		# 	# give hint
+		# 	dispatcher.utter_message(text = "{}".format(currentGoals[0][hintsField][hintCounter]))
+		# 	# increase hintCounter for specific goal 
+		# 	goalList[dynamicData[gameProgressIDField]][goalsField][0][hintCounterField] += 1
+
+
+		# # update goalList in dynamic data document
+		# transaction.update(dynamicDataDocRef, {goalsField: goalList})
+
+
+
+
+
+		
+		# # get room document from reference
+		# dynamicDataDoc = dynamicDataDocRef.get()
+
+		# # check if the document exists
+		# if dynamicDataDoc.exists == False:
+		# 	# TODO: error handling when room cannot be found
+		# 	dispatcher.utter_message(text = "room {} does not exist".format(roomID))
+		# 	return []
+		# else:				
+		# 	# save room data as a dict
+		# 	dynamicData = dynamicDataDoc.to_dict()
+
+		# 	# create empty dict for an intent-matching goal
+		# 	matchingGoal = {}
+		# 	matchingGoalIndex = None
+
+		# 	# save current goal
+		# 	currentGoals = dynamicData[goalsField][dynamicData[gameProgressIDField]][goalsField]
+
+		# 	for idx, goal in enumerate(currentGoals):
+		# 		if entityField in goal:
+		# 			if intent == goal[entityField]:
+		# 				# save first matching goal and exit loop
+		# 				# WARNING: cannot have multiple riddles with same intent at the same time!
+		# 				matchingGoal = goal
+		# 				matchingGoalIndex = idx
+		# 				break
 
 
 		# # store all solution slot values from RASA bot in respective lists
