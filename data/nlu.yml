@@ -15,16 +15,20 @@ nlu:
     - goodevening
     - good afternoon
     - hi Russ
-    - Hey Russ
-    - hello Russ
+    - Hey Johnny
+    - hello john
     - Hi
+    - yo
+    - Yo!
+    - dude
+    - Duuuuuude
     - hey hey baby
     - hallo
     - hallo agent
     - hallo John
     - Hi agent!
     - Hi Agent!
-    - Hi Russ!
+    - Hi John!
     - Hallo Russ
     - Hallo
     - Hallo agent
@@ -36,8 +40,8 @@ nlu:
     - Hello?
     - Hi we're here
     - Wie geht's?
-    - Hi Russ
-    - Hi, Russ!
+    - Hi John
+    - Hi, John!
     - Hi there!
     - hi
     - hey russ
@@ -49,7 +53,7 @@ nlu:
     - Good afternoon
     - Good evening
     - Good night
-    - hi russ
+    - hi john
 
 
 - intent: out_of_scope
@@ -143,6 +147,7 @@ nlu:
     - yes, we have it
     - we got it
     - i got it
+    - we wanna solve
 
 - intent: who_is_missing
   examples: |
@@ -699,6 +704,8 @@ nlu:
     - you are a jerk
     - you are not nice
     - you are bullying me
+    - you are terrible
+    - you are awful
     - you are not a supporting colleague
     - you are not supporting
     - you are not helping at all

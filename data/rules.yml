@@ -41,7 +41,7 @@ rules:
   steps:  
   - action: utter_joke
   - intent: deny
-  - action: utter_was_funny 
+  - action: utter_was_funny #TODO: CHANGE REPLY
 
 - rule: Asked to do something
   steps:
@@ -68,6 +68,7 @@ rules:
   - intent: affirm
   - action: utter_affirm
 
+# TODO: DOES THIS MAKE SENSE WITHOUT ACTION BEFOREHAND??
 - rule: Ask nicely to affirm after deny by default
   steps:
   - intent: deny
@@ -164,22 +165,22 @@ rules:
   - intent: deny
   - action: utter_do_not_solve
 
-- rule: Offer customized help when help is requested
+- rule: Give hint when help / hint is requested
   steps:
   - intent: need_help
   - action: action_help_user
 
-- rule: Solve riddle for user when they agree
+- rule: Handle positive reply to solution offer
   steps:
-  - action: action_help_user
-  - intent: affirm
-  - action: action_solve_riddle_or_wait
+  - action: utter_should_i_solve
+  - intent: affirm 
+  - action: action_solve_riddle
 
-- rule: Do not solve riddle for user when they deny
+- rule: Handle negative reply to solution offer
   steps:
-  - action: action_help_user
-  - intent: deny
-  - action: action_solve_riddle_or_wait
+  - action: utter_should_i_solve
+  - intent: deny 
+  - action: utter_do_not_solve
 
 
 # --------------------------------------------------
@@ -195,36 +196,6 @@ rules:
   steps:
   - intent: ask_for_pictures
   - action: utter_picture_location   
-
-
-# --------------------------------------------------
-# OLD HELP AND HINTS
-
-
-# - rule: Help user if he accepts
-#   steps:
-#   - action: utter_offer_help
-#   - intent: affirm
-#   - action: action_help_user
-
-# - rule: Do not give help if user is stuck and denies
-#   steps:
-#   - action: utter_offer_help
-#   - intent: deny
-#   - action: utter_will_wait  
-
-# - rule: Give hint if user confirms
-#   steps:
-#   - action: action_help_user
-#   - intent: affirm
-#   - action: action_offer_hint
-
-# - rule: Don't give hint if user denies
-#   steps:
-#   - action: action_help_user
-#   - intent: deny
-#   - action: utter_will_wait
-
 
 
 
