@@ -129,9 +129,9 @@ rules:
   - intent: store
   - action: action_verify_guess  
 
-- rule: Verify restaurant guess
+- rule: Verify location guess
   steps:
-  - intent: restaurant
+  - intent: location
   - action: action_verify_guess
 
 - rule: Verify pier guess

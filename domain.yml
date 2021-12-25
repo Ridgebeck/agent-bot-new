@@ -9,7 +9,7 @@ intents:
     use_entities: true
 - store:
     use_entities: true
-- restaurant:
+- location:
     use_entities: true
 - pier:
     use_entities: true
@@ -62,7 +62,7 @@ intents:
 entities:
 - password
 - store
-- restaurant
+- location
 - pier
 - riddle
 - street
@@ -92,7 +92,7 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  restaurant:
+  location:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
@@ -176,8 +176,8 @@ responses:
   - text: please?
   - text: could you, please?
   utter_iamnotabot:
-  - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
-    text: Could a bot do THIS?
+  # - image: https://media0.giphy.com/media/L3WZFMFFqgtxnXe4bf/giphy.gif
+  #   text: Could a bot do THIS?
   - text: We just talked. Looked pretty real to me.
   - text: What is even real nowadays, right?! Well, I am...I guess.
   - text: Really funny, guys.
@@ -215,7 +215,7 @@ responses:
   - text: '{password} did not work. Must be a different combination.'
   - text: Hhm, that did not work.
   - text: No, {password} did not work.
-  - text: That didn't work. Do you have another one to try?
+  - text: That didn't work.
   - text: I tried {password}...didn't work.
   - text: Well, {password} did not work.
   - text: Hhmm, {password} didn't work.

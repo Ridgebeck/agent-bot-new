@@ -54,6 +54,12 @@ nlu:
     - Good evening
     - Good night
     - hi john
+    - jo
+    - ey jo
+    - ey
+    - hey yo
+    - hey you
+    - Yo!
 
 
 - intent: out_of_scope
@@ -230,14 +236,35 @@ nlu:
     - [Off the Shelf](store)
     - [Alphabet Soup](store)
     - [Bards & Nobles](store)
-- intent: restaurant
+
+- intent: location
   examples: |
-    - [Spago](restaurant)
-    - [Burgrill](restaurant)
-    - [Pine & Dine](restaurant)
-    - [Vintage Machine](restaurant)
-    - [Pink Sugar](restaurant)
-    - [Yum Yum Tree](restaurant)
+    - [WunderBar](location)
+    - [wunderbar](location)
+    - [Beer Pressure](location)
+    - [beer pressure](location)
+    - [Puzzles](location)
+    - [puzzles](location)
+    - [Whiskey Business](location)
+    - [whiskey business](location)
+    - [Om Sweet Om](location)
+    - [om sweet om](location)
+    - [Mother Earth Yoga](location)
+    - [mother earth yoga](location)
+    - [Sconehenge](location)
+    - [sconehenge](location)
+    - [Cafe Royal](location)
+    - [cafe royal](location)
+    - [Queen Beans](location)
+    - [queen b](location)
+    - [Mocha Madness](location)
+    - [mocha madness](location)
+    - [The Eye Opener](location)
+    - [eye opener](location)
+    - [Common Grounds](location)
+    - [common grounds](location)
+
+
 - intent: pier
   examples: |
     - [Pier 25](pier)

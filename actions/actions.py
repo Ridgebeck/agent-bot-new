@@ -1,4 +1,4 @@
-# version 2.5.0
+# version 2.5.2
 from collections import OrderedDict
 
 from typing import Any, Text, Dict, List
@@ -88,12 +88,12 @@ def offer_hint(transaction, dynamicDataDocRef, dispatcher):
 	else:
 		hintCounters = []
 		for goal in currentGoals:
-			# check if hint field exists
-			if hintsField in goal and hintCounterField in goal:
+			# check if any hints exist
+			if goal[hintsField]:
 				# add hint counter number to list
 				hintCounters.append(goal[hintCounterField])
 			else:
-				# add high number if goal with no hint 
+				# add high number if goal with no hints 
 				hintCounters.append(9999)
 
 		# find index of goal with least hints
@@ -215,16 +215,16 @@ class ActionVerifyGuess(Action):
 						dispatcher.utter_message(response = "utter_correct_" + intent)
 						return []
 					else:
-						# increase wrongGuess counter by one 
-						increase_wrongGuess_counter(transaction=transaction, dynamicDataDocRef=dynamicDataDocRef, matchingGoalIndex=matchingGoalIndex)
-
 						# offer help if 3 times guessed wrong
-						if int(matchingGoal[wrongGuessCounterField]) > 3:
+						if int(matchingGoal[wrongGuessCounterField]) > 2:
 							dispatcher.utter_message(response = "utter_incorrect_" + intent)
 							return [FollowupAction(name = "utter_offer_help")]
 						else:
 							dispatcher.utter_message(response = "utter_incorrect_" + intent)
 							return []
+
+						# increase wrongGuess counter by one
+						increase_wrongGuess_counter(transaction=transaction, dynamicDataDocRef=dynamicDataDocRef, matchingGoalIndex=matchingGoalIndex)
 
 				# handle wrong intent (no matching goal)
 				else:
